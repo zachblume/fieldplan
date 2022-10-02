@@ -19,21 +19,21 @@ const Knex = require('knex');
 // createUnixSocketPool initializes a Unix socket connection pool for
 // a Cloud SQL instance of Postgres.
 const createUnixSocketPool = async config => {
-  // Note: Saving credentials in environment variables is convenient, but not
-  // secure - consider a more secure solution such as
-  // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
-  // keep secrets safe.
-  return Knex({
-    client: 'pg',
-    connection: {
-      user: "postgres", // e.g. 'my-user'
-      password: "7$MO='0cio&4xT\\l", // e.g. 'my-user-password'
-      database: "development", // e.g. 'my-database'
-      host: "/cloudsql/campaign-data-project:us-east1:fieldplan", // process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
-    },
-    // ... Specify additional properties here.
-    ...config,
-  });
+    // Note: Saving credentials in environment variables is convenient, but not
+    // secure - consider a more secure solution such as
+    // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
+    // keep secrets safe.
+    return Knex({
+        client: 'pg',
+        connection: {
+            user: "postgres", // e.g. 'my-user'
+            password: "7$MO='0cio&4xT\\l", // e.g. 'my-user-password'
+            database: "development", // e.g. 'my-database'
+            host: "/cloudsql/campaign-data-project:us-east1:fieldplan", // process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+        },
+        // ... Specify additional properties here.
+        ...config,
+    });
 };
 // [END cloud_sql_postgres_knex_connect_unix]
 module.exports = createUnixSocketPool;

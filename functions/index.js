@@ -10,8 +10,8 @@ admin.initializeApp();
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!");
-  response.send("Hello from Firebase!");
+    functions.logger.info("Hello logs!");
+    response.send("Hello from Firebase!");
 });
 
 // exports.scheduledFunction =
@@ -28,16 +28,16 @@ const createUnixSocketPool = require('./connect-unix.js');
 // const createUnixSocketPool = require('./pool.js');
 
 exports.SQLtoRealTimeChartTables =
-  functions.https.onRequest((request, response) => {
-    
-    // const pg = require('knex')({ client: 'pg' });
-    // response.send(knex.select("*").from("ContactHistory"));
-    knex.raw("SELECT 1").then(() => {
-      console.log("PostgreSQL connected");
-      response.send("posgre conncted");
-    }).catch((e) => {
-      console.log("PostgreSQL not connected");
-      console.error(e);
-      response.send(e);
+    functions.https.onRequest((request, response) => {
+
+        // const pg = require('knex')({ client: 'pg' });
+        // response.send(knex.select("*").from("ContactHistory"));
+        knex.raw("SELECT 1").then(() => {
+            console.log("PostgreSQL connected");
+            response.send("posgre conncted");
+        }).catch((e) => {
+            console.log("PostgreSQL not connected");
+            console.error(e);
+            response.send(e);
+        });
     });
-  });
