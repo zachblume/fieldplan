@@ -9,6 +9,11 @@ service cloud.firestore {
       return request.auth.token.stripeRole == "premium";
     }
 
+// this line literally turns off security. need to change for production
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    //end dangerous rule
     match /content-basic/{doc} {
       allow read: if hasBasicSubs() || hasPremiumSubs(); 
     }
