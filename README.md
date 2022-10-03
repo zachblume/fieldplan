@@ -14,6 +14,13 @@ Field Plan is 100% self service. It takes 5 minutes to setup, and then stays for
 - Allows you to configure a simple field ramp and show your progress to goal, based on industry standard research.
 - Will allow you to benchmark your field metrics against anonymized ramps and production metrics from other past campaigns.
 
+**Instantly get answers on one page to questions like:**
+
+- How many total phone calls and door knocks have we ever made?
+- Today, how many volunteers signed up for a new shift?
+- Whats our average week-over-week growth in shifts been?
+- What's our average number of relationships per volunteer in Reach?
+
 ## Link to production
 
 - https://fieldplan.app/
