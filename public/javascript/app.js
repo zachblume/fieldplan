@@ -151,6 +151,7 @@ function startDataListeners() {
             }).format((priceData.unit_amount / 100).toFixed(2))} per ${
                 priceData.interval
                 }, giving you the role: ${await getCustomClaimRole()}.`;
+            LoggedInHomePageDisplay();
         });
 }
 
@@ -236,4 +237,14 @@ async function getCustomClaimRole() {
     await firebase.auth().currentUser.getIdToken(true);
     const decodedToken = await firebase.auth().currentUser.getIdTokenResult();
     return decodedToken.claims.stripeRole;
+}
+
+function LoggedInHomePageDisplay() {
+    document.querySelector('#LoggedInUser').style.display = 'block';
+    var starCountRef = firebase.database().ref('posts/' + postId + '/starCount');
+    starCountRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        updateStarCount(postElement, data);
+    });    
+    
 }
