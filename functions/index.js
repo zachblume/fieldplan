@@ -31,20 +31,7 @@ exports.GetWeeklyContactAttempts =
             }
         });
 
-        /*
-        // This is a testing query
-        pool.raw("SELECT * from ContactHistory LIMIT 100").then((result) => {
-            console.log("PostgreSQL connected");
-            response.send(result);
-        }).catch((e) => {
-            console.log("PostgreSQL not connected");
-            console.error(e);
-            response.send(e);
-        });
-        */
-
         pool.raw("select DATE_TRUNC('week',\"DateCanvassed\") as week,count(*) as contactattempts from contacthistory group by week order by week ASC").then(result => {
-            // response.send(result);
             const resultstring = JSON.stringify(result);
             db.collection("data").doc("weeklycontacthistory").set({
                 resultstring
