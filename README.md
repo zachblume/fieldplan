@@ -2,6 +2,11 @@
 
 A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program.
 
+- Why are you spending hours per week exporting data manually, filling out reports, and making metrics?
+- Why are we hiring data professions to spend 3 weeks setting up Phoenix, an overly complex SQL mirror, then code from scratch the same metrics everyone else uses, and then waiting hours for Phoenix to update and having it periodically go out of sync?
+
+Field Plan is 100% self service. It takes 5 minutes to setup, and then stays forever in sync. The metrics are standardized across campaigns, giving you confidence you are looking at meaningful insights.
+
 **Features:**
 
 - Syncs every 15 minutes with NGPVAN.
