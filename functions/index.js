@@ -43,7 +43,7 @@ exports.GetWeeklyContactAttempts =
         });
         */
 
-        pool.raw("select DATE_TRUNC('week',\"DateCanvassed\") as week,count(*) as contactattempts from contacthistory group by week").then(result => {
+        pool.raw("select DATE_TRUNC('week',\"DateCanvassed\") as week,count(*) as contactattempts from contacthistory group by week order by week ASC").then(result => {
             // response.send(result);
             const resultstring = JSON.stringify(result);
             db.collection("data").doc("weeklycontacthistory").set({

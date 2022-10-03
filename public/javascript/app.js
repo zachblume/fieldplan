@@ -239,8 +239,32 @@ async function getCustomClaimRole() {
     return decodedToken.claims.stripeRole;
 }
 
+let firstchart;
 function LoggedInHomePageDisplay() {
     document.querySelector('#LoggedInUser').style.display = 'block';
+
+
+
+    firstchart = new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: [0],
+            datasets: [
+                {
+                    label: "Contact Attempts",
+                    backgroundColor: "#3e95cd",
+                    data: [0]
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Contact attempts by week'
+            }
+        }
+    });
     db.collection("data").doc("weeklycontacthistory")
         .onSnapshot((doc) => {
             var parseddata = JSON.parse(doc.data().resultstring);
@@ -250,26 +274,9 @@ function LoggedInHomePageDisplay() {
 
 }
 
-function updateGraph(data) {
-    // Bar chart
-    new Chart(document.getElementById("bar-chart"), {
-        type: 'bar',
-        data: {
-            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-            datasets: [
-                {
-                    label: "Population (millions)",
-                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-                    data: [2478, 5267, 734, 784, 433]
-                }
-            ]
-        },
-        options: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: 'Predicted world population (millions) in 2050'
-            }
-        }
-    });
+function updateGraph(graphdata) {
+    firstchart.data.labels = graphdata.rows.map(x => x.week);
+    firstchart.data.datasets[0].data = graphdata.rows.map(x => x.contactattempts);
+    firstchart.update();
+    console.log("updated");
 }
