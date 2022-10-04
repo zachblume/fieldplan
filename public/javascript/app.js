@@ -242,9 +242,6 @@ async function getCustomClaimRole() {
 let firstchart;
 function LoggedInHomePageDisplay() {
     document.querySelector('#LoggedInUser').style.display = 'block';
-
-
-
     firstchart = new Chart(document.getElementById("bar-chart"), {
         type: 'bar',
         data: {
