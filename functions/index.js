@@ -26,20 +26,18 @@ exports.GetWeeklyContactAttempts =
     });
 
     pool.raw(
-        'select DATE_TRUNC("week","DateCanvassed") as week,' +
-      'count(*) as contactattempts from contacthistory group' +
-      ' by week order by week ASC').then((result) => {
-      const resultstring = JSON.stringify(result);
-      db.collection('data').doc('weeklycontacthistory').set({
-        resultstring,
-      })
+      'select DATE_TRUNC("week","DateCanvassed") as week,count(*) as contactattempts from contacthistory group by week order by week ASC').then((result) => {
+        const resultstring = JSON.stringify(result);
+        db.collection('data').doc('weeklycontacthistory').set({
+          resultstring,
+        })
           .then(() => {
             response.send('Document successfully written!');
           })
           .catch((error) => {
             response.send('Error writing document: ', error);
           });
-    });
+      });
   });
 
 
@@ -67,23 +65,23 @@ exports.NGPVANAPItoSQL =
     };
 
     fetch(url, options)
-        .then((res) => res.json())
-        .then((json) => {
+      .then((res) => res.json())
+      .then((json) => {
         // response.send(json)
-          db.collection('apicalls').add({
-            originalRequestURL: url,
-            originalRequestOptions: options,
-            apiResponse: json,
-            timestampLogged: Date.now(),
-          })
-              .then(() => {
-                response.send('Logged api call!');
-              })
-              .catch((error) => {
-                response.send('Error logged api call: ', error);
-              });
+        db.collection('apicalls').add({
+          originalRequestURL: url,
+          originalRequestOptions: options,
+          apiResponse: json,
+          timestampLogged: Date.now(),
         })
-        .catch((err) => response.send('error:' + err));
+          .then(() => {
+            response.send('Logged api call!');
+          })
+          .catch((error) => {
+            response.send('Error logged api call: ', error);
+          });
+      })
+      .catch((err) => response.send('error:' + err));
   });
 
 exports.PollNGPVANForResponse =
@@ -110,46 +108,46 @@ exports.PollNGPVANForResponse =
     };
 
     await fetch(url, options)
-        .then((res) => res.json())
-        .then((json) => {
+      .then((res) => res.json())
+      .then((json) => {
         // response.send(json)
-          db.collection('apicalls').add({
-            originalRequestURL: url,
-            originalRequestOptions: options,
-            apiResponse: json,
-            timestampLogged: Date.now(),
-          })
-              .then(async () => {
-                const url = json.files[0].downloadUrl;
-                // const response_getcsv = getCSV(url, options);
-                const fetch = require('node-fetch');
-                await fetch(url)
-                    .then((res) => res.buffer())
-                    .then(async (data) => {
-                      const storageRef = admin.storage();
-                      const myBucket = storageRef.bucket('gs://campaign-data-project.appspot.com');
-                      const getLastItem = (thePath) => thePath.substring(thePath.lastIndexOf('/') + 1);
-                      const saveAs = getLastItem(url);
-                      const file = myBucket.file(saveAs);
-                      await file.save(data)
-                          .then((varvar) => {
-                            db.collection('api-response-csvs').add({
-                              changedEntityID: changedEntityID,
-                              url: url,
-                              savedAs: saveAs,
-                              savedAtTimestamp: Date.now(),
-                            });
-                            response.send('Saved csv to firestore as ' + saveAs);
-                            loadCSVtoSQL(saveAs);
-                          });
-                    })
-                    .catch((err) => response.send('error:' + err));
-              })
-              .catch((error) => {
-                response.send('Error logged api call: ' + error);
-              });
+        db.collection('apicalls').add({
+          originalRequestURL: url,
+          originalRequestOptions: options,
+          apiResponse: json,
+          timestampLogged: Date.now(),
         })
-        .catch((err) => response.send('error:' + err));
+          .then(async () => {
+            const url = json.files[0].downloadUrl;
+            // const response_getcsv = getCSV(url, options);
+            const fetch = require('node-fetch');
+            await fetch(url)
+              .then((res) => res.buffer())
+              .then(async (data) => {
+                const storageRef = admin.storage();
+                const myBucket = storageRef.bucket('gs://campaign-data-project.appspot.com');
+                const getLastItem = (thePath) => thePath.substring(thePath.lastIndexOf('/') + 1);
+                const saveAs = getLastItem(url);
+                const file = myBucket.file(saveAs);
+                await file.save(data)
+                  .then((varvar) => {
+                    db.collection('api-response-csvs').add({
+                      changedEntityID: changedEntityID,
+                      url: url,
+                      savedAs: saveAs,
+                      savedAtTimestamp: Date.now(),
+                    });
+                    response.send('Saved csv to firestore as ' + saveAs);
+                    loadCSVtoSQL(saveAs);
+                  });
+              })
+              .catch((err) => response.send('error:' + err));
+          })
+          .catch((error) => {
+            response.send('Error logged api call: ' + error);
+          });
+      })
+      .catch((err) => response.send('error:' + err));
   });
 
 
@@ -167,7 +165,7 @@ exports.PollNGPVANForResponse =
 // 3. Install the Node.js client library by running
 //    `npm install googleapis --save`
 
-const {google} = require('googleapis');
+const { google } = require('googleapis');
 const sqlAdmin = google.sqladmin('v1beta4');
 function authorize(callback) {
   google.auth.getClient({
@@ -179,7 +177,7 @@ function authorize(callback) {
   });
 }
 async function loadCSVtoSQL(filepath) {
-  authorize(function(authClient) {
+  authorize(function (authClient) {
     const request = {
       project: 'campaign-data-project', // TODO: Update placeholder value.
       instance: 'fieldplan', // TODO: Update placeholder value.
@@ -205,7 +203,7 @@ async function loadCSVtoSQL(filepath) {
       },
       auth: authClient,
     };
-    sqlAdmin.instances.import(request, function(err, response) {
+    sqlAdmin.instances.import(request, function (err, response) {
       if (err) {
         console.error(err);
         return;
