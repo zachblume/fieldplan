@@ -2,7 +2,6 @@ module.exports = {
   parserOptions: {
     // Required for certain syntax usages
     'ecmaVersion': 13,
-
   },
   root: true,
   env: {
@@ -15,5 +14,8 @@ module.exports = {
   ],
   rules: {
     'quotes': ['error', 'single'], 'max-len': 0, 'require-jsdoc': 0,
+    'indent': ['warn', 2],
+    'object-curly-spacing': 0,
+    'space-before-function-pare': 0,
   },
 };

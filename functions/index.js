@@ -7,13 +7,21 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
 
+// [START bigquery_query]
+// [START bigquery_client_default_credentials]
+// Import the Google Cloud client library using default credentials
+const { BigQuery } = require('@google-cloud/bigquery');
+const bigquery = new BigQuery();
+// [END bigquery_client_default_credentials]
+
 exports.helloWorld = functions.https.onRequest((request, response) => {
   functions.logger.info('Hello logs!');
   response.send('Hello world');
 });
 
 exports.GetWeeklyContactAttempts =
-  functions.https.onRequest((request, response) => {
+  functions.https.onRequest(async (request, response) => {
+    /* // GOODBYE KNEX! :)
     const knex = require('knex');
     const pool = knex({
       client: 'pg',
@@ -24,19 +32,44 @@ exports.GetWeeklyContactAttempts =
         host: '/cloudsql/campaign-data-project:us-east1:fieldplan',
       },
     });
+    
 
-    pool.raw(
-      'select DATE_TRUNC("week","DateCanvassed") as week,count(*) as contactattempts from contacthistory group by week order by week ASC').then((result) => {
-        const resultstring = JSON.stringify(result);
-        db.collection('data').doc('weeklycontacthistory').set({
-          resultstring,
+    pool.raw('select DATE_TRUNC(\'week\',"DateCanvassed") as week,count(*) as contactattempts from contacthistory group by week order by week ASC').then((result) => {
+      const resultstring = JSON.stringify(result);
+      db.collection('data').doc('weeklycontacthistory').set({
+        resultstring,
+      })
+        .then(() => {
+          response.send('Document successfully written!');
         })
-          .then(() => {
-            response.send('Document successfully written!');
-          })
-          .catch((error) => {
-            response.send('Error writing document: ', error);
-          });
+        .catch((error) => {
+          response.send('Error writing document: ', error);
+        });
+    });
+    */
+
+
+    const rows = await briefquery(`
+      SELECT
+        DATE_TRUNC(DateCanvassed,ISOWEEK) AS week,
+        COUNT(*) AS contactattempts
+      FROM
+        development.contacthistory
+      GROUP BY
+        week
+      ORDER BY
+        week ASC
+  `);
+    console.log(rows);
+    const resultstring = JSON.stringify(rows);
+    db.collection('data').doc('weeklycontacthistory').set({
+      resultstring,
+    })
+      .then(() => {
+        response.send('Document successfully written!');
+      })
+      .catch((error) => {
+        response.send('Error writing document: ', error);
       });
   });
 
@@ -212,4 +245,46 @@ async function loadCSVtoSQL(filepath) {
       console.log(JSON.stringify(response, null, 2));
     });
   });
+}
+
+
+exports.bigquerytest =
+  functions.https.onRequest(async (request, response) => { // Queries the U.S. given names dataset for the state of Texas.
+
+    // Wait for the query to finish
+    const [rows] = await briefquery(`SELECT name
+    FROM \`bigquery-public-data.usa_names.usa_1910_2013\`
+    WHERE state = 'TX'
+    LIMIT 100`);
+
+    // Print the results
+    console.log('Rows:');
+    rows.forEach((row) => console.log(row));
+    response.send('finished');
+  });
+
+async function briefquery(query) {
+
+  // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
+  const options = {
+    query: query,
+    // Location must match that of the dataset(s) referenced in the query.
+    location: 'US',
+  };
+
+  // Run the query as a job
+  const [job] = await bigquery.createQueryJob(options);
+  console.log(`Job ${job.id} started.`);
+  // Print the status and statistics
+  console.log('Status:');
+  console.log(job.metadata.status);
+  console.log('\nJob Statistics:');
+  console.log(job.metadata.statistics);
+  console.log('\nProcess Time:');
+  console.log(job.metadata.statistics.endTime - job.metadata.statistics.creationTime);
+
+  const queryresults = await job.getQueryResults();
+  // Wait for the query to finish
+  // Returns rows of query
+  return queryresults;
 }
