@@ -1,3 +1,5 @@
+![Logo](public/FP-logo.png)
+
 # Field Plan.app
 
 A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program.
