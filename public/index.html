@@ -11,14 +11,17 @@
 
 <body>
     <header>
-        <a href="/" rel="home">FieldPlan.app</a>
+      <div class="header-wrapper">
+        <div><a href="/" rel="home"><img src="horizontal_logo2.svg" /></a></div>
+        <div><button type="button" id="signout" style="display:inline">Sign out</button> <button id="billing-portal-button">Billing settings</button></div>
+      </div>
     </header>
 
     <section id="firebaseui-auth-container">
         <div id="loader">Loading &hellip;</div>
     </section>
     <main>
-        <button type="button" id="signout">Sign out</button>
+        
         <div id="subscribe">
             <h2>Subscribe</h2>
             <div class="test-card-notice">
@@ -32,16 +35,16 @@
             <section class="products"></section>
         </div>
         <section id="my-subscription">
-            <h2>My subscription</h2>
+            <h2>Dashboard</h2>
+            
             <p></p>
-            <h3>View invoices, update subscription & payment methods</h3>
-            <button id="billing-portal-button">Access customer portal</button>
+            <!--<h3>View invoices, update subscription & payment methods</h3>-->
+            
         </section>
         <section id="LoggedInUser">
             <div class="graph-container">
                 <h2>Weekly Contact History Graph</h2>
-                <p>select DATE_TRUNC('week',"DateCanvassed") as week,count(*) as contactattempts from contacthistory
-                    group by week</p>
+                
                 <div id="graph1">
                     <canvas id="bar-chart" width="800" height="450"></canvas>
                 </div>

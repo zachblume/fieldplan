@@ -5,9 +5,23 @@ body {
   margin: 0;
 }
 
-header {
-  background: #039be5;
+.header-wrapper {
+
+  background: #fff;
   padding: 1rem 5vw;
+		display: grid;
+    grid-gap: 2%;
+
+    grid-template-columns: repeat(2, 50%);
+    /*border:1px solid #000;
+    margin-bottom: 2em;*/
+}
+header {
+  background: linear-gradient(to right, #fbc02e, rgb(212, 21, 212));
+  position: relative;
+  padding:3px;margin:1em; 
+  
+
 }
 
 header a {
@@ -16,10 +30,15 @@ header a {
   text-decoration: none;
 }
 
+header img {min-width:170px; max-width:75%;line-height:auto;vertical-align:Center}
+
+header button {float:right; margin-left:1em;display:none !important;clear:both}
+.logged-in header button {display:block !important;}
+
 main {
   display: none;
   margin: 4rem auto 6rem;
-  max-width: 650px;
+  max-width: 1200px;
   width: 90vw;
 }
 
@@ -62,15 +81,15 @@ footer a {
 button {
   display: block;
   cursor: pointer;
-  background: #fbc02e;
+  background: black;
   border: none;
   border-radius: 0.25rem;
   color: #fff;
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 1.25rem;
   margin-top: 0.25rem;
-  padding: 0.25rem;
+  padding: .25rem 0.5rem;
 }
 
 button:disabled {

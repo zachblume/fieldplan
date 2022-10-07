@@ -32,7 +32,7 @@ exports.GetWeeklyContactAttempts =
         host: '/cloudsql/campaign-data-project:us-east1:fieldplan',
       },
     });
-    
+
 
     pool.raw('select DATE_TRUNC(\'week\',"DateCanvassed") as week,count(*) as contactattempts from contacthistory group by week order by week ASC').then((result) => {
       const resultstring = JSON.stringify(result);
@@ -49,7 +49,7 @@ exports.GetWeeklyContactAttempts =
     */
 
 
-    const rows = await briefquery(`
+    const [rows] = await briefquery(`
       SELECT
         DATE_TRUNC(DateCanvassed,ISOWEEK) AS week,
         COUNT(*) AS contactattempts
@@ -210,7 +210,7 @@ function authorize(callback) {
   });
 }
 async function loadCSVtoSQL(filepath) {
-  authorize(function (authClient) {
+  authorize(function(authClient) {
     const request = {
       project: 'campaign-data-project', // TODO: Update placeholder value.
       instance: 'fieldplan', // TODO: Update placeholder value.
@@ -236,7 +236,7 @@ async function loadCSVtoSQL(filepath) {
       },
       auth: authClient,
     };
-    sqlAdmin.instances.import(request, function (err, response) {
+    sqlAdmin.instances.import(request, function(err, response) {
       if (err) {
         console.error(err);
         return;
@@ -250,7 +250,6 @@ async function loadCSVtoSQL(filepath) {
 
 exports.bigquerytest =
   functions.https.onRequest(async (request, response) => { // Queries the U.S. given names dataset for the state of Texas.
-
     // Wait for the query to finish
     const [rows] = await briefquery(`SELECT name
     FROM \`bigquery-public-data.usa_names.usa_1910_2013\`
@@ -264,7 +263,6 @@ exports.bigquerytest =
   });
 
 async function briefquery(query) {
-
   // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
   const options = {
     query: query,
