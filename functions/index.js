@@ -286,3 +286,28 @@ async function briefquery(query) {
   // Returns rows of query
   return queryresults;
 }
+
+exports.mobilizefetch = functions.https.onRequest(async (request, response) => {
+  await fetchloader();
+
+
+  response.send(Date.now().toString());
+});
+
+
+async function fetchloader(url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000') {
+  const fetch = require('node-fetch');
+
+  // const url = '';
+  const options = {
+    method: 'GET',
+    headers: {},
+    // body: {},
+  };
+
+  fetch(url, options).then((res) => res.json()).then((data) => {
+    const resultstring = JSON.stringify(data.data);
+    db.collection('mobilize-all-projects').add({resultstring: resultstring});
+    if (data.next) fetchloader(data.next);
+  });
+}

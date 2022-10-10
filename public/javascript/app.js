@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Replace with your cloud functions location
-const functionLocation = 'us-east1';
+const functionLocation = 'us-central1';
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -53,13 +53,14 @@ const firebaseUiConfig = {
 };
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
-    document.querySelector('#loader').style.display = 'none';
-    document.querySelector('main').style.display = 'block';
+    // document.querySelector('#loader').style.display = 'none';
+    // document.querySelector('main').style.display = 'block';
+    document.querySelector('body').classList.add('logged-in');
     currentUser = firebaseUser.uid;
     startDataListeners();
     //console.log(firebaseUser)
   } else {
-    document.querySelector('main').style.display = 'none';
+    document.querySelector('body').classList.remove('logged-in');
     firebaseUI.start('#firebaseui-auth-container', firebaseUiConfig);
   }
 });
@@ -133,11 +134,11 @@ function startDataListeners() {
     .onSnapshot(async (snapshot) => {
       if (snapshot.empty) {
         // Show products
-        document.querySelector('#subscribe').style.display = 'block';
+        //document.querySelector('#subscribe').style.display = 'block';
         return;
       }
-      document.querySelector('#subscribe').style.display = 'none';
-      document.querySelector('#my-subscription').style.display = 'block';
+      //document.querySelector('#subscribe').style.display = 'none';
+      //document.querySelector('#my-subscription').style.display = 'block';
       // In this implementation we only expect one Subscription to exist
       const subscription = snapshot.docs[0].data();
       const priceData = (await subscription.price.get()).data();
@@ -246,23 +247,44 @@ let firstchart;
 function LoggedInHomePageDisplay() {
   document.querySelector('#LoggedInUser').style.display = 'block';
   firstchart = new Chart(document.getElementById("bar-chart"), {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: [0],
+      
       datasets: [
         {
           label: "Contact Attempts",
-          backgroundColor: "#3e95cd",
+          borderColor: "#3e95cd",
+          backgroundColor: 'rgba(53, 162, 235, 0.2)',
           data: [0]
         }
       ]
     },
     options: {
+      interaction: {
+        intersect: false,
+        mode: 'nearest',
+       axis: 'x'
+      },
+      elements: {
+        line: {
+            tension: 0
+        }
+    },
+        animation: {
+            duration: 0
+        },
+    
       legend: { display: false },
       title: {
         display: true,
         text: 'Contact attempts by week'
-      }
+      },
+      scales:{
+        xAxes:[{gridLines: {
+          display:false
+      }}]
+      } 
     }
   });
   db.collection("data").doc("weeklycontacthistory")
