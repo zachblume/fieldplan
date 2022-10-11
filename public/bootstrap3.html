@@ -11,30 +11,7 @@
   <title>Field Plan - Voter contact insight to win your election</title>
   <!-- Favicon-->
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
-  <!-- Bootstrap Font Icon CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
-  <style>
-    body {
-      font-family: system-ui !important;
-    }
 
-    h1 {
-      font-weight: bold !important;
-    }
-
-    :root {
-      --logocolor: #ffbe59;
-    }
-
-    .brand {
-      width: 90% !important;
-      margin: 0 auto;
-      padding-left: 3px;
-    }
-  </style>
 </head>
 
 <body class="bg-light">
@@ -227,7 +204,6 @@
         margin: 0 auto;
       ">
     <!-- Sidebar-->
-    <!-- Sidebar-->
     <div class="d-block flex-column flex-shrink-0 p-3 bg-white navbar shadow-sm border-end" style="grid-column: span 8">
       <div class="brand mt-3">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -247,6 +223,10 @@
           data-bs-target="#v-pills-metrics" type="button" role="tab" aria-controls="v-pills-metrics"
           aria-selected="true">
           <i class="bi-bar-chart-line-fill"></i>&nbsp;&nbsp;&nbsp;Metrics
+        </button>
+        <button class="nav-link p-3 text-start" id="v-pills-ramp-tab" data-bs-toggle="pill"
+          data-bs-target="#v-pills-ramp" type="button" role="tab" aria-controls="v-pills-ramp" aria-selected="true">
+          <i class="bi-magic"></i>&nbsp;&nbsp;&nbsp;Forecast Ramp
         </button>
         <button class="nav-link p-3 text-start" id="v-pills-progress-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-progress" type="button" role="tab" aria-controls="v-pills-progress"
@@ -609,6 +589,7 @@
                 </div>
               </div>
             </div>
+
             <div class="row mb-3">
               <!--New graphcard-->
               <div class="col-sm-6">
@@ -638,15 +619,18 @@
             <br /><br /><br /><br />
           </div>
         </div>
-        <div class="tab-pane show active" id="v-pills-metrics" role="tabpanel" aria-labelledby="v-pills-metrics-tab"
-          tabindex="0">
+        <div class="tab-pane" id="v-pills-metrics" role="tabpanel" aria-labelledby="v-pills-metrics-tab" tabindex="0">
           <script> $(function () { $("#v-pills-metrics").load("metrics.html"); }); </script>
+        </div>
+        <div class="tab-pane" id="v-pills-ramp" role="tabpanel" aria-labelledby="v-pills-ramp-tab"
+          tabindex="0">
+          <script> $(function () { $("#v-pills-ramp").load("ramp.html"); }); </script>
         </div>
         <div class="tab-pane " id="v-pills-progress" role="tabpanel" aria-labelledby="v-pills-progress-tab"
           tabindex="0">
           <script> $(function () { $("#v-pills-progress").load("progress.html"); }); </script>
         </div>
-        <div class="tab-pane " id="v-pills-reports" role="tabpanel" aria-labelledby="v-pills-reports-tab" tabindex="0">
+        <div class="tab-pane show active " id="v-pills-reports" role="tabpanel" aria-labelledby="v-pills-reports-tab" tabindex="0">
           <script> $(function () { $("#v-pills-reports").load("reports.html"); }); </script>
         </div>
         <div class="tab-pane " id="v-pills-volunteers" role="tabpanel" aria-labelledby="v-pills-volunteers-tab"
@@ -660,15 +644,39 @@
       </div>
     </main>
   </div>
-  <footer class="text-center text-lg-start bg-dark text-muted">
+  <!--<footer class="text-center text-lg-start bg-dark text-muted">
     <p class="text-center p-4">Footer</p>
-  </footer>
+  </footer>-->
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+  <!-- Bootstrap Font Icon CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+  <style>
+    body {
+      font-family: system-ui !important;
+    }
+
+    h1 {
+      font-weight: bold !important;
+    }
+
+    :root {
+      --logocolor: #ffbe59;
+    }
+
+    .brand {
+      width: 90% !important;
+      margin: 0 auto;
+      padding-left: 3px;
+    }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
     crossorigin="anonymous"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
     integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA=" crossorigin="anonymous"></script>
-  <script src="js/chartjsutils.js"></script>
   <script>
     const chartOptions = {
       type: "bar",
@@ -754,6 +762,7 @@
     myChart6.data.datasets[0].data = [3, 9, 8, 7, 6, 5];
     myChart6.update();
   </script>
+ 
 </body>
 
 </html>
