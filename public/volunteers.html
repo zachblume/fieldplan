@@ -1,106 +1,613 @@
+<script>
+  $(document).ready(function () {
+    cbox = document.querySelectorAll("#volunteers-navbar .btn-toggle-nav a");
+    cbox.forEach((box) => {
+      box.addEventListener("mousedown", (a) => setMetric(a.target.innerText));
+    });
+  });
+  function setMetric(metricName) {
+    document.getElementById("volunteers-page-title").innerHTML = metricName;
+    myChartVolunteersPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
+    myChartVolunteersPage.update();
+  }
+</script>
+
 <!--metrics page inner content-->
-<div class="container mt-4" id="metrics-page-container">
+<div class="container mt-4" id="volunteers-page-container">
   <div class="row d-block" style="margin-right: 0 !important">
     <!--heading bar and controls-->
     <div class="d-flex flex-row justify-content mb-2 align-items-center">
-      <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
-        Volunteer Insights
+      <h1
+        class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+        id="volunteers-page-title"
+      >
+        Positive IDs
       </h1>
+      <!--cumulative-->
+      <div class="d-flex">
+        <div class="form-check form-switch me-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label class="form-check-label" for="flexSwitchCheckDefault"
+            >Cumulative</label
+          >
+        </div>
+      </div>
 
+      <!--dayweekmonth-->
+      <div class="d-flex justify-content-center">
+        <div
+          class="btn-group shadow-sm"
+          role="group"
+          aria-label="Basic
+          outlined example"
+          style="height: 2.5em !important"
+        >
+          <input
+            type="radio"
+            class="align-bottom align-items-baseline btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio1"
+            autocomplete="off"
+          />
+          <label
+            class="align-bottom d-inline btn btn-outline-primary"
+            for="vbtn-radio1"
+            >Day</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio2"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary d-inline" for="vbtn-radio2"
+            >Week</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio3"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary d-inline" for="vbtn-radio3"
+            >Month</label
+          >
+        </div>
+      </div>
+      <div id="drp-container">
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <div
+          id="reportrange"
+          class="shadow-sm"
+          style="
+            background: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+          "
+        >
+          <i class="fa fa-calendar"></i>&nbsp; <span></span>
+          <i class="fa fa-caret-down"></i>
+          <style>
+            #reportrange {
+              color: #0d6efd !important;
+              border: 1px solid #0d6efd !important;
+              padding: 0.45em 0.6em !important;
+              margin-left: 0.5em;
+              border-radius: 0.4em;
+            }
 
+            .ranges,
+            .ranges * {
+              font-size: inherit !important;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
+            }
+
+            .daterangepicker.ltr.show-ranges.opensright {
+              width: 265px !important;
+            }
+
+            .daterangepicker.ltr.show-ranges.opensright * {
+              width: 100% !important;
+            }
+
+            .daterangepicker .ranges li.active {
+              background: #0d6efd !important;
+            }
+
+            .daterangepicker .ranges * * {
+              padding-top: 12px !important;
+              padding-bottom: 12px !important;
+            }
+          </style>
+          <script type="text/javascript">
+            $(function () {
+              var start = moment().subtract(29, "days");
+              var end = moment();
+
+              function cb(start, end) {
+                $("#reportrange span").html(
+                  start.format("MMM D, YYYY") +
+                    " - " +
+                    end.format("MMM D, YYYY")
+                );
+              }
+
+              $("#reportrange").daterangepicker(
+                {
+                  startDate: start,
+                  endDate: end,
+                  ranges: {
+                    "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                    "This Month": [
+                      moment().startOf("month"),
+                      moment().endOf("month"),
+                    ],
+                    "Last Month": [
+                      moment().subtract(1, "month").startOf("month"),
+                      moment().subtract(1, "month").endOf("month"),
+                    ],
+                    "Last 3 Months": [
+                      moment().startOf("month"),
+                      moment().endOf("month"),
+                    ],
+                    "Last 6 Months": [
+                      moment().subtract(1, "month").startOf("month"),
+                      moment().subtract(1, "month").endOf("month"),
+                    ],
+
+                    "This Year": [moment(), moment()],
+                    "Last Year": [moment(), moment()],
+                    "All Time": [moment(), moment()],
+                  },
+                },
+                cb
+              );
+
+              cb(start, end);
+            });
+          </script>
+        </div>
+      </div>
     </div>
     <!--end heading bar and controls-->
   </div>
 
-  <div class="row p-0 mb-0 mt-0 row-cols-1 row-cols-md-3">
+  <div class="row mb-0 mt-3">
+    <div class="col-sm-3">
+      <ul class="list-group ps-0" id="volunteers-navbar">
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#home-collapse"
+            aria-expanded="true"
+          >
+            Topline
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Active Volunteers (cumulative)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Total IDs</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Completed Shifts</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Newly Scheduled Shifts</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
 
-    <div class="col">
-      <div class="card h-100">
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#dashboard-collapse"
+            aria-expanded="false"
+          >
+            Gross Attempts
+          </button>
+          <div class="collapse show" id="dashboard-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >All Tactics (aggregated)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse"
+            aria-expanded="false"
+          >
+            IDs + Positive ID's
+          </button>
+          <div class="collapse show" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >All Tactics (aggregated)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
+            Contact Rates
+          </button>
+          <div class="collapse show" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
+            Contact Rates
+          </button>
+          <div class="collapse show" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <style>
+        #volunteers-page-container .dropdown-toggle {
+          outline: 0;
+        }
+
+        #volunteers-page-container .btn-toggle {
+          padding: 0.25rem 0.5rem;
+          font-weight: 600;
+          color: rgba(0, 0, 0, 0.65);
+          background-color: transparent;
+        }
+
+        #volunteers-page-container .btn-toggle:hover,
+        #volunteers-page-container .btn-toggle:focus,
+        #volunteers-page-container .btn-toggle-nav a:hover,
+        #volunteers-page-container .btn-toggle-nav a:focus {
+          color: white !important;
+          background-color: black;
+        }
+
+        #volunteers-page-container .btn-toggle::before {
+          width: 1.25em;
+          line-height: 0;
+          content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+          transition: transform 0.35s ease;
+          transform-origin: 0.5em 50%;
+        }
+
+        #volunteers-page-container .btn-toggle[aria-expanded="true"] {
+          color: rgba(0, 0, 0, 0.85);
+        }
+
+        #volunteers-page-container .btn-toggle[aria-expanded="true"]::before {
+          transform: rotate(90deg);
+        }
+
+        #volunteers-page-container .btn-toggle-nav a {
+          padding: 0.1875rem 0.5rem;
+          margin-top: 0.125rem;
+          margin-left: 1.25rem;
+        }
+      </style>
+    </div>
+    <!--Column for metric cards-->
+    <div class="col-sm-9">
+      <!--New graphcard-->
+      <div class="card shadow-sm border-white">
         <div class="card-body">
-          <h5 class="card-title align-items-center d-flex flex-row mb-3"><span
-              class="flex-grow-1 justify-content-start d-flex">Nightly Email (9 PM)</span><span
-              class="text-center my-0 justify-content-between d-flex"><i class="bi bi-envelope pe-1 "
-                style="font-size: 2rem;"></i></span></h5>
-
-          <p class="card-text">Send to the following emails:</p>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="campaign-email@gmail.com"
-              aria-label="recipient@gmail.com" disabled="true" aria-describedby="button-addon2">
-            <button class="btn btn-outline-danger" type="button" id="button-remove">Remove</button>
-          </div>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="recipient@gmail.com" aria-label="recipient@gmail.com"
-              aria-describedby="button-addon2">
-            <button class="btn btn-outline-primary" type="button" id="button-addon2">Add</button>
-          </div>
-
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" checked="true" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
-          </div>
+          <h6 class="text-secondary">Positive IDs</h6>
+          <h3 class="card-title"><strong>255</strong></h3>
+          <p class="card-text">
+            <canvas id="myChartVolunteersPage" width="100%"></canvas>
+          </p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Drilldown</th>
+                <th scope="col">Apr 13</th>
+                <th scope="col">Apr 20</th>
+                <th scope="col">Apr 27</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Drilldown</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope="row">drilldown</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">Total</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title align-items-center d-flex flex-row mb-3"><span
-              class="flex-grow-1 justify-content-start d-flex">Nightly Slack Message (9 PM)</span><span
-              class="text-center my-0 justify-content-between d-flex"><i class="bi bi-slack pe-1 "
-                style="font-size: 2rem;"></i></span></h5>
-                <p class="card-text">Send to the following channel:</p>
-                <select class="form-select mb-3" aria-label="Default select example">
-                  <option selected>#field</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-      
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" checked="true" role="switch" id="flexSwitchCheckDefault">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
-                </div>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title align-items-center d-flex flex-row mb-3"><span
-              class="flex-grow-1 justify-content-start d-flex">Nightly SMS Message (9PM)</span><span
-              class="text-center my-0 justify-content-between d-flex"><i class="bi bi-chat-text-fill pe-1 "
-                style="font-size: 2rem;"></i></span></h5>
-                <p class="card-text">Send to the following phone numbers:</p>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="(555) 555-5555"
-                    aria-label="recipient@gmail.com" disabled="true" aria-describedby="button-addon2">
-                  <button class="btn btn-outline-danger" type="button" id="button-remove">Remove</button>
-                </div>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="(555) 555-5555" aria-label="recipient@gmail.com"
-                    aria-describedby="button-addon2">
-                  <button class="btn btn-outline-primary" type="button" id="button-addon2">Add</button>
-                </div>
-      
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox"  role="switch" id="flexSwitchCheckDefault">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Enable?</label>
-                </div>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </div>
-      </div>
-    </div>
-
   </div>
 
   <br /><br /><br /><br /><br /><br /><br /><br />
 </div>
 <!--ends page inner content-->
+
+<script>
+  let myChartVolunteersPage;
+  $(function () {
+    const chartOptions = {
+      type: "bar",
+      data: {
+        labels: [
+          "Apr 11",
+          "Apr 18",
+          "May 10",
+          "May 17",
+          "May 24",
+          "June 5",
+          "Apr 11",
+          "Apr 18",
+          "May 10",
+          "May 17",
+          "May 24",
+          "June 5",
+        ],
+        datasets: [
+          {
+            label: "# of Votes",
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+              "#0d6efd", //black //?
+            ],
+          },
+        ],
+      },
+      options: {
+        interaction: {
+          intersect: false,
+          mode: "nearest",
+          axis: "x",
+        },
+        elements: {
+          line: {
+            tension: 0,
+          },
+        },
+        animation: {
+          duration: 0,
+        },
+
+        plugins: {
+          legend: false,
+        },
+        title: {
+          display: false,
+          text: "Contact attempts by week",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    myChartVolunteersPage = new Chart(
+      document.getElementById("myChartVolunteersPage"),
+      chartOptions
+    );
+
+    myChartVolunteersPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
+    myChartVolunteersPage.update();
+  });
+</script>

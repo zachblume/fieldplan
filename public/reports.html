@@ -3,40 +3,74 @@
   <div class="row d-block" style="margin-right: 0 !important">
     <!--heading bar and controls-->
     <div class="d-flex flex-row justify-content mb-2 align-items-center">
-      <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
+      <h1
+        class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+        id="metric-page-title"
+      >
         Reports
       </h1>
-
-
     </div>
     <!--end heading bar and controls-->
   </div>
 
   <div class="row p-0 mb-0 mt-0 row-cols-1 row-cols-md-3">
-
     <div class="col">
       <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title align-items-center d-flex flex-row mb-3"><span
-              class="flex-grow-1 justify-content-start d-flex">Nightly Email (9 PM)</span><span
-              class="text-center my-0 justify-content-between d-flex"><i class="bi bi-envelope pe-1 "
-                style="font-size: 2rem;"></i></span></h5>
+          <h5 class="card-title align-items-center d-flex flex-row mb-3">
+            <span class="flex-grow-1 justify-content-start d-flex"
+              >Nightly Email (9 PM)</span
+            ><span class="text-center my-0 justify-content-between d-flex"
+              ><i class="bi bi-envelope pe-1" style="font-size: 2rem"></i
+            ></span>
+          </h5>
 
           <p class="card-text">Send to the following emails:</p>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="campaign-email@gmail.com"
-              aria-label="recipient@gmail.com" disabled="true" aria-describedby="button-addon2">
-            <button class="btn btn-outline-danger" type="button" id="button-remove">Remove</button>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="campaign-email@gmail.com"
+              aria-label="recipient@gmail.com"
+              disabled="true"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-danger"
+              type="button"
+              id="button-remove"
+            >
+              Remove
+            </button>
           </div>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="recipient@gmail.com" aria-label="recipient@gmail.com"
-              aria-describedby="button-addon2">
-            <button class="btn btn-outline-primary" type="button" id="button-addon2">Add</button>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="recipient@gmail.com"
+              aria-label="recipient@gmail.com"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="button-addon2"
+            >
+              Add
+            </button>
           </div>
 
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" checked="true" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              checked="true"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Enabled</label
+            >
           </div>
         </div>
         <div class="card-footer">
@@ -47,58 +81,101 @@
     <div class="col">
       <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title align-items-center d-flex flex-row mb-3"><span
-              class="flex-grow-1 justify-content-start d-flex">Nightly Slack Message (9 PM)</span><span
-              class="text-center my-0 justify-content-between d-flex"><i class="bi bi-slack pe-1 "
-                style="font-size: 2rem;"></i></span></h5>
-                <p class="card-text">Send to the following channel:</p>
-                <select class="form-select mb-3" aria-label="Default select example">
-                  <option selected>#field</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-      
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" checked="true" role="switch" id="flexSwitchCheckDefault">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Enabled</label>
-                </div>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </div>
+          <h5 class="card-title align-items-center d-flex flex-row mb-3">
+            <span class="flex-grow-1 justify-content-start d-flex"
+              >Nightly Slack Message (9 PM)</span
+            ><span class="text-center my-0 justify-content-between d-flex"
+              ><i class="bi bi-slack pe-1" style="font-size: 2rem"></i
+            ></span>
+          </h5>
+          <p class="card-text">Send to the following channel:</p>
+          <select class="form-select mb-3" aria-label="Default select example">
+            <option selected>#field</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              checked="true"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Enabled</label
+            >
+          </div>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
       </div>
     </div>
     <div class="col">
       <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title align-items-center d-flex flex-row mb-3"><span
-              class="flex-grow-1 justify-content-start d-flex">Nightly SMS Message (9PM)</span><span
-              class="text-center my-0 justify-content-between d-flex"><i class="bi bi-chat-text-fill pe-1 "
-                style="font-size: 2rem;"></i></span></h5>
-                <p class="card-text">Send to the following phone numbers:</p>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="(555) 555-5555"
-                    aria-label="recipient@gmail.com" disabled="true" aria-describedby="button-addon2">
-                  <button class="btn btn-outline-danger" type="button" id="button-remove">Remove</button>
-                </div>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="(555) 555-5555" aria-label="recipient@gmail.com"
-                    aria-describedby="button-addon2">
-                  <button class="btn btn-outline-primary" type="button" id="button-addon2">Add</button>
-                </div>
-      
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox"  role="switch" id="flexSwitchCheckDefault">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Enable?</label>
-                </div>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </div>
+          <h5 class="card-title align-items-center d-flex flex-row mb-3">
+            <span class="flex-grow-1 justify-content-start d-flex"
+              >Nightly SMS Message (9PM)</span
+            ><span class="text-center my-0 justify-content-between d-flex"
+              ><i class="bi bi-chat-text-fill pe-1" style="font-size: 2rem"></i
+            ></span>
+          </h5>
+          <p class="card-text">Send to the following phone numbers:</p>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="(555) 555-5555"
+              aria-label="recipient@gmail.com"
+              disabled="true"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-danger"
+              type="button"
+              id="button-remove"
+            >
+              Remove
+            </button>
+          </div>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="(555) 555-5555"
+              aria-label="recipient@gmail.com"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="button-addon2"
+            >
+              Add
+            </button>
+          </div>
+
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Enable?</label
+            >
+          </div>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
       </div>
     </div>
-
   </div>
 
   <br /><br /><br /><br /><br /><br /><br /><br />

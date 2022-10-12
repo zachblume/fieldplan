@@ -3,16 +3,17 @@
   <div class="row d-block" style="margin-right: 0 !important">
     <!--heading bar and controls-->
     <div class="d-flex flex-row justify-content mb-2 align-items-center">
-      <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
+      <h1
+        class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+        id="metric-page-title"
+      >
         Forecast Ramp
       </h1>
-
-
     </div>
     <!--end heading bar and controls-->
   </div>
 
-  <div class="row mb-0 mt-3">
+  <div class="mb-0 mt-3">
     <select class="form-select w-50 mb-3" aria-label="Default select example">
       <option selected>Load Suggested Presets from Orgs.</option>
       <option value="1">Working Families Party</option>
@@ -26,33 +27,45 @@
 
         <form>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Starting Shifts Complete / Week</label>
-            <output style="width:100px;text-align: center;">40</output>
+            <label for="customRange1" class="form-label w-25"
+              >Starting Shifts Complete / Week</label
+            >
+            <output style="width: 100px; text-align: center">40</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Week-over-week shift growth</label>
-            <output style="width:100px;text-align: center;">8%</output>
+            <label for="customRange1" class="form-label w-25"
+              >Week-over-week shift growth</label
+            >
+            <output style="width: 100px; text-align: center">8%</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Shifts assigned to doors vs phones</label>
-            <output style="width:100px;text-align: center;">50%</output>
+            <label for="customRange1" class="form-label w-25"
+              >Shifts assigned to doors vs phones</label
+            >
+            <output style="width: 100px; text-align: center">50%</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Total ID texts planned</label>
-            <output style="width:100px;text-align: center;">250,000</output>
+            <label for="customRange1" class="form-label w-25"
+              >Total ID texts planned</label
+            >
+            <output style="width: 100px; text-align: center">250,000</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Avg. relational ID / total active vol.</label>
-            <output style="width:100px;text-align: center;">8</output>
+            <label for="customRange1" class="form-label w-25"
+              >Avg. relational ID / total active vol.</label
+            >
+            <output style="width: 100px; text-align: center">8</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Average relational ID/total active volunteers</label>
-            <output style="width:100px;text-align: center;">50</output>
+            <label for="customRange1" class="form-label w-25"
+              >Average relational ID/total active volunteers</label
+            >
+            <output style="width: 100px; text-align: center">50</output>
             <input type="range" class="form-range w-25" />
           </div>
         </form>
@@ -66,17 +79,19 @@
         <form>
           <div class="mb-3">
             <label for="customRange1" class="form-label w-25">Doors</label>
-            <output style="width:100px;text-align: center;">16%</output>
+            <output style="width: 100px; text-align: center">16%</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Phone (dialer)</label>
-            <output style="width:100px;text-align: center;">3%</output>
+            <label for="customRange1" class="form-label w-25"
+              >Phone (dialer)</label
+            >
+            <output style="width: 100px; text-align: center">3%</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
             <label for="customRange1" class="form-label w-25">Text</label>
-            <output style="width:100px;text-align: center;">1%</output>
+            <output style="width: 100px; text-align: center">1%</output>
             <input type="range" class="form-range w-25" />
           </div>
         </form>
@@ -90,28 +105,40 @@
         <form>
           <div class="mb-3">
             <label for="customRange1" class="form-label w-25">Doors</label>
-            <output style="width:100px;text-align: center;">47%</output>
+            <output style="width: 100px; text-align: center">47%</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
-            <label for="customRange1" class="form-label w-25">Phone (dialer)</label>
-            <output style="width:100px;text-align: center;">43%</output>
+            <label for="customRange1" class="form-label w-25"
+              >Phone (dialer)</label
+            >
+            <output style="width: 100px; text-align: center">43%</output>
             <input type="range" class="form-range w-25" />
           </div>
           <div class="mb-3">
             <label for="customRange1" class="form-label w-25">Text</label>
-            <output style="width:100px;text-align: center;">55%</output>
+            <output style="width: 100px; text-align: center">55%</output>
             <input type="range" class="form-range w-25" />
           </div>
         </form>
         <script>
           $(function () {
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-            document.querySelectorAll('input[type="range"]').forEach(a => a.addEventListener('input', (b) => b.target.previousElementSibling.value = b.target.value));
+            const tooltipTriggerList = document.querySelectorAll(
+              '[data-bs-toggle="tooltip"]'
+            );
+            const tooltipList = [...tooltipTriggerList].map(
+              (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+            );
+            document
+              .querySelectorAll('input[type="range"]')
+              .forEach((a) =>
+                a.addEventListener(
+                  "input",
+                  (b) =>
+                    (b.target.previousElementSibling.value = b.target.value)
+                )
+              );
           });
-
-
         </script>
         <style>
           #ex1Slider .slider-selection,
@@ -119,7 +146,6 @@
             background: #fafafa;
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
             height: 7px;
-
           }
 
           #ex1Slider {
@@ -139,7 +165,8 @@
             background: #fafafa;
             width: 16px;
             height: 16px;
-            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3), 0px 0px 1px rgba(13, 13, 13, 0.3);
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3),
+              0px 0px 1px rgba(13, 13, 13, 0.3);
             border: 1px solid rgba(0, 0, 0, 0);
           }
 
@@ -166,8 +193,6 @@
           https://github.com/seiyria/bootstrap-slider/blob/master/dist/css/bootstrap-slider.css
           */
         </style>
-
-
       </div>
     </div>
   </div>

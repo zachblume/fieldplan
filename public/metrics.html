@@ -1,19 +1,29 @@
 <script>
-
   $(document).ready(function () {
-    cbox = document.querySelectorAll("#metrics-navbar .btn-toggle-nav a")
-    cbox.forEach(box => {
-      box.addEventListener('mousedown', (a) => setMetric(a.target.innerText));
-
+    cbox = document.querySelectorAll("#metrics-navbar .btn-toggle-nav a");
+    cbox.forEach((box) => {
+      box.addEventListener("mousedown", (a) => setMetric(a.target.innerText));
     });
   });
   function setMetric(metricName) {
-    document.getElementById('metric-page-title').innerHTML = metricName;
-    myChartMetricsPage.data.datasets[0].data = [Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5];
+    document.getElementById("metric-page-title").innerHTML = metricName;
+    myChartMetricsPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
     myChartMetricsPage.update();
   }
-
-
 </script>
 
 <!--metrics page inner content-->
@@ -21,41 +31,90 @@
   <div class="row d-block" style="margin-right: 0 !important">
     <!--heading bar and controls-->
     <div class="d-flex flex-row justify-content mb-2 align-items-center">
-      <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
+      <h1
+        class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+        id="metric-page-title"
+      >
         Positive IDs
       </h1>
       <!--cumulative-->
       <div class="d-flex">
         <div class="form-check form-switch me-2">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Cumulative</label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label class="form-check-label" for="flexSwitchCheckDefault"
+            >Cumulative</label
+          >
         </div>
       </div>
 
       <!--dayweekmonth-->
       <div class="d-flex justify-content-center">
-        <div class="btn-group shadow-sm" role="group" aria-label="Basic
-          outlined example" style="height: 2.5em !important">
-          <input type="radio" class="align-bottom align-items-baseline btn-check" name="vbtn-radio" id="vbtn-radio1"
-            autocomplete="off" />
-          <label class="align-bottom d-inline btn btn-outline-primary" for="vbtn-radio1">Day</label>
-          <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" checked />
-          <label class="btn btn-outline-primary d-inline" for="vbtn-radio2">Week</label>
-          <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
-          <label class="btn btn-outline-primary d-inline" for="vbtn-radio3">Month</label>
+        <div
+          class="btn-group shadow-sm"
+          role="group"
+          aria-label="Basic
+          outlined example"
+          style="height: 2.5em !important"
+        >
+          <input
+            type="radio"
+            class="align-bottom align-items-baseline btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio1"
+            autocomplete="off"
+          />
+          <label
+            class="align-bottom d-inline btn btn-outline-primary"
+            for="vbtn-radio1"
+            >Day</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio2"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary d-inline" for="vbtn-radio2"
+            >Week</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio3"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary d-inline" for="vbtn-radio3"
+            >Month</label
+          >
         </div>
       </div>
       <div id="drp-container">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
           integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <div id="reportrange" class="shadow-sm" style="
-                background: #fff;
-                cursor: pointer;
-                padding: 5px 10px;
-                border: 1px solid #ccc;
-                width: 100%;
-              ">
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <div
+          id="reportrange"
+          class="shadow-sm"
+          style="
+            background: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+          "
+        >
           <i class="fa fa-calendar"></i>&nbsp; <span></span>
           <i class="fa fa-caret-down"></i>
           <style>
@@ -70,9 +129,9 @@
             .ranges,
             .ranges * {
               font-size: inherit !important;
-              font-family: -apple-system, BlinkMacSystemFont,
-                "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-                "Open Sans", "Helvetica Neue", sans-serif;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                sans-serif;
             }
 
             .daterangepicker.ltr.show-ranges.opensright {
@@ -100,8 +159,8 @@
               function cb(start, end) {
                 $("#reportrange span").html(
                   start.format("MMM D, YYYY") +
-                  " - " +
-                  end.format("MMM D, YYYY")
+                    " - " +
+                    end.format("MMM D, YYYY")
                 );
               }
 
@@ -110,18 +169,13 @@
                   startDate: start,
                   endDate: end,
                   ranges: {
-                    "Last 30 Days": [
-                      moment().subtract(29, "days"),
-                      moment(),
-                    ],
+                    "Last 30 Days": [moment().subtract(29, "days"), moment()],
                     "This Month": [
                       moment().startOf("month"),
                       moment().endOf("month"),
                     ],
                     "Last Month": [
-                      moment()
-                        .subtract(1, "month")
-                        .startOf("month"),
+                      moment().subtract(1, "month").startOf("month"),
                       moment().subtract(1, "month").endOf("month"),
                     ],
                     "Last 3 Months": [
@@ -129,9 +183,7 @@
                       moment().endOf("month"),
                     ],
                     "Last 6 Months": [
-                      moment()
-                        .subtract(1, "month")
-                        .startOf("month"),
+                      moment().subtract(1, "month").startOf("month"),
                       moment().subtract(1, "month").endOf("month"),
                     ],
 
@@ -155,80 +207,228 @@
   <div class="row mb-0 mt-3">
     <div class="col-sm-3">
       <ul class="list-group ps-0" id="metrics-navbar">
-        <li class="mb-3 list-group-item  shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#home-collapse"
+            aria-expanded="true"
+          >
             Topline
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Positive IDs</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Total IDs</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Completed Shifts</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Newly Scheduled Shifts</a>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Positive IDs</a
+                >
               </li>
-
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Total IDs</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Completed Shifts</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Newly Scheduled Shifts</a
+                >
+              </li>
             </ul>
           </div>
         </li>
 
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#dashboard-collapse"
+            aria-expanded="false"
+          >
             Gross Attempts
           </button>
           <div class="collapse show" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">All Tactics (aggregated)</a>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >All Tactics (aggregated)</a
+                >
               </li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a></li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
             </ul>
           </div>
         </li>
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse"
+            aria-expanded="false"
+          >
             IDs + Positive ID's
           </button>
           <div class="collapse show" id="orders-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">All Tactics (aggregated)</a>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >All Tactics (aggregated)</a
+                >
               </li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a></li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
             </ul>
           </div>
         </li>
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
             Contact Rates
           </button>
           <div class="collapse show" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a></li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
             </ul>
           </div>
         </li>
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
             Contact Rates
           </button>
           <div class="collapse show" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a></li>
-              <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a></li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
             </ul>
           </div>
         </li>
@@ -239,9 +439,9 @@
         }
 
         #metrics-page-container .btn-toggle {
-          padding: .25rem .5rem;
+          padding: 0.25rem 0.5rem;
           font-weight: 600;
-          color: rgba(0, 0, 0, .65);
+          color: rgba(0, 0, 0, 0.65);
           background-color: transparent;
         }
 
@@ -257,12 +457,12 @@
           width: 1.25em;
           line-height: 0;
           content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-          transition: transform .35s ease;
-          transform-origin: .5em 50%;
+          transition: transform 0.35s ease;
+          transform-origin: 0.5em 50%;
         }
 
         #metrics-page-container .btn-toggle[aria-expanded="true"] {
-          color: rgba(0, 0, 0, .85);
+          color: rgba(0, 0, 0, 0.85);
         }
 
         #metrics-page-container .btn-toggle[aria-expanded="true"]::before {
@@ -270,8 +470,8 @@
         }
 
         #metrics-page-container .btn-toggle-nav a {
-          padding: .1875rem .5rem;
-          margin-top: .125rem;
+          padding: 0.1875rem 0.5rem;
+          margin-top: 0.125rem;
           margin-left: 1.25rem;
         }
       </style>
@@ -315,11 +515,6 @@
               </tr>
             </tbody>
           </table>
-
-
-
-
-
         </div>
       </div>
     </div>
@@ -335,7 +530,20 @@
     const chartOptions = {
       type: "bar",
       data: {
-        labels: ["Apr 11", "Apr 18", "May 10", "May 17", "May 24", "June 5", "Apr 11", "Apr 18", "May 10", "May 17", "May 24", "June 5"],
+        labels: [
+          "Apr 11",
+          "Apr 18",
+          "May 10",
+          "May 17",
+          "May 24",
+          "June 5",
+          "Apr 11",
+          "Apr 18",
+          "May 10",
+          "May 17",
+          "May 24",
+          "June 5",
+        ],
         datasets: [
           {
             label: "# of Votes",
@@ -385,10 +593,21 @@
       chartOptions
     );
 
-
-    myChartMetricsPage.data.datasets[0].data = [Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5, Math.floor(Math.random() * 20) + 5];
+    myChartMetricsPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
     myChartMetricsPage.update();
-
-
   });
 </script>
