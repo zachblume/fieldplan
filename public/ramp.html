@@ -1,611 +1,450 @@
-<!--metrics page inner content-->
-<div class="container mt-4" id="metrics-page-container">
+<!--ramp page inner content-->
+<div class="container mt-4" id="ramp-page-container">
   <div class="row d-block" style="margin-right: 0 !important">
     <!--heading bar and controls-->
     <div class="d-flex flex-row justify-content mb-2 align-items-center">
-      <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
+      <h1 class="mt-0 h2 d-flex justify-content-start " id="metric-page-title">
         Forecast Ramp
       </h1>
+      <div class="form-check form-switch mb-3 d-flex flex-grow-1 ms-3 mt-1">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+          onmousedown="return collapsetds();">
+        <label class="form-check-label align-middle mt-1" class="fs-1" for="flexSwitchCheckChecked">Collapse
+          me</label>
+      </div>
+      <script>
+        function collapsetds() {
+          document.querySelectorAll("td:not(:last-of-type)").forEach(a => a.style.display = a.style.display == "none" ? "" : "none");
+          $('#collapseTableDiv').toggleClass('col-3');
+          $('#righthandtoggle').toggleClass('col-9');
+          return false;
+        }
+      </script>
     </div>
     <!--end heading bar and controls-->
   </div>
 
-  <div class="mb-0 mt-3">
+  <div class="mb-0">
     <div class="row">
-      <div class="">
+
+      <div id="collapseTableDiv" class="">
+        <!--col-3-->
         <!--Start main table card-->
-        <div class="card shadow-sm border-white mb-3">
-          <div class="card-body">
 
-            <div id="tableDIV" class="table-responsive" style="font-size:.75rem;">
-              <table id="tableContainer" class="table table-hover table-bordered table-striped"></table>
-            </div>
-            <style>
-              tbody * {
-                padding-top: 0 !important;
-                padding-bottom: 0 !important;
+        <div id="tableDIV" class="table-responsive" style="font-size:.75rem;">
+          <table id="tableContainer" class="table table-hover table-bordered table-striped"></table>
 
-              }
-
-              table tbody td {
-                padding-top: 1px !important;
-                padding-bottom: 1px !important;
-              }
-            </style>
-            <!--old table script-->
-            <script>
-              $(function () {
-                formTable(
-
-
-                  [
-                    {
-                      "": "",
-                      "Week 2": "Jun 6",
-                      "Week 3": "Jun 13",
-                      "Week 4": "Jun 20",
-                      "Week 5": "Jun 27",
-                      "Week 6": "Jul 4",
-                      "Week 7": "Jul 11",
-                      "Week 8": "Jul 18",
-                      "Week 9": "Jul 25",
-                      "Week 10": "Aug 1",
-                      "Week 11": "Aug 8",
-                      "GOTV": "Aug 15"
-                    },
-                    {
-                      "": "Total Weekly Shifts",
-                      "Week 2": 108,
-                      "Week 3": 119,
-                      "Week 4": 131,
-                      "Week 5": 144,
-                      "Week 6": 158,
-                      "Week 7": 174,
-                      "Week 8": 191,
-                      "Week 9": 210,
-                      "Week 10": 232,
-                      "Week 11": 255,
-                      "GOTV": 764
-                    },
-
-                    {
-                      "": "Petitioning Attempts",
-                      "Week 2": "",
-                      "Week 3": "",
-                      "Week 4": "",
-                      "Week 5": "",
-                      "Week 6": "",
-                      "Week 7": "",
-                      "Week 8": "",
-                      "Week 9": "",
-                      "Week 10": "",
-                      "Week 11": "",
-                      "GOTV": ""
-                    },
-                    {
-                      "": "Calls Made",
-                      "Week 2": 6480,
-                      "Week 3": 7128,
-                      "Week 4": 7841,
-                      "Week 5": 21562,
-                      "Week 6": 23718,
-                      "Week 7": 26090,
-                      "Week 8": 28699,
-                      "Week 9": 31569,
-                      "Week 10": 34726,
-                      "Week 11": 38199,
-                      "GOTV": ""
-                    },
-                    {
-                      "": "Doors Knocked",
-                      "Week 2": 2592,
-                      "Week 3": 2851,
-                      "Week 4": 3136,
-                      "Week 5": 2156,
-                      "Week 6": 2372,
-                      "Week 7": 2609,
-                      "Week 8": 2870,
-                      "Week 9": 3157,
-                      "Week 10": 3473,
-                      "Week 11": 3820,
-                      "GOTV": 22919
-                    },
-                    {
-                      "": "SMS Sent",
-                      "Week 2": "",
-                      "Week 3": "",
-                      "Week 4": "",
-                      "Week 5": "",
-                      "Week 6": "",
-                      "Week 7": "",
-                      "Week 8": 62500,
-                      "Week 9": 71000,
-                      "Week 10": 71000,
-                      "Week 11": 62500,
-                      "GOTV": ""
-                    },
-
-                    {
-                      "": "Petitioning +IDs",
-                      "Week 2": "",
-                      "Week 3": "",
-                      "Week 4": "",
-                      "Week 5": "",
-                      "Week 6": "",
-                      "Week 7": "",
-                      "Week 8": "",
-                      "Week 9": "",
-                      "Week 10": "",
-                      "Week 11": "",
-                      "GOTV": ""
-                    },
-                    {
-                      "": "Calls +IDs",
-                      "Week 2": 117,
-                      "Week 3": 129,
-                      "Week 4": 142,
-                      "Week 5": 254,
-                      "Week 6": 280,
-                      "Week 7": 308,
-                      "Week 8": 339,
-                      "Week 9": 313,
-                      "Week 10": 344,
-                      "Week 11": 378,
-                      "GOTV": ""
-                    },
-                    {
-                      "": "Doors",
-                      "Week 2": 106,
-                      "Week 3": 116,
-                      "Week 4": 128,
-                      "Week 5": 88,
-                      "Week 6": 97,
-                      "Week 7": 106,
-                      "Week 8": 117,
-                      "Week 9": 107,
-                      "Week 10": 118,
-                      "Week 11": 130,
-                      "GOTV": 779
-                    },
-                    {
-                      "": "Text +IDs",
-                      "Week 2": "",
-                      "Week 3": "",
-                      "Week 4": "",
-                      "Week 5": "",
-                      "Week 6": "",
-                      "Week 7": "",
-                      "Week 8": 253,
-                      "Week 9": 288,
-                      "Week 10": 288,
-                      "Week 11": 253,
-                      "GOTV": ""
-                    },
-                    {
-                      "": "Relational +IDs",
-                      "Week 2": 10,
-                      "Week 3": 10,
-                      "Week 4": 10,
-                      "Week 5": 10,
-                      "Week 6": 10,
-                      "Week 7": 10,
-                      "Week 8": 10,
-                      "Week 9": 50,
-                      "Week 10": 150,
-                      "Week 11": 300,
-                      "GOTV": 600
-                    },
-                    {
-                      "": "Meet&Greets",
-                      "Week 2": "",
-                      "Week 3": "",
-                      "Week 4": "",
-                      "Week 5": "",
-                      "Week 6": "",
-                      "Week 7": "",
-                      "Week 8": "",
-                      "Week 9": "",
-                      "Week 10": "",
-                      "Week 11": "",
-                      "GOTV": ""
-                    },
-                    {
-                      "": "Total Pos IDs",
-                      "Week 2": 233,
-                      "Week 3": 255,
-                      "Week 4": 280,
-                      "Week 5": 352,
-                      "Week 6": 387,
-                      "Week 7": 424,
-                      "Week 8": 719,
-                      "Week 9": 757,
-                      "Week 10": 899,
-                      "Week 11": 1061,
-                      "GOTV": 1379
-                    }
-                  ]
-
-                  ,
-                  "#tableContainer");
-              });
-
-
-              function formTable(tableobject, querySelect) {
-                var table = document.querySelector(querySelect);
-                $(table).empty();
-                var jsonStr = tableobject;//JSON.parse(json);
-                var setHeaders = true;
-                for (i in jsonStr) {
-                  var item = JSON.stringify(jsonStr[i]);
-                  if (setHeaders) {
-                    createEntry(table, item, true);
-                    setHeaders = false;
-                  }
-                  createEntry(table, item, false);
-                }
-              }
-
-
-              function createEntry(table, item, isHeader) {
-                var thead = document.createElement("thead");
-                var tbody = document.createElement("tbody");
-                var tr = document.createElement("tr");
-                var json = JSON.parse(item);
-                for (i in json) {
-                  //console.log(i);
-                  var td = isHeader ? document.createElement("th") : document.createElement("td");
-                  var textnode = isHeader ? document.createTextNode(i)
-                    : document.createTextNode(isNaN(json[i]) ? json[i] : json[i].toLocaleString());
-                  td.appendChild(textnode);
-                  tr.appendChild(td);
-                }
-                if (isHeader) { thead.appendChild(tr); table.appendChild(thead); }
-                else {
-                  if (table.querySelector("tbody")) {
-                    table.querySelector("tbody").appendChild(tr);
-
-                  } else {
-                    tbody.appendChild(tr);
-                    table.appendChild(tbody);
-                  }
-                }
-
-              }
-            </script>
-            <!--jsontotable-->
-            <script>function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) { var idMarkup, classMarkup, italic = "<i>{0}</i>", link = linkText ? '<a href="{0}">' + linkText + "</a>" : '<a href="{0}">{0}</a>', tbl = '<table border="1" cellpadding="1" cellspacing="1"' + (tableId ? ' id="' + tableId + '"' : "") + (tableClassName ? ' class="' + tableClassName + '"' : "") + ">{0}{1}</table>", th = "<thead>{0}</thead>", tb = "<tbody>{0}</tbody>", tr = "<tr>{0}</tr>", thRow = "<th>{0}</th>", tdRow = "<td>{0}</td>", thCon = "", tbCon = "", trCon = ""; if (parsedJson) { var headers, isStringArray = "string" == typeof parsedJson[0]; if (isStringArray) thCon += thRow.format("value"); else if ("object" == typeof parsedJson[0]) { headers = array_keys(parsedJson[0]); for (var i = 0; i < headers.length; i++)thCon += thRow.format(headers[i]) } if (th = th.format(tr.format(thCon)), isStringArray) for (var i = 0; i < parsedJson.length; i++)tbCon += tdRow.format(parsedJson[i]), trCon += tr.format(tbCon), tbCon = ""; else if (headers) for (var urlRegExp = RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig), javascriptRegExp = RegExp(/(^javascript:[\s\S]*;$)/ig), i = 0; i < parsedJson.length; i++) { for (var j = 0; j < headers.length; j++) { var isUrl, value = parsedJson[i][headers[j]]; urlRegExp.test(value) || javascriptRegExp.test(value) ? tbCon += tdRow.format(link.format(value)) : value ? "object" == typeof value ? tbCon += tdRow.format(ConvertJsonToTable(eval(value.data), value.tableId, value.tableClassName, value.linkText)) : tbCon += tdRow.format(value) : tbCon += tdRow.format(italic.format(value).toUpperCase()) } trCon += tr.format(tbCon), tbCon = "" } return tb = tb.format(trCon), tbl = tbl.format(th, tb) } return null } function array_keys(t, r, a) { var e = void 0 !== r, o = [], f = !!a, n = !0, i = ""; if (t && "object" == typeof t && t.change_key_case) return t.keys(r, a); for (i in t) t.hasOwnProperty(i) && (n = !0, e && (f && t[i] !== r ? n = !1 : t[i] != r && (n = !1)), n && (o[o.length] = i)); return o } String.prototype.format = function () { var t = arguments; return this.replace(/{(\d+)}/g, function (r, a) { return void 0 !== t[a] ? t[a] : "{" + a + "}" }) };</script>
-            <!--form event listeners scriot-->
-            <script>
-              $(function () {
-                document.addEventListener('input', function (e) {
-                  if (e.target.type == 'range') {
-                    processRangesToFormTable();
-                  }
-                })
-                processRangesToFormTable();
-              });
-              function processRangesToFormTable() {
-                var rampConfig = {};
-                var listOfRanges = document.querySelectorAll("input[type=range]");
-                listOfRanges.forEach(a => rampConfig[a.id] = a.value);
-                console.clear();
-                console.log(rampConfig);
-
-                /*rangesAsJSobj={
-                    "startingShifts": "71",
-                    "shiftGrowth": "50",
-                    "doorsVsPhones": "50",
-                    "totalIDtextsPlanned": "50",
-                    "relationalIDperVolunteer": "50",
-                    "responseRateDoors": "50",
-                    "responseRatePhones": "50",
-                    "responseRateTexts": "50",
-                    "posRateDoors": "50",
-                    "posRatePhones": "50",
-                    "posRateTexts": "50"
-                }*/
-
-                const WEEKSAVAILABLE = 16;
-                var newItem = {};
-
-                thisWeekShiftCount = rampConfig.startingShifts;
-                newItem = {
-                  "Week Number": 1,
-                  "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
-                  //----
-                  "Petitioning Attempts": 0,
-                  "Calls Made": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
-                  "Doors Knocked": Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
-                  "SMS Sent": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
-                  //----
-                  "Petitioning +IDs": 0,
-                  "Calls +IDs": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift * rampConfig.responseRatePhones / 100 * rampConfig.posRatePhones / 100),
-                  "Doors +IDs": Math.floor(thisWeekShiftCount * (rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift * rampConfig.responseRateDoors / 100 * rampConfig.posRateDoors / 100),
-                  "Text +IDs": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE * rampConfig.responseRateTexts / 100 * rampConfig.posRateTexts / 100),
-                  "Relational +IDs": 0,
-                  "Total Pos IDs": 0
-                };
-                newItem["Total Pos IDs"] = Math.floor(
-                  newItem["Petitioning +IDs"] +
-                  newItem["Calls +IDs"] +
-                  newItem["Text +IDs"] +
-                  newItem["Relational +IDs"])
-                  ;
-                var tableObject = [newItem];
-
-
-                //console.log(tableObject);
-                var thisWeekShiftCount = 0;
-                const loop = (times, callback) => {
-                  [...Array(times)].forEach((item, i) => callback(i));
-                };
-                loop(WEEKSAVAILABLE - 1, i => {
-                  console.log(`Iteration is #${i}`);
-
-                  thisWeekShiftCount = tableObject[tableObject.length - 1]["Total Weekly Shifts"] * (1 + rampConfig.shiftGrowth / 100);
-                  newItem = {
-                    "Week Number": i + 1 + 1,
-                    "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
-                    //----
-                    "Petitioning Attempts": 0,
-                    "Calls Made": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
-                    "Doors Knocked": Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
-                    "SMS Sent": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
-                    //----
-                    "Petitioning +IDs": 0,
-                    "Calls +IDs": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift * rampConfig.responseRatePhones / 100 * rampConfig.posRatePhones / 100),
-                    "Doors +IDs": Math.floor(thisWeekShiftCount * (rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift * rampConfig.responseRateDoors / 100 * rampConfig.posRateDoors / 100),
-                    "Text +IDs": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE * rampConfig.responseRateTexts / 100 * rampConfig.posRateTexts / 100),
-                    "Relational +IDs": 0,
-                    "Total Pos IDs": 0
-                  };
-                  newItem["Total Pos IDs"] = Math.floor(
-                    newItem["Petitioning +IDs"] +
-                    newItem["Calls +IDs"] +
-                    newItem["Text +IDs"] +
-                    newItem["Relational +IDs"])
-                    ;
-                  tableObject.push(newItem);
-                });
-                // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
-                $('#tableContainer').html(
-                  ConvertJsonToTable(tableObject, '', null, 'Download')
-                );
-                
-                $("table").each(function () {
-                  var $this = $(this);
-                  var newrows = [];
-                  $this.find("tr").each(function () {
-                    var i = 0;
-                    $(this).find("td").each(function () {
-                      i++;
-                      if (newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
-                      newrows[i].append($(this));
-                    });
-                    $(this).find("th").each(function () {
-                      i++;
-                      if (newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
-                      newrows[i].append($(this));
-                    });
-                  });
-                  $this.find("tr").remove();
-                  $.each(newrows, function () {
-                    $this.append(this);
-                  });
-                });
-                
-
-                /*
-                var calculations = Array;
-                calculations['Total Weekly Shifts'].push(0);
-                tableObject = tableObject.map(x => {
-                  y = x;
-                  y['Week 1'] = "asdasd";
-                  return y;
-                });
-                formTable(tableObject, "#tableContainer");
-                */
-              }
-
-            </script>
-
-          </div>
         </div>
       </div>
-      <div><select class="form-select mb-3" aria-label="Default select example">
-        <option selected>Load Suggested Presets from Orgs.</option>
-        <option value="1">Working Families Party</option>
-        <option value="2">DLCC</option>
-        <option value="3">Emily's List</option>
-      </select></div>
+      <!--table stuff-->
+      <style>
+        #ramp-page-container tbody * {
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+
+        }
+
+        #ramp-page-container table tbody td {
+          padding-top: 3px !important;
+          padding-bottom: 3px !important;
+        }
+
+
+
+        #collapseTableDiv {}
+
+
+        #ramp-page-container th,
+        #ramp-page-container tr>td:last-of-type,
+        #ramp-page-container tr:first-of-type,
+        #ramp-page-container tr:first-of-type>td {
+          background: #666 !important;
+          color: white !important;
+          font-weight: bold !important;
+        }
+      </style>
+      <!--old table script-->
+      <script>
+        $(function () {  formTable( [{}],"#tableContainer");  });
+
+        function formTable(tableobject, querySelect) {
+          var table = document.querySelector(querySelect);
+          $(table).empty();
+          var jsonStr = tableobject;//JSON.parse(json);
+          var setHeaders = true;
+          for (i in jsonStr) {
+            var item = JSON.stringify(jsonStr[i]);
+            if (setHeaders) {
+              createEntry(table, item, true);
+              setHeaders = false;
+            }
+            createEntry(table, item, false);
+          }
+        }
+        
+        function createEntry(table, item, isHeader) {
+          var thead = document.createElement("thead");
+          var tbody = document.createElement("tbody");
+          var tr = document.createElement("tr");
+          var json = JSON.parse(item);
+          for (i in json) {
+            //console.log(i);
+            var td = isHeader ? document.createElement("th") : document.createElement("td");
+            var textnode = isHeader ? document.createTextNode(i)
+              : document.createTextNode(isNaN(json[i]) ? json[i] : json[i].toLocaleString());
+            td.appendChild(textnode);
+            tr.appendChild(td);
+          }
+          if (isHeader) { thead.appendChild(tr); table.appendChild(thead); }
+          else {
+            if (table.querySelector("tbody")) {
+              table.querySelector("tbody").appendChild(tr);
+
+            } else {
+              tbody.appendChild(tr);
+              table.appendChild(tbody);
+            }
+          }
+
+        }
+      </script>
+      <!--jsontotable-->
+      <script>function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) { var idMarkup, classMarkup, italic = "<i>{0}</i>", link = linkText ? '<a href="{0}">' + linkText + "</a>" : '<a href="{0}">{0}</a>', tbl = '<table border="1" cellpadding="1" cellspacing="1"' + (tableId ? ' id="' + tableId + '"' : "") + (tableClassName ? ' class="' + tableClassName + '"' : "") + ">{0}{1}</table>", th = "<thead>{0}</thead>", tb = "<tbody>{0}</tbody>", tr = "<tr>{0}</tr>", thRow = "<th>{0}</th>", tdRow = "<td>{0}</td>", thCon = "", tbCon = "", trCon = ""; if (parsedJson) { var headers, isStringArray = "string" == typeof parsedJson[0]; if (isStringArray) thCon += thRow.format("value"); else if ("object" == typeof parsedJson[0]) { headers = array_keys(parsedJson[0]); for (var i = 0; i < headers.length; i++)thCon += thRow.format(headers[i]) } if (th = th.format(tr.format(thCon)), isStringArray) for (var i = 0; i < parsedJson.length; i++)tbCon += tdRow.format(parsedJson[i]), trCon += tr.format(tbCon), tbCon = ""; else if (headers) for (var urlRegExp = RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig), javascriptRegExp = RegExp(/(^javascript:[\s\S]*;$)/ig), i = 0; i < parsedJson.length; i++) { for (var j = 0; j < headers.length; j++) { var isUrl, value = parsedJson[i][headers[j]]; urlRegExp.test(value) || javascriptRegExp.test(value) ? tbCon += tdRow.format(link.format(value)) : value ? "object" == typeof value ? tbCon += tdRow.format(ConvertJsonToTable(eval(value.data), value.tableId, value.tableClassName, value.linkText)) : tbCon += tdRow.format(value) : tbCon += tdRow.format(italic.format(value).toUpperCase()) } trCon += tr.format(tbCon), tbCon = "" } return tb = tb.format(trCon), tbl = tbl.format(th, tb) } return null } function array_keys(t, r, a) { var e = void 0 !== r, o = [], f = !!a, n = !0, i = ""; if (t && "object" == typeof t && t.change_key_case) return t.keys(r, a); for (i in t) t.hasOwnProperty(i) && (n = !0, e && (f && t[i] !== r ? n = !1 : t[i] != r && (n = !1)), n && (o[o.length] = i)); return o } String.prototype.format = function () { var t = arguments; return this.replace(/{(\d+)}/g, function (r, a) { return void 0 !== t[a] ? t[a] : "{" + a + "}" }) };</script>
+      <!--form event listeners scriot-->
+      <script>
+        $(function () {
+          document.addEventListener('input', function (e) {
+            if (e.target.type == 'range') {
+              processRangesToFormTable();
+            }
+          })
+          processRangesToFormTable();
+        });
+        function processRangesToFormTable() {
+          var rampConfig = {};
+          var listOfRanges = document.querySelectorAll("input[type=range]");
+          listOfRanges.forEach(a => rampConfig[a.id] = a.value);
+          console.clear();
+          console.log(rampConfig);
+
+          /*rangesAsJSobj={
+              "startingShifts": "71",
+              "shiftGrowth": "50",
+              "doorsVsPhones": "50",
+              "totalIDtextsPlanned": "50",
+              "relationalIDperVolunteer": "50",
+              "responseRateDoors": "50",
+              "responseRatePhones": "50",
+              "responseRateTexts": "50",
+              "posRateDoors": "50",
+              "posRatePhones": "50",
+              "posRateTexts": "50"
+          }*/
+
+          const WEEKSAVAILABLE = 16;
+          var newItem = {};
+
+          thisWeekShiftCount = rampConfig.startingShifts;
+          newItem = {
+            "Week Number": 1,
+            "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
+            //----
+            "Petitioning Attempts": 0,
+            "Calls Made": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
+            "Doors Knocked": Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
+            "SMS Sent": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
+            //----
+            "Petitioning +IDs": 0,
+            "Calls +IDs": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift * rampConfig.responseRatePhones / 100 * rampConfig.posRatePhones / 100),
+            "Doors +IDs": Math.floor(thisWeekShiftCount * (rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift * rampConfig.responseRateDoors / 100 * rampConfig.posRateDoors / 100),
+            "Text +IDs": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE * rampConfig.responseRateTexts / 100 * rampConfig.posRateTexts / 100),
+            "Relational +IDs": 0,
+            "Total Pos IDs": 0
+          };
+          newItem["Total Pos IDs"] = Math.floor(
+            newItem["Petitioning +IDs"] +
+            newItem["Calls +IDs"] +
+            newItem["Doors +IDs"] +
+            newItem["Text +IDs"] +
+            newItem["Relational +IDs"])
+            ;
+          var tableObject = [newItem];
+
+          var totals = Object.assign({}, newItem);
+
+          //console.log(tableObject);
+          var thisWeekShiftCount = 0;
+          const loop = (times, callback) => {
+            [...Array(times)].forEach((item, i) => callback(i));
+          };
+
+
+
+          loop(WEEKSAVAILABLE - 1, i => {
+            console.log(`Iteration is #${i}`);
+
+            thisWeekShiftCount = tableObject[tableObject.length - 1]["Total Weekly Shifts"] * (1 + rampConfig.shiftGrowth / 100);
+            newItem = {
+              "Week Number": i + 1 + 1,
+              "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
+              //----
+              "Petitioning Attempts": 0,
+              "Calls Made": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
+              "Doors Knocked": Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
+              "SMS Sent": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
+              //----
+              "Petitioning +IDs": 0,
+              "Calls +IDs": Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift * rampConfig.responseRatePhones / 100 * rampConfig.posRatePhones / 100),
+              "Doors +IDs": Math.floor(thisWeekShiftCount * (rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift * rampConfig.responseRateDoors / 100 * rampConfig.posRateDoors / 100),
+              "Text +IDs": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE * rampConfig.responseRateTexts / 100 * rampConfig.posRateTexts / 100),
+              "Relational +IDs": 0,
+              "Total Pos IDs": 0
+            };
+            newItem["Total Pos IDs"] = Math.floor(
+              newItem["Petitioning +IDs"] +
+              newItem["Calls +IDs"] +
+              newItem["Doors +IDs"] +
+              newItem["Text +IDs"] +
+              newItem["Relational +IDs"])
+              ;
+            //newItem.map(a => console.log(a));
+            Object.keys(newItem).forEach(function (key, index) {
+              totals[key] += newItem[key];
+            });
+            tableObject.push(newItem);
+            console.log(totals)
+
+          });
+          totals["Week Number"] = "Total";
+          tableObject.push(totals);
+          // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
+
+          console.clear();
+          tableObject.forEach(row => {
+            //row
+            Object.keys(newItem).forEach(function (key, index) {
+              //totals[key] += row[key];
+              row[key] = isNaN(row[key]) ? row[key] : nFormatter(row[key], 1);
+            });
+
+          })
+
+          $('#tableContainer').html(
+            ConvertJsonToTable(tableObject, '', null, 'Download')
+          );
+
+
+
+          // REVERSE TABLE DIRECTO
+          $("table").each(function () {
+            var $this = $(this);
+            var newrows = [];
+            $this.find("tr").each(function () {
+              var i = 0;
+              $(this).find("td").each(function () {
+                i++;
+                if (newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                newrows[i].append($(this));
+              });
+              $(this).find("th").each(function () {
+                i++;
+                if (newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                newrows[i].append($(this));
+              });
+            });
+            $this.find("tr").remove();
+            $.each(newrows, function () {
+              $this.append(this);
+            });
+          });
+
+
+          /*
+          var calculations = Array;
+          calculations['Total Weekly Shifts'].push(0);
+          tableObject = tableObject.map(x => {
+            y = x;
+            y['Week 1'] = "asdasd";
+            return y;
+          });
+          formTable(tableObject, "#tableContainer");
+          */
+        }
+        function nFormatter(num, digits) {
+          const lookup = [
+            { value: 1, symbol: "" },
+            { value: 1e3, symbol: "k" },
+            { value: 1e6, symbol: "M" },
+            { value: 1e9, symbol: "G" },
+            { value: 1e12, symbol: "T" },
+            { value: 1e15, symbol: "P" },
+            { value: 1e18, symbol: "E" }
+          ];
+          const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+          var item = lookup.slice().reverse().find(function (item) {
+            return num >= item.value;
+          });
+          return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+        }
+      </script>
+      <!--end table stuff-->
+
+
+
       <!--assumptions-->
-      <div class="row" style="font-size:.9rem">
-       
+      <div class="row" id="righthandtoggle">
+        <!--col-9-->
+
         <!--Start new assumption card-->
         <div class="col-4">
-        <div class="card shadow-sm border-white mb-3">
-          <div class="card-body">
-            <h3 class="card-title"><strong>Assumptions</strong></h3>
+          <div class="card shadow-sm border-white mb-3">
+            <div class="card-body">
+              <h3 class="card-title"><strong>Assumptions</strong></h3>
+              <div><select class="form-select mb-3" aria-label="Default select example">
+                  <option selected>Load Suggested Presets from Orgs.</option>
+                  <option value="1">Working Families Party</option>
+                  <option value="2">DLCC</option>
+                  <option value="3">Emily's List</option>
+                </select></div>
 
-            <form class="mt-3">
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Starting Shifts Complete / Week</label>
-                <div class="col-6 flex-row d-flex"><output>40</output>
-                  <input type="range" class="form-range" id="startingShifts" min="10" max="250" value="108" />
+              <form class="mt-3">
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Starting Shifts Complete / Week</label>
+                  <div class="col-6 flex-row d-flex"><output>100</output>
+                    <input type="range" class="form-range" id="startingShifts" min="10" max="250" value="30" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Week-over-week shift growth</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">10%</output>
-                  <input type="range" class="form-range" id="shiftGrowth" min="0" max="100" value="10" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Week-over-week shift growth</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">10%</output>
+                    <input type="range" class="form-range" id="shiftGrowth" min="0" max="100" value="10" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Shifts assigned to doors vs phones</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">50%</output>
-                  <input type="range" class="form-range" id="doorsVsPhones" min="0" max="100" value="50" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Shifts assigned to doors vs phones</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">60%</output>
+                    <input type="range" class="form-range" id="doorsVsPhones" min="0" max="100" value="60" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Total ID texts planned</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">250,000</output>
-                  <input type="range" class="form-range" id="totalIDtextsPlanned" min="0" max="1000000"
-                    value="250000" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Total ID texts planned</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">150,000</output>
+                    <input type="range" class="form-range" id="totalIDtextsPlanned" min="0" max="1000000"
+                      value="150000" />
+                  </div>
+
+                </div>
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Avg. relational ID / total active vol.</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">4</output>
+                    <input type="range" class="form-range" id="relationalIDperVolunteer" min="0" max="25" value="4" />
+                  </div>
                 </div>
 
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Avg. relational ID / total active vol.</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">4</output>
-                  <input type="range" class="form-range" id="relationalIDperVolunteer" min="0" max="25" value="4" />
+                <br>
+                <hr><br>
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Doors/shift</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">40</output>
+                    <input type="range" class="form-range" id="doorsPerShift" min="0" max="80" value="40" />
+                  </div>
                 </div>
-              </div>
-
-              <br>
-              <hr><br>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Doors/shift</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">40</output>
-                  <input type="range" class="form-range" id="doorsPerShift" min="0" max="80" value="40" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Calls/shift</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">250</output>
+                    <input type="range" class="form-range" id="callsPerShift" min="0" max="400" value="250" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Calls/shift</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">250</output>
-                  <input type="range" class="form-range" id="callsPerShift" min="0" max="400" value="250" />
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
-        </div></div>
-        <!--Start new assumption card-->
-        <div class="col-4"><div class="card shadow-sm border-white mb-3">
-          <div class="card-body">
-            <h3 class="card-title"><strong>Response Rates</strong></h3>
+        </div>
 
-            <form class="mt-3">
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Doors</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">16%</output>
-                  <input type="range" class="form-range" id="responseRateDoors" min="0" max="30" value="16" />
+        <!--Start new assumption card-->
+        <div class="col-4">
+          <div class="card shadow-sm border-white mb-3">
+            <div class="card-body">
+              <h3 class="card-title"><strong>Response Rates</strong></h3>
+
+              <form class="mt-3">
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Doors</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">10%</output>
+                    <input type="range" class="form-range" id="responseRateDoors" min="0" max="30" value="10" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Phone (dialer)</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">3%</output>
-                  <input type="range" class="form-range" id="responseRatePhones" min="0" max="10" value="3" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Phone (dialer)</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">2%</output>
+                    <input type="range" class="form-range" id="responseRatePhones" min="0" max="10" value="2" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Text</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">1%</output>
-                  <input type="range" class="form-range" id="responseRateTexts" min="0" max="10" value="1" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Text</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">1%</output>
+                    <input type="range" class="form-range" id="responseRateTexts" min="0" max="10" value="1" />
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
-        </div></div>
+        </div>
         <!--Start new assumption card-->
-        <div class="col-4"><div class="card shadow-sm border-white">
-          <div class="card-body">
-            <h3 class="card-title"><strong>Positivity Rates</strong></h3>
+        <div class="col-4">
+          <div class="card shadow-sm border-white">
+            <div class="card-body">
+              <h3 class="card-title"><strong>Positivity Rates</strong></h3>
 
-            <form class="mt-3">
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Doors</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">47%</output>
-                  <input type="range" class="form-range" id="posRateDoors" min="0" max="100" value="47" />
+              <form class="mt-3">
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Doors</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">47%</output>
+                    <input type="range" class="form-range" id="posRateDoors" min="0" max="100" value="47" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Phone (dialer)</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">43%</output>
-                  <input type="range" class="form-range" id="posRatePhones" min="0" max="100" value="43" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Phone (dialer)</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">43%</output>
+                    <input type="range" class="form-range" id="posRatePhones" min="0" max="100" value="43" />
+                  </div>
                 </div>
-              </div>
-              <div class="mb-1 row align-items-center">
-                <label for="customRange1" class="form-label col-6">Text</label>
-                <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">55%</output>
-                  <input type="range" class="form-range" id="posRateTexts" min="0" max="100" value="55" />
+                <div class="mb-1 row align-items-center">
+                  <label for="customRange1" class="form-label col-6">Text</label>
+                  <div class="col-6 flex-row d-flex"><output style="width: 100px; text-align: center">55%</output>
+                    <input type="range" class="form-range" id="posRateTexts" min="0" max="100" value="55" />
+                  </div>
                 </div>
-              </div>
-            </form>
-            <script>
-              $(function () {
-                /*
-                //tooltips init
-                const tooltipTriggerList = document.querySelectorAll(
-                  '[data-bs-toggle="tooltip"]'
-                );
-                const tooltipList = [...tooltipTriggerList].map(
-                  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                );*/
-                document
-                  .querySelectorAll('input[type="range"]')
-                  .forEach((a) =>
-                    a.addEventListener(
-                      "input",
-                      (b) =>
-                        (b.target.previousElementSibling.value = b.target.value)
-                    )
+              </form>
+              <script>
+                $(function () {
+                  /*
+                  //tooltips init
+                  const tooltipTriggerList = document.querySelectorAll(
+                    '[data-bs-toggle="tooltip"]'
                   );
-              });
-            </script>
-            <style>
-              #ex1Slider .slider-selection,
-              #ex1Slider .slider-track-high {
-                background: #fafafa;
-                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-                height: 7px;
-              }
+                  const tooltipList = [...tooltipTriggerList].map(
+                    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                  );*/
+                  document
+                    .querySelectorAll('input[type="range"]')
+                    .forEach((a) =>
+                      a.addEventListener(
+                        "input",
+                        (b) =>
+                          (b.target.previousElementSibling.value = b.target.value)
+                      )
+                    );
+                  document
+                    .querySelectorAll('input[type="range"]')
+                    .forEach((a) =>
+                      a.previousElementSibling.value = a.value
+                    );
+                });
+              </script>
 
-              #ex1Slider {
-                width: 300px;
-              }
-
-              /* .tooltip - background of tooltip */
-              #ex1Slider .tooltip-inner {
-                background-color: #fafafa;
-                border-radius: 15px;
-                color: #ccc;
-                margin-left: -3.5px;
-                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-              }
-
-              #ex1Slider .slider-handle {
-                background: #fafafa;
-                width: 16px;
-                height: 16px;
-                box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3),
-                  0px 0px 1px rgba(13, 13, 13, 0.3);
-                border: 1px solid rgba(0, 0, 0, 0);
-              }
-
-              /* This sets the color of the arrow that connects the tooltip to the handle */
-              #ex1Slider .tooltip-arrow {
-                border-top-color: #fafafa;
-                margin-left: -7px;
-                display: none;
-              }
-
-              body {
-                background-color: #fff;
-              }
-
-              .form-group {
-                padding: 25px;
-              }
-
-              h2 {
-                padding: 15px 0px 30px 0px;
-              }
-
-              /* Default CSS can be viewed here:
-          https://github.com/seiyria/bootstrap-slider/blob/master/dist/css/bootstrap-slider.css
-          */
-            </style>
+            </div>
           </div>
-        </div></div>
+        </div>
       </div>
 
 
