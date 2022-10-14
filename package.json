@@ -12,19 +12,13 @@
     "type": "git",
     "url": "git+https://github.com/campaigndataproject/fieldplan.git"
   },
-  "keywords": [
-    
-  ],
+  "keywords": [],
   "author": "zachblume",
-
   "bugs": {
     "url": "https://github.com/campaigndataproject/fieldplan/issues"
   },
   "homepage": "https://github.com/campaigndataproject/fieldplan#readme",
-  "dependencies": {
-    
-  },
   "devDependencies": {
-    
+    "prettier": "2.7.1"
   }
 }

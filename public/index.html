@@ -1,75 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Field Plan</title>
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="icon" href="favicon.svg">
-</head>
+    <link rel="icon" href="favicon.svg" />
+  </head>
 
-<body>
+  <body>
     <header>
       <div class="header-wrapper">
-        <div><a href="/" rel="home"><img src="horizontal_logo2.svg" /></a></div>
-        <div><button type="button" id="signout" style="display:inline">Sign out</button> <button id="billing-portal-button">Billing settings</button></div>
+        <div>
+          <a href="/" rel="home"><img src="horizontal_logo2.svg" /></a>
+        </div>
+        <div>
+          <button type="button" id="signout" style="display: inline">
+            Sign out
+          </button>
+          <button id="billing-portal-button">Billing settings</button>
+        </div>
       </div>
     </header>
 
     <section id="firebaseui-auth-container">
-        <div id="loader">Loading &hellip;</div>
+      <div id="loader">Loading &hellip;</div>
     </section>
     <main>
-        
-        <div id="subscribe">
-            <h2>Subscribe</h2>
-            <div class="test-card-notice">
-                Use any of the
-                <a href="https://stripe.com/docs/testing#cards" target="_blank" rel="noopener noreferrer">Stripe test
-                    cards</a> for this demo, e.g.
-                <div class="card-number">
-                    4242<span></span>4242<span></span>4242<span></span>4242
-                </div>
-            </div>
-            <section class="products"></section>
+      <div id="subscribe">
+        <h2>Subscribe</h2>
+        <div class="test-card-notice">
+          Use any of the
+          <a
+            href="https://stripe.com/docs/testing#cards"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Stripe test cards</a
+          >
+          for this demo, e.g.
+          <div class="card-number">
+            4242<span></span>4242<span></span>4242<span></span>4242
+          </div>
         </div>
-        <section id="my-subscription">
-            <h2>Dashboard</h2>
-            
-            <p></p>
-            <!--<h3>View invoices, update subscription & payment methods</h3>-->
-            
-        </section>
-        <section id="LoggedInUser">
-            <div class="graph-container">
-                <h2>Weekly Contact History Graph</h2>
-                
-                <div id="graph1">
-                    <canvas id="bar-chart" width="800" height="450"></canvas>
-                </div>
-            </div>
+        <section class="products"></section>
+      </div>
+      <section id="my-subscription">
+        <h2>Dashboard</h2>
 
-        </section>
+        <p></p>
+        <!--<h3>View invoices, update subscription & payment methods</h3>-->
+      </section>
+      <section id="LoggedInUser">
+        <div class="graph-container">
+          <h2>Weekly Contact History Graph</h2>
+
+          <div id="graph1">
+            <canvas id="bar-chart" width="800" height="450"></canvas>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
-        <p>
-            Footer
-        </p>
+      <p>Footer</p>
     </footer>
 
     <template id="product">
-        <div class="product">
-            <img src="" alt="" />
-            <h2>name</h2>
-            <p class="description">description</p>
-            <form class="product-form">
-                <label for="price">Choose pricing plan</label>
-                <select id="price" name="price"></select>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
+      <div class="product">
+        <img src="" alt="" />
+        <h2>name</h2>
+        <p class="description">description</p>
+        <form class="product-form">
+          <label for="price">Choose pricing plan</label>
+          <select id="price" name="price"></select>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
     </template>
 
     <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
@@ -86,13 +92,15 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
 
     <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"
+    />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-
     <!-- Application Code -->
     <script src="javascript/app.js"></script>
-</body>
-
+  </body>
 </html>

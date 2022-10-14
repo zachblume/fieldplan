@@ -31,41 +31,92 @@
   <div class="row d-block" style="margin-right: 0 !important">
     <!--heading bar and controls-->
     <div class="d-flex flex-row justify-content mb-2 align-items-center">
-      <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
+      <h1
+        class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+        id="metric-page-title"
+      >
         Positive IDs
       </h1>
 
       <!--cumulative-->
       <div class="d-flex">
         <div class="form-check form-switch me-2">
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-          <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label
+            class="form-check-label align-middle"
+            for="flexSwitchCheckDefault"
+            >Cumulative</label
+          >
         </div>
       </div>
       <!--dayweekmonth-->
       <div class="d-flex justify-content-center">
-        <div class="btn-group shadow-sm" role="group" aria-label="Basic
-          outlined example" style="height: 2.5em !important">
-          <input type="radio" class="align-bottom align-items-baseline btn-check" name="vbtn-radio" id="vbtn-radio1"
-            autocomplete="off" />
-          <label class="align-bottom d-inline btn btn-outline-primary" for="vbtn-radio1">Day</label>
-          <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" checked />
-          <label class="btn btn-outline-primary d-inline" for="vbtn-radio2">Week</label>
-          <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
-          <label class="btn btn-outline-primary d-inline" for="vbtn-radio3">Month</label>
+        <div
+          class="btn-group shadow-sm"
+          role="group"
+          aria-label="Basic
+          outlined example"
+          style="height: 2.5em !important"
+        >
+          <input
+            type="radio"
+            class="align-bottom align-items-baseline btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio1"
+            autocomplete="off"
+          />
+          <label
+            class="align-bottom d-inline btn btn-outline-primary"
+            for="vbtn-radio1"
+            >Day</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio2"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary d-inline" for="vbtn-radio2"
+            >Week</label
+          >
+          <input
+            type="radio"
+            class="btn-check"
+            name="vbtn-radio"
+            id="vbtn-radio3"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary d-inline" for="vbtn-radio3"
+            >Month</label
+          >
         </div>
       </div>
       <div id="drp-container">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
           integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <div id="reportrange" class="shadow-sm" style="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <div
+          id="reportrange"
+          class="shadow-sm"
+          style="
             background: #fff;
             cursor: pointer;
             padding: 5px 10px;
             border: 1px solid #ccc;
             width: 100%;
-          ">
+          "
+        >
           <i class="fa fa-calendar"></i>&nbsp; <span></span>
           <i class="fa fa-caret-down"></i>
           <style>
@@ -110,8 +161,8 @@
               function cb(start, end) {
                 $("#reportrange span").html(
                   start.format("MMM D, YYYY") +
-                  " - " +
-                  end.format("MMM D, YYYY")
+                    " - " +
+                    end.format("MMM D, YYYY")
                 );
               }
 
@@ -159,118 +210,226 @@
     <div class="col-sm-3">
       <ul class="list-group ps-0" id="metrics-navbar">
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#home-collapse"
+            aria-expanded="true"
+          >
             Topline
           </button>
           <div class="collapse show" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Positive IDs</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Positive IDs</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Total IDs</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Total IDs</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Completed Shifts</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Completed Shifts</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Newly Scheduled Shifts</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Newly Scheduled Shifts</a
+                >
               </li>
             </ul>
           </div>
         </li>
 
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#dashboard-collapse"
+            aria-expanded="false"
+          >
             Gross Attempts
           </button>
           <div class="collapse show" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">All Tactics (aggregated)</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >All Tactics (aggregated)</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
               </li>
             </ul>
           </div>
         </li>
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#orders-collapse"
+            aria-expanded="false"
+          >
             IDs + Positive ID's
           </button>
           <div class="collapse show" id="orders-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">All Tactics (aggregated)</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >All Tactics (aggregated)</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-            Contact Rates
-          </button>
-          <div class="collapse show" id="account-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
-              </li>
-              <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
-              </li>
-              <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-              </li>
-              <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
               </li>
             </ul>
           </div>
         </li>
         <li class="mb-3 list-group-item shadow-sm border-white">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
             Contact Rates
           </button>
           <div class="collapse show" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
               </li>
               <li>
-                <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-3 list-group-item shadow-sm border-white">
+          <button
+            class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#account-collapse"
+            aria-expanded="false"
+          >
+            Contact Rates
+          </button>
+          <div class="collapse show" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Doorknocks</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Phone Calls</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Texts Sent</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="link-dark d-inline-flex text-decoration-none rounded"
+                  >Relational</a
+                >
               </li>
             </ul>
           </div>

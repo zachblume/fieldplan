@@ -1,4 +1,5 @@
-const STRIPE_PUBLISHABLE_KEY = "pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO";
+const STRIPE_PUBLISHABLE_KEY =
+  "pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO";
 
 const prices = {};
 
@@ -12,11 +13,11 @@ const firebaseConfig = {
   storageBucket: "campaign-data-project.appspot.com",
   messagingSenderId: "640113081213",
   appId: "1:640113081213:web:393c23321699d3e8dcea14",
-  measurementId: "G-RW17X0TYNJ"
+  measurementId: "G-RW17X0TYNJ",
 };
 
 // Replace with your cloud functions location
-const functionLocation = 'us-central1';
+const functionLocation = "us-central1";
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -35,33 +36,33 @@ const firebaseUiConfig = {
       return true;
     },
     uiShown: () => {
-      document.querySelector('#loader').style.display = 'none';
+      document.querySelector("#loader").style.display = "none";
     },
   },
-  signInFlow: 'redirect',
-  signInSuccessUrl: '/',
+  signInFlow: "redirect",
+  signInSuccessUrl: "/",
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID//,
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID, //,
     //firebase.auth.EmailAuthProvider.PROVIDER_ID,
   ],
 
   credentialHelper: firebaseui.auth.CredentialHelper.NONE,
   // Your terms of service url.
-  tosUrl: 'https://example.com/terms',
+  tosUrl: "https://example.com/terms",
   // Your privacy policy url.
-  privacyPolicyUrl: 'https://example.com/privacy',
+  privacyPolicyUrl: "https://example.com/privacy",
 };
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
     // document.querySelector('#loader').style.display = 'none';
     // document.querySelector('main').style.display = 'block';
-    document.querySelector('body').classList.add('logged-in');
+    document.querySelector("body").classList.add("logged-in");
     currentUser = firebaseUser.uid;
     startDataListeners();
     //console.log(firebaseUser)
   } else {
-    document.querySelector('body').classList.remove('logged-in');
-    firebaseUI.start('#firebaseui-auth-container', firebaseUiConfig);
+    document.querySelector("body").classList.remove("logged-in");
+    firebaseUI.start("#firebaseui-auth-container", firebaseUiConfig);
   }
 });
 
@@ -70,67 +71,67 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
  */
 function startDataListeners() {
   // Get all our products and render them to the page
-  const products = document.querySelector('.products');
-  const template = document.querySelector('#product');
+  const products = document.querySelector(".products");
+  const template = document.querySelector("#product");
 
-  db.collection('products')
-    .where('active', '==', true)
+  db.collection("products")
+    .where("active", "==", true)
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(async function (doc) {
         const priceSnap = await doc.ref
-          .collection('prices')
-          .where('active', '==', true)
-          .orderBy('unit_amount')
+          .collection("prices")
+          .where("active", "==", true)
+          .orderBy("unit_amount")
           .get();
 
-        if (!'content' in document.createElement('template')) {
-          console.error('Your browser doesn’t support HTML template elements.');
+        if (!"content" in document.createElement("template")) {
+          console.error("Your browser doesn’t support HTML template elements.");
           return;
         }
 
         const product = doc.data();
         const container = template.content.cloneNode(true);
 
-        container.querySelector('h2').innerText = product.name.toUpperCase();
-        container.querySelector('.description').innerText =
-          product.description?.toUpperCase() || '';
+        container.querySelector("h2").innerText = product.name.toUpperCase();
+        container.querySelector(".description").innerText =
+          product.description?.toUpperCase() || "";
         // Prices dropdown
         priceSnap.docs.forEach((doc) => {
           const priceId = doc.id;
           const priceData = doc.data();
           prices[priceId] = priceData;
           const content = document.createTextNode(
-            `${new Intl.NumberFormat('en-US', {
-              style: 'currency',
+            `${new Intl.NumberFormat("en-US", {
+              style: "currency",
               currency: priceData.currency,
             }).format((priceData.unit_amount / 100).toFixed(2))} per ${
-            priceData.interval ?? 'once'
+              priceData.interval ?? "once"
             }`
           );
-          const option = document.createElement('option');
+          const option = document.createElement("option");
           option.value = priceId;
           option.appendChild(content);
-          container.querySelector('#price').appendChild(option);
+          container.querySelector("#price").appendChild(option);
         });
 
         if (product.images.length) {
-          const img = container.querySelector('img');
+          const img = container.querySelector("img");
           img.src = product.images[0];
           img.alt = product.name;
         }
 
-        const form = container.querySelector('form');
-        form.addEventListener('submit', subscribe);
+        const form = container.querySelector("form");
+        form.addEventListener("submit", subscribe);
 
         products.appendChild(container);
       });
     });
   // Get all subscriptions for the customer
-  db.collection('customers')
+  db.collection("customers")
     .doc(currentUser)
-    .collection('subscriptions')
-    .where('status', 'in', ['trialing', 'active'])
+    .collection("subscriptions")
+    .where("status", "in", ["trialing", "active"])
     .onSnapshot(async (snapshot) => {
       if (snapshot.empty) {
         // Show products
@@ -145,13 +146,16 @@ function startDataListeners() {
       //console.log(firebase.auth().currentUser)
       var username = firebase.auth().currentUser.displayName;
       document.querySelector(
-        '#my-subscription p'
-      ).textContent = `Hi ${username}, you are paying ${new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: priceData.currency,
-      }).format((priceData.unit_amount / 100).toFixed(2))} per ${
+        "#my-subscription p"
+      ).textContent = `Hi ${username}, you are paying ${new Intl.NumberFormat(
+        "en-US",
+        {
+          style: "currency",
+          currency: priceData.currency,
+        }
+      ).format((priceData.unit_amount / 100).toFixed(2))} per ${
         priceData.interval
-        }, giving you the role: ${await getCustomClaimRole()}.`;
+      }, giving you the role: ${await getCustomClaimRole()}.`;
       LoggedInHomePageDisplay();
       const element = document.querySelector("body");
 
@@ -165,23 +169,23 @@ function startDataListeners() {
 
 // Signout button
 document
-  .getElementById('signout')
-  .addEventListener('click', () => firebase.auth().signOut());
+  .getElementById("signout")
+  .addEventListener("click", () => firebase.auth().signOut());
 
 // Checkout handler
 async function subscribe(event) {
   event.preventDefault();
-  document.querySelectorAll('button').forEach((b) => (b.disabled = true));
+  document.querySelectorAll("button").forEach((b) => (b.disabled = true));
   const formData = new FormData(event.target);
   const selectedPrice = {
-    price: formData.get('price'),
+    price: formData.get("price"),
   };
   // For prices with metered billing we need to omit the quantity parameter.
   // For all other prices we set quantity to 1.
-  if (prices[selectedPrice.price]?.recurring?.usage_type !== 'metered')
+  if (prices[selectedPrice.price]?.recurring?.usage_type !== "metered")
     selectedPrice.quantity = 1;
   const checkoutSession = {
-    automatic_tax: false,//automatic_tax: true,
+    automatic_tax: false, //automatic_tax: true,
     tax_id_collection: true,
     collect_shipping_address: true,
     allow_promotion_codes: true,
@@ -189,19 +193,19 @@ async function subscribe(event) {
     success_url: window.location.origin,
     cancel_url: window.location.origin,
     metadata: {
-      key: 'value',
+      key: "value",
     },
   };
   // For one time payments set mode to payment.
-  if (prices[selectedPrice.price]?.type === 'one_time') {
-    checkoutSession.mode = 'payment';
-    checkoutSession.payment_method_types = ['card', 'sepa_debit', 'sofort'];
+  if (prices[selectedPrice.price]?.type === "one_time") {
+    checkoutSession.mode = "payment";
+    checkoutSession.payment_method_types = ["card", "sepa_debit", "sofort"];
   }
 
   const docRef = await db
-    .collection('customers')
+    .collection("customers")
     .doc(currentUser)
-    .collection('checkout_sessions')
+    .collection("checkout_sessions")
     .add(checkoutSession);
   // Wait for the CheckoutSession to get attached by the extension
   docRef.onSnapshot((snap) => {
@@ -209,7 +213,7 @@ async function subscribe(event) {
     if (error) {
       // Show an error to your customer and then inspect your function logs.
       alert(`An error occured: ${error.message}`);
-      document.querySelectorAll('button').forEach((b) => (b.disabled = false));
+      document.querySelectorAll("button").forEach((b) => (b.disabled = false));
     }
     if (url) {
       window.location.assign(url);
@@ -219,15 +223,15 @@ async function subscribe(event) {
 
 // Billing portal handler
 document
-  .querySelector('#billing-portal-button')
-  .addEventListener('click', async (event) => {
-    document.querySelectorAll('button').forEach((b) => (b.disabled = true));
+  .querySelector("#billing-portal-button")
+  .addEventListener("click", async (event) => {
+    document.querySelectorAll("button").forEach((b) => (b.disabled = true));
 
     // Call billing portal function
     const functionRef = firebase
       .app()
-      .functions('us-central1')
-      .httpsCallable('ext-firestore-stripe-payments-createPortalLink');
+      .functions("us-central1")
+      .httpsCallable("ext-firestore-stripe-payments-createPortalLink");
     const { data } = await functionRef({
       returnUrl: window.location.origin,
       locale: "auto", // Optional, defaults to "auto"
@@ -245,65 +249,70 @@ async function getCustomClaimRole() {
 
 let firstchart;
 function LoggedInHomePageDisplay() {
-  document.querySelector('#LoggedInUser').style.display = 'block';
+  document.querySelector("#LoggedInUser").style.display = "block";
   firstchart = new Chart(document.getElementById("bar-chart"), {
-    type: 'line',
+    type: "line",
     data: {
       labels: [0],
-      
+
       datasets: [
         {
           label: "Contact Attempts",
           borderColor: "#3e95cd",
-          backgroundColor: 'rgba(53, 162, 235, 0.2)',
-          data: [0]
-        }
-      ]
+          backgroundColor: "rgba(53, 162, 235, 0.2)",
+          data: [0],
+        },
+      ],
     },
     options: {
       interaction: {
         intersect: false,
-        mode: 'nearest',
-       axis: 'x'
+        mode: "nearest",
+        axis: "x",
       },
       elements: {
         line: {
-            tension: 0
-        }
-    },
-        animation: {
-            duration: 0
+          tension: 0,
         },
-    
+      },
+      animation: {
+        duration: 0,
+      },
+
       legend: { display: false },
       title: {
         display: true,
-        text: 'Contact attempts by week'
+        text: "Contact attempts by week",
       },
-      scales:{
-        xAxes:[{gridLines: {
-          display:false
-      }}]
-      } 
-    }
+      scales: {
+        xAxes: [
+          {
+            gridLines: {
+              display: false,
+            },
+          },
+        ],
+      },
+    },
   });
-  db.collection("data").doc("weeklycontacthistory")
+  db.collection("data")
+    .doc("weeklycontacthistory")
     .onSnapshot((doc) => {
       var parseddata = JSON.parse(doc.data().resultstring);
       console.log("Current data: ", parseddata);
       updateGraph(parseddata);
     });
-
 }
 
 function updateGraph(graphdata) {
-  console.log(graphdata[0].week.value)
-  firstchart.data.labels =
-    graphdata.map(
-      x => new Date(x.week.value).toLocaleDateString('en-us',
-        { month: "short", day: "numeric" }
-      ));
-  firstchart.data.datasets[0].data = graphdata.map(x => x.contactattempts);
+  console.log(graphdata[0].week.value);
+  firstchart.data.labels = graphdata.map((x) =>
+    new Date(x.week.value).toLocaleDateString("en-us", {
+      month: "short",
+      day: "numeric",
+    })
+  );
+  firstchart.data.datasets[0].data = graphdata.map((x) => x.contactattempts);
   firstchart.update();
   console.log("updated");
 }
