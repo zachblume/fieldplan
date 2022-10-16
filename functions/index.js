@@ -108,6 +108,8 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
     const doc = await docpath.get();
     const changedEntityID = doc.data().apiResponse.exportJobId.toString();
 
+    const bucketTitle = "gs://campaign-data-project.appspot.com";
+
     const fetch = require("node-fetch");
 
     const url =
@@ -142,9 +144,7 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
             await fetch(url)
               .then((res) => res.buffer())
               .then(async (data) => {
-                const myBucket = storageRef.bucket(
-                  "gs://campaign-data-project.appspot.com"
-                );
+                const myBucket = storageRef.bucket(bucketTitle);
                 const getLastItem = (thePath) =>
                   thePath.substring(thePath.lastIndexOf("/") + 1);
                 const saveAs = getLastItem(url);
@@ -157,7 +157,7 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
                     savedAtTimestamp: Date.now(),
                   });
                   response.send("Saved csv to firestore as " + saveAs);
-                  loadCSVtoSQL(saveAs);
+                  loadCSVtoSQL(bucketTitle, saveAs, "contacthistory");
                 });
               })
               .catch((err) => response.send("error:" + err));
@@ -170,16 +170,16 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
   }
 );
 
-async function loadCSVtoSQL(filepath) {
+async function loadCSVtoSQL(bucketName, filepath, tableId) {
   // Imports a GCS file into a table with manually defined schema.
 
   /**
    * TODO(developer): Uncomment the following lines before running the sample.
    */
   const datasetId = "development";
-  const tableId = "contacthistory";
-  const bucketName = "campaign-data-project.appspot.com";
-  const filename = "testexport_0101522_000000000000.csv";
+  //const tableId = "contacthistory";
+  // const bucketName = "campaign-data-project.appspot.com";
+  // const filename = "testexport_0101522_000000000000.csv";
 
   // Configure the load job. For full list of options, see:
   // https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad
@@ -194,7 +194,7 @@ async function loadCSVtoSQL(filepath) {
   const [job] = await bigquery
     .dataset(datasetId)
     .table(tableId)
-    .load(storageRef.bucket(bucketName).file(filename), metadata);
+    .load(storageRef.bucket(bucketName).file(filepath), metadata);
 
   // load() waits for the job to finish
   console.log(`Job ${job.id} completed.`);
