@@ -177,6 +177,7 @@ async function loadCSVtoSQL(bucketName, filepath, tableId) {
    * TODO(developer): Uncomment the following lines before running the sample.
    */
   const datasetId = "development";
+  // filepath = "testfixtitle.csv"; // that didnt fix it! ok.
   //const tableId = "contacthistory";
   // const bucketName = "campaign-data-project.appspot.com";
   // const filename = "testexport_0101522_000000000000.csv";
@@ -193,7 +194,7 @@ async function loadCSVtoSQL(bucketName, filepath, tableId) {
   // Load data from a Google Cloud Storage file into the table
   const [job] = await bigquery
     .dataset(datasetId)
-    .table(tableId)
+    .table("newtemptable")
     .load(storageRef.bucket(bucketName).file(filepath), metadata);
 
   // load() waits for the job to finish
