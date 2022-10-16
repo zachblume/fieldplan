@@ -6,11 +6,13 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
+const storageRef = admin.storage();
 
 // [START bigquery_query]
 // [START bigquery_client_default_credentials]
 // Import the Google Cloud client library using default credentials
 const { BigQuery } = require("@google-cloud/bigquery");
+const { firebase } = require("googleapis/build/src/apis/firebase");
 const bigquery = new BigQuery();
 // [END bigquery_client_default_credentials]
 
@@ -21,33 +23,6 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.GetWeeklyContactAttempts = functions.https.onRequest(
   async (request, response) => {
-    /* // GOODBYE KNEX! :)
-    const knex = require('knex');
-    const pool = knex({
-      client: 'pg',
-      connection: {
-        user: 'postgres',
-        password: 'easypassword',
-        database: 'development',
-        host: '/cloudsql/campaign-data-project:us-east1:fieldplan',
-      },
-    });
-
-
-    pool.raw('select DATE_TRUNC(\'week\',"DateCanvassed") as week,count(*) as contactattempts from contacthistory group by week order by week ASC').then((result) => {
-      const resultstring = JSON.stringify(result);
-      db.collection('data').doc('weeklycontacthistory').set({
-        resultstring,
-      })
-        .then(() => {
-          response.send('Document successfully written!');
-        })
-        .catch((error) => {
-          response.send('Error writing document: ', error);
-        });
-    });
-    */
-
     const [rows] = await briefquery(`
       SELECT
         DATE_TRUNC(DateCanvassed,ISOWEEK) AS week,
@@ -101,6 +76,7 @@ exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
     .then((res) => res.json())
     .then((json) => {
       // response.send(json)
+      console.log(json);
       db.collection("apicalls")
         .add({
           originalRequestURL: url,
@@ -108,7 +84,8 @@ exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
           apiResponse: json,
           timestampLogged: Date.now(),
         })
-        .then(() => {
+        .then((a) => {
+          console.log(a);
           response.send("Logged api call!");
         })
         .catch((error) => {
@@ -120,13 +97,14 @@ exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
 
 exports.PollNGPVANForResponse = functions.https.onRequest(
   async (request, response) => {
-    /* const changedEntityID = await db.collection('apicalls')
+    /* // Get last API call
+     const changedEntityID = await db.collection('apicalls')
         .orderBy('timestampLogged', 'desc')
         // Order documents by added_at field in descending order
         .limit(1).get();
     response.send(changedEntityID.data);*/
 
-    const docpath = db.collection("apicalls").doc("NzyFhfuU0fialQS0VizE");
+    const docpath = db.collection("apicalls").doc("fyVkQZTUWlGBVAPzxNmm");
     const doc = await docpath.get();
     const changedEntityID = doc.data().apiResponse.exportJobId.toString();
 
@@ -147,6 +125,8 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
       .then((res) => res.json())
       .then((json) => {
         // response.send(json)
+        //response.send(json);
+        console.log(json);
         db.collection("apicalls")
           .add({
             originalRequestURL: url,
@@ -156,12 +136,12 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
           })
           .then(async () => {
             const url = json.files[0].downloadUrl;
+            console.log(json.files[0].downloadUrl);
             // const response_getcsv = getCSV(url, options);
             const fetch = require("node-fetch");
             await fetch(url)
               .then((res) => res.buffer())
               .then(async (data) => {
-                const storageRef = admin.storage();
                 const myBucket = storageRef.bucket(
                   "gs://campaign-data-project.appspot.com"
                 );
@@ -190,72 +170,48 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
   }
 );
 
-// BEFORE RUNNING:
-// ---------------
-// 1. If not already done, enable the Cloud SQL Admin API
-//    and check the quota for your project at
-//    https://console.developers.google.com/apis/api/sqladmin
-// 2. This sample uses Application Default Credentials for authentication.
-//    If not already done, install the gcloud CLI from
-//    https://cloud.google.com/sdk and run
-//    `gcloud beta auth application-default login`.
-//    For more information, see
-//    https://developers.google.com/identity/protocols/application-default-credentials
-// 3. Install the Node.js client library by running
-//    `npm install googleapis --save`
-
-const { google } = require("googleapis");
-const sqlAdmin = google.sqladmin("v1beta4");
-function authorize(callback) {
-  google.auth
-    .getClient({
-      scopes: [
-        "https://www.googleapis.com/auth/cloud-platform",
-        "https://www.googleapis.com/auth/sqlservice.admin",
-      ],
-    })
-    .then((client) => {
-      callback(client);
-    })
-    .catch((err) => {
-      console.error("authentication failed: ", err);
-    });
-}
 async function loadCSVtoSQL(filepath) {
-  authorize(function (authClient) {
-    const request = {
-      project: "campaign-data-project", // TODO: Update placeholder value.
-      instance: "fieldplan", // TODO: Update placeholder value.
-      resource: {
-        importContext: {
-          uri: "gs://campaign-data-project.appspot.com/testexport.csv",
-          database: "development",
-          // 'kind': string,
-          fileType: "CSV",
-          csvImportOptions: {
-            table: "ContactHistory", // ,
-            // 'columns': [
-            //   string
-            // ],
-            // 'escapeCharacter': string,
-            // 'quoteCharacter': string,
-            // 'fieldsTerminatedBy': string,
-            // 'linesTerminatedBy': string
-          },
-          importUser: "postgres",
-        },
-      },
-      auth: authClient,
-    };
-    sqlAdmin.instances.import(request, function (err, response) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      // TODO: Change code below to process the `response` object:
-      console.log(JSON.stringify(response, null, 2));
-    });
-  });
+  // Imports a GCS file into a table with manually defined schema.
+
+  /**
+   * TODO(developer): Uncomment the following lines before running the sample.
+   */
+  const datasetId = "development";
+  const tableId = "contacthistory";
+  const bucketName = "campaign-data-project.appspot.com";
+  const filename = "testexport_0101522_000000000000.csv";
+
+  // Configure the load job. For full list of options, see:
+  // https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad
+  const metadata = {
+    sourceFormat: "CSV",
+    skipLeadingRows: 1,
+    //autodetect: true,
+    location: "US",
+  };
+
+  // Load data from a Google Cloud Storage file into the table
+  const [job] = await bigquery
+    .dataset(datasetId)
+    .table(tableId)
+    .load(storageRef.bucket(bucketName).file(filename), metadata);
+
+  // load() waits for the job to finish
+  console.log(`Job ${job.id} completed.`);
+
+  // Print the status and statistics
+  console.log("Status:");
+  console.log(job.status);
+  console.log("\nJob Statistics:");
+  console.log(job.statistics);
+  console.log("\nProcess Time:");
+  console.log(job.statistics.endTime - job.statistics.creationTime);
+
+  // Check the job's status for errors
+  const errors = job.status.errors;
+  if (errors && errors.length > 0) {
+    throw errors;
+  }
 }
 
 exports.bigquerytest = functions.https.onRequest(async (request, response) => {
