@@ -51,9 +51,9 @@ const firebaseUiConfig = {
 
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
   // Your terms of service url.
-  tosUrl: "https://example.com/terms",
+  //tosUrl: "https://example.com/terms",
   // Your privacy policy url.
-  privacyPolicyUrl: "https://example.com/privacy",
+  //privacyPolicyUrl: "https://example.com/privacy",
 };
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
@@ -66,6 +66,7 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
   } else {
     document.querySelector("body").classList.remove("logged-in");
     firebaseUI.start("#firebaseui-auth-container", firebaseUiConfig);
+    firebaseUI.disableAutoSignIn();
   }
 });
 
@@ -252,9 +253,9 @@ async function getCustomClaimRole() {
 
 let firstchart;
 function LoggedInHomePageDisplay() {
-  document.querySelector("#LoggedInUser").style.display = "block";
-  firstchart = new Chart(document.getElementById("bar-chart"), {
-    type: "line",
+  //document.querySelector("#LoggedInUser").style.display = "block";
+  firstchart = new Chart(document.getElementById("myChart"), {
+    type: "bar",
     data: {
       labels: [0],
 
@@ -262,7 +263,8 @@ function LoggedInHomePageDisplay() {
         {
           label: "Contact Attempts",
           borderColor: "#3e95cd",
-          backgroundColor: "rgba(53, 162, 235, 0.2)",
+          backgroundColor: "#0d6efd", //black //?
+
           data: [0],
         },
       ],
@@ -272,6 +274,9 @@ function LoggedInHomePageDisplay() {
         intersect: false,
         mode: "nearest",
         axis: "x",
+      },
+      plugins: {
+        legend: false,
       },
       elements: {
         line: {

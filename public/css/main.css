@@ -14,9 +14,6 @@ main {
 
 #firebaseui-auth-container {
   font-weight: 800;
-  margin: 4rem auto 6rem;
-  max-width: 650px;
-  width: 90vw;
 }
 .logged-in #firebaseui-auth-container {
   display: none !important;
@@ -123,10 +120,12 @@ label {
 }
 
 header {
+  /*
   background: linear-gradient(to right, #fbc02e, rgb(212 21 212));
   position: relative;
   padding: 3px;
   margin: 0.3em;
+  */
 }
 
 header a {
@@ -149,4 +148,15 @@ button:disabled {
 
 .logged-in header button {
   display: block !important;
+}
+
+.must-be-logged-in {
+  display: none;
+}
+.logged-in .must-be-logged-in {
+  display: block;
+}
+
+.logged-in .hide-if-logged-in {
+  display: none;
 }

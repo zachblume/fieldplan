@@ -3,14 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Field Plan</title>
+    <meta
+      name="description"
+      content="Field Plan - Voter contact insights to win your election"
+    />
+    <title>
+      Field Plan - Plan and measure voter contact to win your election
+    </title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="icon" href="favicon.svg" />
+
+    <!--dont cache in development-->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
     ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+
     <!-- Core theme CSS (includes Bootstrap)-->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
@@ -18,11 +46,13 @@
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
+
     <!-- Bootstrap Font Icon CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
     />
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
@@ -36,26 +66,30 @@
     ></script>
   </head>
 
-  <body class="container">
-    <header>
-      <div class="header-wrapper">
-        <div>
-          <a href="/" rel="home"><img src="horizontal_logo2.svg" /></a>
-        </div>
-        <div>
-          <button type="button" id="signout" style="display: inline">
-            Sign out
-          </button>
-          <button id="billing-portal-button">Billing settings</button>
+  <body class="bg-light">
+    <div
+      class="justify-content-center row flex flex-row py-5 hide-if-logged-in"
+      style="height: 100%"
+    >
+      <div class="card col-4">
+        <div class="card-body shadow-s py-5">
+          <section id="firebaseui-auth-container">
+            <center>
+              <img
+                src="Copy of Fieldplan (1).svg"
+                alt="Logo"
+                width="150px"
+                class="d-inline-block align-text-top text-center mb-5"
+              />
+              <h1 class="mb-2 h2">Welcome</h1>
+              <div id="loader">Loading &hellip;</div>
+            </center>
+          </section>
         </div>
       </div>
-    </header>
+    </div>
 
-    <section id="firebaseui-auth-container">
-      <div id="loader">Loading &hellip;</div>
-    </section>
-
-    <main>
+    <section id="login-top">
       <div id="subscribe">
         <h2>Subscribe</h2>
         <div class="test-card-notice">
@@ -79,22 +113,7 @@
         <p></p>
         <!--<h3>View invoices, update subscription & payment methods</h3>-->
       </section>
-      <section id="LoggedInUser">
-        <div class="graph-container row justify-content-center">
-          <div class="col-4">
-            <h2>Weekly Contact History Graph</h2>
-
-            <div id="graph1">
-              <canvas id="bar-chart" width="100" height="100"></canvas>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <p>Footer</p>
-    </footer>
+    </section>
 
     <template id="product">
       <div class="product">
@@ -108,6 +127,3414 @@
         </form>
       </div>
     </template>
+
+    <div class="must-be-logged-in">
+      <!-- Header -->
+      <header></header>
+      <div
+        class="grid"
+        id="wrapper"
+        style="
+          display: grid;
+          grid-template-columns: repeat(48, 1fr);
+          grid-template-rows: 1fr;
+          grid-column-gap: 0px;
+          grid-row-gap: 0px;
+          max-width: 1440px !important;
+          margin: 0 auto;
+        "
+      >
+        <!-- Sidebar-->
+        <div
+          class="d-block flex-column flex-shrink-0 p-3 bg-white navbar shadow-sm border-end"
+          style="grid-column: span 8; min-height: 100vh"
+        >
+          <div class="brand mt-3">
+            <a
+              href="/"
+              class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
+            >
+              <center>
+                <img
+                  src="Copy of Fieldplan (1).svg"
+                  alt="Logo"
+                  width="90%"
+                  class="d-inline-block align-text-top text-center"
+                />
+              </center>
+            </a>
+          </div>
+          <hr />
+          <div class="nav nav-pills flex-column mb-auto">
+            <button
+              class="nav-link active p-3 text-start"
+              id="v-pills-home-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-home"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-home"
+              aria-selected="true"
+            >
+              <i class="bi-grid-fill"></i>&nbsp;&nbsp;&nbsp;Home
+            </button>
+            <button
+              class="nav-link p-3 text-start"
+              id="v-pills-metrics-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-metrics"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-metrics"
+              aria-selected="true"
+            >
+              <i class="bi-bar-chart-line-fill"></i>&nbsp;&nbsp;&nbsp;Field
+              Metrics
+            </button>
+            <button
+              class="nav-link p-3 text-start"
+              id="v-pills-volunteers-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-volunteers"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-volunteers"
+              aria-selected="true"
+            >
+              <i class="bi-search"></i>&nbsp;&nbsp;&nbsp;Volunteer Insights
+            </button>
+            <button
+              class="nav-link p-3 text-start"
+              id="v-pills-ramp-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-ramp"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-ramp"
+              aria-selected="true"
+            >
+              <i class="bi-magic"></i>&nbsp;&nbsp;&nbsp;Ramp (Forecast)
+            </button>
+            <button
+              class="nav-link p-3 text-start"
+              id="v-pills-progress-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-progress"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-progress"
+              aria-selected="true"
+            >
+              <i class="bi-trophy-fill"></i>&nbsp;&nbsp;&nbsp;Progress to Goal
+            </button>
+            <button
+              class="nav-link p-3 text-start"
+              id="v-pills-reports-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-reports"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-reports"
+              aria-selected="true"
+            >
+              <i class="bi-envelope-fill"></i>&nbsp;&nbsp;&nbsp;Automated
+              Reports
+            </button>
+
+            <button
+              class="nav-link p-3 text-start"
+              id="v-pills-settings-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#v-pills-settings"
+              type="button"
+              role="tab"
+              aria-controls="v-pills-settings"
+              aria-selected="true"
+            >
+              <i class="bi-gear-fill"></i>&nbsp;&nbsp;&nbsp;Settings
+            </button>
+          </div>
+          <hr />
+          <div class="dropdown p-3 pt-2">
+            <a
+              href="#"
+              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="https://media-exp1.licdn.com/dms/image/C4D03AQGLyBe_QdZdAA/profile-displayphoto-shrink_800_800/0/1661895019456?e=2147483647&v=beta&t=csT61OcX2BeI--j1Dndq_f4rFU8p2L0Gk8ivrmkicRg"
+                alt=""
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              Zach Blume
+            </a>
+            <ul class="dropdown-menu text-small shadow">
+              <li>
+                <a class="dropdown-item" href="#" id="billing-portal-button"
+                  >Billing</a
+                >
+              </li>
+
+              <li>
+                <a class="dropdown-item" href="#" id="signout">Sign out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Page content wrapper-->
+        <main
+          id="page-content-wrapper"
+          class="p-3 ms-sm-auto px-md-4 bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start"
+          style="grid-column: span 40; padding-left: 0.5rem !important"
+        >
+          <!--end home page content-->
+          <div
+            class="tab-content container-fluid p-0 m-0"
+            id="v-pills-tabContent"
+          >
+            <div
+              class="tab-pane show active"
+              id="v-pills-home"
+              role="tabpanel"
+              aria-labelledby="v-pills-home-tab"
+              tabindex="0"
+            >
+              <!--home page content-->
+              <div class="container mt-4">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+                      id="metric-page-title"
+                    >
+                      Obama for Congress
+                    </h1>
+
+                    <!--cumulative-->
+                    <div class="d-flex">
+                      <div class="form-check form-switch me-2">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          id="flexSwitchCheckDefault"
+                        />
+                        <label
+                          class="form-check-label align-middle"
+                          for="flexSwitchCheckDefault"
+                          >Cumulative</label
+                        >
+                      </div>
+                    </div>
+                    <!--dayweekmonth-->
+                    <div class="d-flex justify-content-center">
+                      <div
+                        class="btn-group shadow-sm"
+                        role="group"
+                        aria-label="Basic
+          outlined example"
+                        style="height: 2.5em !important"
+                      >
+                        <input
+                          type="radio"
+                          class="align-bottom align-items-baseline btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio1"
+                          autocomplete="off"
+                        />
+                        <label
+                          class="align-bottom d-inline btn btn-outline-primary"
+                          for="vbtn-radio1"
+                          >Day</label
+                        >
+                        <input
+                          type="radio"
+                          class="btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio2"
+                          autocomplete="off"
+                          checked
+                        />
+                        <label
+                          class="btn btn-outline-primary d-inline"
+                          for="vbtn-radio2"
+                          >Week</label
+                        >
+                        <input
+                          type="radio"
+                          class="btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio3"
+                          autocomplete="off"
+                        />
+                        <label
+                          class="btn btn-outline-primary d-inline"
+                          for="vbtn-radio3"
+                          >Month</label
+                        >
+                      </div>
+                    </div>
+                    <div id="drp-container">
+                      <link
+                        rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+                        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+                        crossorigin="anonymous"
+                        referrerpolicy="no-referrer"
+                      />
+                      <div
+                        id="reportrange"
+                        class="shadow-sm"
+                        style="
+                          background: #fff;
+                          cursor: pointer;
+                          padding: 5px 10px;
+                          border: 1px solid #ccc;
+                          width: 100%;
+                        "
+                      >
+                        <i class="fa fa-calendar"></i>&nbsp; <span></span>
+                        <i class="fa fa-caret-down"></i>
+                        <style>
+                          #reportrange {
+                            color: #0d6efd !important;
+                            border: 1px solid #0d6efd !important;
+                            padding: 0.45em 0.6em !important;
+                            margin-left: 0.5em;
+                            border-radius: 0.4em;
+                          }
+
+                          .ranges,
+                          .ranges * {
+                            font-size: inherit !important;
+                            font-family: -apple-system, BlinkMacSystemFont,
+                              "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                              "Open Sans", "Helvetica Neue", sans-serif;
+                          }
+
+                          .daterangepicker.ltr.show-ranges.opensright {
+                            width: 265px !important;
+                          }
+
+                          .daterangepicker.ltr.show-ranges.opensright * {
+                            width: 100% !important;
+                          }
+
+                          .daterangepicker .ranges li.active {
+                            background: #0d6efd !important;
+                          }
+
+                          .daterangepicker .ranges * * {
+                            padding-top: 12px !important;
+                            padding-bottom: 12px !important;
+                          }
+
+                          .form-switch .form-check-input {
+                            height: 1.5rem;
+                            width: 3em !important;
+                            border-radius: 2rem;
+                            margin-right: 0.4em;
+                            vertical-align: middle !important;
+                          }
+                        </style>
+                        <script type="text/javascript">
+                          $(function () {
+                            var start = moment().subtract(29, "days");
+                            var end = moment();
+
+                            function cb(start, end) {
+                              $("#reportrange span").html(
+                                start.format("MMM D, YYYY") +
+                                  " - " +
+                                  end.format("MMM D, YYYY")
+                              );
+                            }
+
+                            $("#reportrange").daterangepicker(
+                              {
+                                startDate: start,
+                                endDate: end,
+                                ranges: {
+                                  "Last 30 Days": [
+                                    moment().subtract(29, "days"),
+                                    moment(),
+                                  ],
+                                  "This Month": [
+                                    moment().startOf("month"),
+                                    moment().endOf("month"),
+                                  ],
+                                  "Last Month": [
+                                    moment()
+                                      .subtract(1, "month")
+                                      .startOf("month"),
+                                    moment()
+                                      .subtract(1, "month")
+                                      .endOf("month"),
+                                  ],
+                                  "Last 3 Months": [
+                                    moment().startOf("month"),
+                                    moment().endOf("month"),
+                                  ],
+                                  "Last 6 Months": [
+                                    moment()
+                                      .subtract(1, "month")
+                                      .startOf("month"),
+                                    moment()
+                                      .subtract(1, "month")
+                                      .endOf("month"),
+                                  ],
+
+                                  "This Year": [moment(), moment()],
+                                  "Last Year": [moment(), moment()],
+                                  "All Time": [moment(), moment()],
+                                },
+                              },
+                              cb
+                            );
+
+                            cb(start, end);
+                          });
+                        </script>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+                <div
+                  class="shadow-sm alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong><i class="bi-check"></i> Synced!</strong> No issues.
+                  Data below is updated within 15 min.
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="row mb-0 mt-3">
+                  <div class="col-sm-3">
+                    <div class="card shadow-sm border-white">
+                      <div class="card-body">
+                        <h5 class="card-title">Quick Look</h5>
+                        <style>
+                          nav-tabs nav-link {
+                            border: 0 !important;
+                          }
+
+                          #qltabs {
+                            font-size: 0.9rem !important;
+                          }
+
+                          #qltabs .nav-item {
+                            padding: 0.4rem 0.6rem !important;
+                          }
+
+                          #qltabs a {
+                            color: grey;
+                          }
+
+                          #qltabs .active a {
+                            color: black;
+                            font-weight: bold;
+                          }
+
+                          #qltabs .nav-item > a {
+                            padding: 0 !important;
+                            border: 0 !important;
+                          }
+
+                          #qltabs .active {
+                            border-bottom: 3px solid black;
+                            margin-bottom: -1px;
+                          }
+
+                          #qltabs .dropdown-menu {
+                            margin-top: 0px !important;
+                          }
+                        </style>
+                        <ul class="nav nav-tabs mb-1" id="qltabs">
+                          <li class="nav-item active">
+                            <a class="nav-link" aria-current="page" href="#"
+                              >Today</a
+                            >
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Yesterday</a>
+                          </li>
+                          <li class="nav-item dropdown">
+                            <a
+                              class="nav-link dropdown-toggle"
+                              data-bs-toggle="dropdown"
+                              href="#"
+                              role="button"
+                              aria-expanded="false"
+                              >More</a
+                            >
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a class="dropdown-item" href="#">This Week</a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item" href="#">Last Week</a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item" href="#">This Month</a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item" href="#">Last Month</a>
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider" />
+                              </li>
+                              <li>
+                                <a class="dropdown-item" href="#">All Time</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+
+                        <ul class="list-group list-group-flush">
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Positive IDs <strong>147</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Shifts Completed <strong>25</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Pos ID/shift complete <strong>25</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Doors knocked <strong>755</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Calls made <strong>2,432</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Texts sent <strong>10,000</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Rel. added <strong>240</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            Rel. Pos IDs <strong>25</strong>
+                          </li>
+
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            % Shift Completion <strong>55%</strong>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          >
+                            New Shifts Scheduled <strong>42</strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Column for metric cards-->
+                  <div class="col-sm-9">
+                    <div class="row mb-3">
+                      <!--New graphcard-->
+                      <div class="col-sm-6">
+                        <div class="card shadow-sm border-white">
+                          <div class="card-body">
+                            <h6 class="text-secondary">Positive IDs</h6>
+                            <h3 class="card-title"><strong>255</strong></h3>
+                            <p class="card-text">
+                              <canvas id="myChart" width="100%"></canvas>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <!--New graphcard-->
+                      <div class="col-sm-6">
+                        <div class="card shadow-sm border-white">
+                          <div class="card-body">
+                            <h6 class="text-secondary">Contact Attempts</h6>
+                            <h3 class="card-title"><strong>255</strong></h3>
+                            <p class="card-text">
+                              <canvas id="myChart2" width="100%"></canvas>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <!--New graphcard-->
+                      <div class="col-sm-6">
+                        <div class="card shadow-sm border-white">
+                          <div class="card-body">
+                            <h6 class="text-secondary">Positive IDs</h6>
+                            <h3 class="card-title"><strong>255</strong></h3>
+                            <p class="card-text">
+                              <canvas id="myChart3" width="100%"></canvas>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <!--New graphcard-->
+                      <div class="col-sm-6">
+                        <div class="card shadow-sm border-white">
+                          <div class="card-body">
+                            <h6 class="text-secondary">Contact Attempts</h6>
+                            <h3 class="card-title"><strong>255</strong></h3>
+                            <p class="card-text">
+                              <canvas id="myChart4" width="100%"></canvas>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <!--New graphcard-->
+                  <div class="col-sm-6">
+                    <div class="card shadow-sm border-white">
+                      <div class="card-body">
+                        <h6 class="text-secondary">Positive IDs</h6>
+                        <h3 class="card-title"><strong>255</strong></h3>
+                        <p class="card-text">
+                          <canvas id="myChart5" width="100%"></canvas>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--New graphcard-->
+                  <div class="col-sm-6">
+                    <div class="card shadow-sm border-white">
+                      <div class="card-body">
+                        <h6 class="text-secondary">Contact Attempts</h6>
+                        <h3 class="card-title"><strong>255</strong></h3>
+                        <p class="card-text">
+                          <canvas id="myChart6" width="100%"></canvas>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br /><br /><br /><br />
+              </div>
+            </div>
+            <div
+              class="tab-pane"
+              id="v-pills-metrics"
+              role="tabpanel"
+              aria-labelledby="v-pills-metrics-tab"
+              tabindex="1"
+            >
+              <script>
+                $(document).ready(function () {
+                  cbox = document.querySelectorAll(
+                    "#metrics-navbar .btn-toggle-nav a"
+                  );
+                  cbox.forEach((box) => {
+                    box.addEventListener("mousedown", (a) =>
+                      setMetric(a.target.innerText)
+                    );
+                  });
+                });
+                function setMetric(metricName) {
+                  document.getElementById("metric-page-title").innerHTML =
+                    metricName;
+                  myChartMetricsPage.data.datasets[0].data = [
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                  ];
+                  myChartMetricsPage.update();
+                }
+              </script>
+
+              <!--metrics page inner content-->
+              <div class="container mt-4" id="metrics-page-container">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+                      id="metric-page-title"
+                    >
+                      Positive IDs
+                    </h1>
+
+                    <!--cumulative-->
+                    <div class="d-flex">
+                      <div class="form-check form-switch me-2">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          id="flexSwitchCheckDefault"
+                        />
+                        <label
+                          class="form-check-label align-middle"
+                          for="flexSwitchCheckDefault"
+                          >Cumulative</label
+                        >
+                      </div>
+                    </div>
+                    <!--dayweekmonth-->
+                    <div class="d-flex justify-content-center">
+                      <div
+                        class="btn-group shadow-sm"
+                        role="group"
+                        aria-label="Basic
+                      outlined example"
+                        style="height: 2.5em !important"
+                      >
+                        <input
+                          type="radio"
+                          class="align-bottom align-items-baseline btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio1"
+                          autocomplete="off"
+                        />
+                        <label
+                          class="align-bottom d-inline btn btn-outline-primary"
+                          for="vbtn-radio1"
+                          >Day</label
+                        >
+                        <input
+                          type="radio"
+                          class="btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio2"
+                          autocomplete="off"
+                          checked
+                        />
+                        <label
+                          class="btn btn-outline-primary d-inline"
+                          for="vbtn-radio2"
+                          >Week</label
+                        >
+                        <input
+                          type="radio"
+                          class="btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio3"
+                          autocomplete="off"
+                        />
+                        <label
+                          class="btn btn-outline-primary d-inline"
+                          for="vbtn-radio3"
+                          >Month</label
+                        >
+                      </div>
+                    </div>
+                    <div id="drp-container">
+                      <link
+                        rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+                        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+                        crossorigin="anonymous"
+                        referrerpolicy="no-referrer"
+                      />
+                      <div
+                        id="reportrange"
+                        class="shadow-sm"
+                        style="
+                          background: #fff;
+                          cursor: pointer;
+                          padding: 5px 10px;
+                          border: 1px solid #ccc;
+                          width: 100%;
+                        "
+                      >
+                        <i class="fa fa-calendar"></i>&nbsp; <span></span>
+                        <i class="fa fa-caret-down"></i>
+                        <style>
+                          #reportrange {
+                            color: #0d6efd !important;
+                            border: 1px solid #0d6efd !important;
+                            padding: 0.45em 0.6em !important;
+                            margin-left: 0.5em;
+                            border-radius: 0.4em;
+                          }
+
+                          .ranges,
+                          .ranges * {
+                            font-size: inherit !important;
+                            font-family: -apple-system, BlinkMacSystemFont,
+                              "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                              "Open Sans", "Helvetica Neue", sans-serif;
+                          }
+
+                          .daterangepicker.ltr.show-ranges.opensright {
+                            width: 265px !important;
+                          }
+
+                          .daterangepicker.ltr.show-ranges.opensright * {
+                            width: 100% !important;
+                          }
+
+                          .daterangepicker .ranges li.active {
+                            background: #0d6efd !important;
+                          }
+
+                          .daterangepicker .ranges * * {
+                            padding-top: 12px !important;
+                            padding-bottom: 12px !important;
+                          }
+                        </style>
+                        <script type="text/javascript">
+                          $(function () {
+                            var start = moment().subtract(29, "days");
+                            var end = moment();
+
+                            function cb(start, end) {
+                              $("#reportrange span").html(
+                                start.format("MMM D, YYYY") +
+                                  " - " +
+                                  end.format("MMM D, YYYY")
+                              );
+                            }
+
+                            $("#reportrange").daterangepicker(
+                              {
+                                startDate: start,
+                                endDate: end,
+                                ranges: {
+                                  "Last 30 Days": [
+                                    moment().subtract(29, "days"),
+                                    moment(),
+                                  ],
+                                  "This Month": [
+                                    moment().startOf("month"),
+                                    moment().endOf("month"),
+                                  ],
+                                  "Last Month": [
+                                    moment()
+                                      .subtract(1, "month")
+                                      .startOf("month"),
+                                    moment()
+                                      .subtract(1, "month")
+                                      .endOf("month"),
+                                  ],
+                                  "Last 3 Months": [
+                                    moment().startOf("month"),
+                                    moment().endOf("month"),
+                                  ],
+                                  "Last 6 Months": [
+                                    moment()
+                                      .subtract(1, "month")
+                                      .startOf("month"),
+                                    moment()
+                                      .subtract(1, "month")
+                                      .endOf("month"),
+                                  ],
+
+                                  "This Year": [moment(), moment()],
+                                  "Last Year": [moment(), moment()],
+                                  "All Time": [moment(), moment()],
+                                },
+                              },
+                              cb
+                            );
+
+                            cb(start, end);
+                          });
+                        </script>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+
+                <div class="row mb-0 mt-3">
+                  <div class="col-sm-3">
+                    <ul class="list-group ps-0" id="metrics-navbar">
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#home-collapse"
+                          aria-expanded="true"
+                        >
+                          Topline
+                        </button>
+                        <div class="collapse show" id="home-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Positive IDs</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Total IDs</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Completed Shifts</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Newly Scheduled Shifts</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#dashboard-collapse"
+                          aria-expanded="false"
+                        >
+                          Gross Attempts
+                        </button>
+                        <div class="collapse show" id="dashboard-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >All Tactics (aggregated)</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#orders-collapse"
+                          aria-expanded="false"
+                        >
+                          IDs + Positive ID's
+                        </button>
+                        <div class="collapse show" id="orders-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >All Tactics (aggregated)</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#account-collapse"
+                          aria-expanded="false"
+                        >
+                          Contact Rates
+                        </button>
+                        <div class="collapse show" id="account-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#account-collapse"
+                          aria-expanded="false"
+                        >
+                          Contact Rates
+                        </button>
+                        <div class="collapse show" id="account-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                    <style>
+                      #metrics-page-container .dropdown-toggle {
+                        outline: 0;
+                      }
+
+                      #metrics-page-container .btn-toggle {
+                        padding: 0.25rem 0.5rem;
+                        font-weight: 600;
+                        color: rgba(0, 0, 0, 0.65);
+                        background-color: transparent;
+                      }
+
+                      #metrics-page-container .btn-toggle:hover,
+                      #metrics-page-container .btn-toggle:focus,
+                      #metrics-page-container .btn-toggle-nav a:hover,
+                      #metrics-page-container .btn-toggle-nav a:focus {
+                        color: white !important;
+                        background-color: black;
+                      }
+
+                      #metrics-page-container .btn-toggle::before {
+                        width: 1.25em;
+                        line-height: 0;
+                        content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+                        transition: transform 0.35s ease;
+                        transform-origin: 0.5em 50%;
+                      }
+
+                      #metrics-page-container
+                        .btn-toggle[aria-expanded="true"] {
+                        color: rgba(0, 0, 0, 0.85);
+                      }
+
+                      #metrics-page-container
+                        .btn-toggle[aria-expanded="true"]::before {
+                        transform: rotate(90deg);
+                      }
+
+                      #metrics-page-container .btn-toggle-nav a {
+                        padding: 0.1875rem 0.5rem;
+                        margin-top: 0.125rem;
+                        margin-left: 1.25rem;
+                      }
+                    </style>
+                  </div>
+                  <!--Column for metric cards-->
+                  <div class="col-sm-9">
+                    <!--New graphcard-->
+                    <div class="card shadow-sm border-white">
+                      <div class="card-body">
+                        <h6 class="text-secondary">Positive IDs</h6>
+                        <h3 class="card-title"><strong>255</strong></h3>
+                        <p class="card-text">
+                          <canvas id="myChartMetricsPage" width="100%"></canvas>
+                        </p>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Drilldown</th>
+                              <th scope="col">Apr 13</th>
+                              <th scope="col">Apr 20</th>
+                              <th scope="col">Apr 27</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">Drilldown</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">drilldown</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total</th>
+                              <td colspan="2">Larry the Bird</td>
+                              <td>@twitter</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <br /><br /><br /><br /><br /><br /><br /><br />
+              </div>
+              <!--ends page inner content-->
+
+              <script>
+                let myChartMetricsPage;
+                $(function () {
+                  const chartOptions = {
+                    type: "bar",
+                    data: {
+                      labels: [
+                        "Apr 11",
+                        "Apr 18",
+                        "May 10",
+                        "May 17",
+                        "May 24",
+                        "June 5",
+                        "Apr 11",
+                        "Apr 18",
+                        "May 10",
+                        "May 17",
+                        "May 24",
+                        "June 5",
+                      ],
+                      datasets: [
+                        {
+                          label: "# of Votes",
+                          data: [12, 19, 3, 5, 2, 3],
+                          backgroundColor: [
+                            "#0d6efd", //black //?
+                          ],
+                        },
+                      ],
+                    },
+                    options: {
+                      interaction: {
+                        intersect: false,
+                        mode: "nearest",
+                        axis: "x",
+                      },
+                      elements: {
+                        line: {
+                          tension: 0,
+                        },
+                      },
+                      animation: {
+                        duration: 0,
+                      },
+
+                      plugins: {
+                        legend: false,
+                      },
+                      title: {
+                        display: false,
+                        text: "Contact attempts by week",
+                      },
+                      scales: {
+                        xAxes: [
+                          {
+                            gridLines: {
+                              display: false,
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  };
+
+                  myChartMetricsPage = new Chart(
+                    document.getElementById("myChartMetricsPage"),
+                    chartOptions
+                  );
+
+                  myChartMetricsPage.data.datasets[0].data = [
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                  ];
+                  myChartMetricsPage.update();
+                });
+              </script>
+            </div>
+            <div
+              class="tab-pane"
+              id="v-pills-ramp"
+              role="tabpanel"
+              aria-labelledby="v-pills-ramp-tab"
+              tabindex="2"
+            >
+              <!--ramp page inner content-->
+              <div class="container mt-4" id="ramp-page-container">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start"
+                      id="metric-page-title"
+                    >
+                      Forecast Ramp
+                    </h1>
+                    <div
+                      class="form-check form-switch mb-3 d-flex flex-grow-1 ms-3 mt-1"
+                    >
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckChecked"
+                        onmousedown="return collapsetds();"
+                      />
+                      <label
+                        class="form-check-label align-middle mt-1"
+                        class="fs-1"
+                        for="flexSwitchCheckChecked"
+                        >Collapse me</label
+                      >
+                    </div>
+                    <script>
+                      function collapsetds() {
+                        document
+                          .querySelectorAll("td:not(:last-of-type)")
+                          .forEach(
+                            (a) =>
+                              (a.style.display =
+                                a.style.display == "none" ? "" : "none")
+                          );
+                        $("#collapseTableDiv").toggleClass("col-3");
+                        $("#righthandtoggle").toggleClass("col-9");
+                        return false;
+                      }
+                    </script>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+
+                <div class="mb-0">
+                  <div class="row">
+                    <div id="collapseTableDiv" class="">
+                      <!--col-3-->
+                      <!--Start main table card-->
+
+                      <div
+                        id="tableDIV"
+                        class="table-responsive"
+                        style="font-size: 0.75rem"
+                      >
+                        <table
+                          id="tableContainer"
+                          class="table table-hover table-bordered table-striped"
+                        ></table>
+                      </div>
+                    </div>
+                    <!--table stuff-->
+                    <style>
+                      #ramp-page-container tbody * {
+                        padding-top: 0 !important;
+                        padding-bottom: 0 !important;
+                      }
+
+                      #ramp-page-container table tbody td {
+                        padding-top: 3px !important;
+                        padding-bottom: 3px !important;
+                      }
+
+                      #collapseTableDiv {
+                      }
+
+                      #ramp-page-container th,
+                      #ramp-page-container tr > td:last-of-type,
+                      #ramp-page-container tr:first-of-type,
+                      #ramp-page-container tr:first-of-type > td {
+                        background: #666 !important;
+                        color: white !important;
+                        font-weight: bold !important;
+                      }
+                    </style>
+                    <!--old table script-->
+                    <script>
+                      $(function () {
+                        formTable([{}], "#tableContainer");
+                      });
+
+                      function formTable(tableobject, querySelect) {
+                        var table = document.querySelector(querySelect);
+                        $(table).empty();
+                        var jsonStr = tableobject; //JSON.parse(json);
+                        var setHeaders = true;
+                        for (i in jsonStr) {
+                          var item = JSON.stringify(jsonStr[i]);
+                          if (setHeaders) {
+                            createEntry(table, item, true);
+                            setHeaders = false;
+                          }
+                          createEntry(table, item, false);
+                        }
+                      }
+
+                      function createEntry(table, item, isHeader) {
+                        var thead = document.createElement("thead");
+                        var tbody = document.createElement("tbody");
+                        var tr = document.createElement("tr");
+                        var json = JSON.parse(item);
+                        for (i in json) {
+                          //console.log(i);
+                          var td = isHeader
+                            ? document.createElement("th")
+                            : document.createElement("td");
+                          var textnode = isHeader
+                            ? document.createTextNode(i)
+                            : document.createTextNode(
+                                isNaN(json[i])
+                                  ? json[i]
+                                  : json[i].toLocaleString()
+                              );
+                          td.appendChild(textnode);
+                          tr.appendChild(td);
+                        }
+                        if (isHeader) {
+                          thead.appendChild(tr);
+                          table.appendChild(thead);
+                        } else {
+                          if (table.querySelector("tbody")) {
+                            table.querySelector("tbody").appendChild(tr);
+                          } else {
+                            tbody.appendChild(tr);
+                            table.appendChild(tbody);
+                          }
+                        }
+                      }
+                    </script>
+                    <!--jsontotable-->
+                    <script>
+                      function ConvertJsonToTable(
+                        parsedJson,
+                        tableId,
+                        tableClassName,
+                        linkText
+                      ) {
+                        var idMarkup,
+                          classMarkup,
+                          italic = "<i>{0}</i>",
+                          link = linkText
+                            ? '<a href="{0}">' + linkText + "</a>"
+                            : '<a href="{0}">{0}</a>',
+                          tbl =
+                            '<table border="1" cellpadding="1" cellspacing="1"' +
+                            (tableId ? ' id="' + tableId + '"' : "") +
+                            (tableClassName
+                              ? ' class="' + tableClassName + '"'
+                              : "") +
+                            ">{0}{1}</table>",
+                          th = "<thead>{0}</thead>",
+                          tb = "<tbody>{0}</tbody>",
+                          tr = "<tr>{0}</tr>",
+                          thRow = "<th>{0}</th>",
+                          tdRow = "<td>{0}</td>",
+                          thCon = "",
+                          tbCon = "",
+                          trCon = "";
+                        if (parsedJson) {
+                          var headers,
+                            isStringArray = "string" == typeof parsedJson[0];
+                          if (isStringArray) thCon += thRow.format("value");
+                          else if ("object" == typeof parsedJson[0]) {
+                            headers = array_keys(parsedJson[0]);
+                            for (var i = 0; i < headers.length; i++)
+                              thCon += thRow.format(headers[i]);
+                          }
+                          if (
+                            ((th = th.format(tr.format(thCon))), isStringArray)
+                          )
+                            for (var i = 0; i < parsedJson.length; i++)
+                              (tbCon += tdRow.format(parsedJson[i])),
+                                (trCon += tr.format(tbCon)),
+                                (tbCon = "");
+                          else if (headers)
+                            for (
+                              var urlRegExp = RegExp(
+                                  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+                                ),
+                                javascriptRegExp = RegExp(
+                                  /(^javascript:[\s\S]*;$)/gi
+                                ),
+                                i = 0;
+                              i < parsedJson.length;
+                              i++
+                            ) {
+                              for (var j = 0; j < headers.length; j++) {
+                                var isUrl,
+                                  value = parsedJson[i][headers[j]];
+                                urlRegExp.test(value) ||
+                                javascriptRegExp.test(value)
+                                  ? (tbCon += tdRow.format(link.format(value)))
+                                  : value
+                                  ? "object" == typeof value
+                                    ? (tbCon += tdRow.format(
+                                        ConvertJsonToTable(
+                                          eval(value.data),
+                                          value.tableId,
+                                          value.tableClassName,
+                                          value.linkText
+                                        )
+                                      ))
+                                    : (tbCon += tdRow.format(value))
+                                  : (tbCon += tdRow.format(
+                                      italic.format(value).toUpperCase()
+                                    ));
+                              }
+                              (trCon += tr.format(tbCon)), (tbCon = "");
+                            }
+                          return (
+                            (tb = tb.format(trCon)), (tbl = tbl.format(th, tb))
+                          );
+                        }
+                        return null;
+                      }
+                      function array_keys(t, r, a) {
+                        var e = void 0 !== r,
+                          o = [],
+                          f = !!a,
+                          n = !0,
+                          i = "";
+                        if (t && "object" == typeof t && t.change_key_case)
+                          return t.keys(r, a);
+                        for (i in t)
+                          t.hasOwnProperty(i) &&
+                            ((n = !0),
+                            e &&
+                              (f && t[i] !== r
+                                ? (n = !1)
+                                : t[i] != r && (n = !1)),
+                            n && (o[o.length] = i));
+                        return o;
+                      }
+                      String.prototype.format = function () {
+                        var t = arguments;
+                        return this.replace(/{(\d+)}/g, function (r, a) {
+                          return void 0 !== t[a] ? t[a] : "{" + a + "}";
+                        });
+                      };
+                    </script>
+                    <!--form event listeners scriot-->
+                    <script>
+                      $(function () {
+                        document.addEventListener("input", function (e) {
+                          if (e.target.type == "range") {
+                            processRangesToFormTable();
+                          }
+                        });
+                        processRangesToFormTable();
+                      });
+                      function processRangesToFormTable() {
+                        var rampConfig = {};
+                        var listOfRanges =
+                          document.querySelectorAll("input[type=range]");
+                        listOfRanges.forEach(
+                          (a) => (rampConfig[a.id] = a.value)
+                        );
+                        console.clear();
+                        console.log(rampConfig);
+
+                        /*rangesAsJSobj={
+                          "startingShifts": "71",
+                          "shiftGrowth": "50",
+                          "doorsVsPhones": "50",
+                          "totalIDtextsPlanned": "50",
+                          "relationalIDperVolunteer": "50",
+                          "responseRateDoors": "50",
+                          "responseRatePhones": "50",
+                          "responseRateTexts": "50",
+                          "posRateDoors": "50",
+                          "posRatePhones": "50",
+                          "posRateTexts": "50"
+                      }*/
+
+                        const WEEKSAVAILABLE = 16;
+                        var newItem = {};
+
+                        thisWeekShiftCount = rampConfig.startingShifts;
+                        newItem = {
+                          "Week Number": 1,
+                          "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
+                          //----
+                          "Petitioning Attempts": 0,
+                          "Calls Made": Math.floor(
+                            thisWeekShiftCount *
+                              (1 - rampConfig.doorsVsPhones / 100) *
+                              rampConfig.callsPerShift
+                          ),
+                          "Doors Knocked": Math.floor(
+                            thisWeekShiftCount *
+                              (0 + rampConfig.doorsVsPhones / 100) *
+                              rampConfig.doorsPerShift
+                          ),
+                          "SMS Sent": Math.floor(
+                            rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE
+                          ),
+                          //----
+                          "Petitioning +IDs": 0,
+                          "Calls +IDs": Math.floor(
+                            (((thisWeekShiftCount *
+                              (1 - rampConfig.doorsVsPhones / 100) *
+                              rampConfig.callsPerShift *
+                              rampConfig.responseRatePhones) /
+                              100) *
+                              rampConfig.posRatePhones) /
+                              100
+                          ),
+                          "Doors +IDs": Math.floor(
+                            (((thisWeekShiftCount *
+                              (rampConfig.doorsVsPhones / 100) *
+                              rampConfig.doorsPerShift *
+                              rampConfig.responseRateDoors) /
+                              100) *
+                              rampConfig.posRateDoors) /
+                              100
+                          ),
+                          "Text +IDs": Math.floor(
+                            ((((rampConfig.totalIDtextsPlanned /
+                              WEEKSAVAILABLE) *
+                              rampConfig.responseRateTexts) /
+                              100) *
+                              rampConfig.posRateTexts) /
+                              100
+                          ),
+                          "Relational +IDs": 0,
+                          "Total Pos IDs": 0,
+                        };
+                        newItem["Total Pos IDs"] = Math.floor(
+                          newItem["Petitioning +IDs"] +
+                            newItem["Calls +IDs"] +
+                            newItem["Doors +IDs"] +
+                            newItem["Text +IDs"] +
+                            newItem["Relational +IDs"]
+                        );
+                        var tableObject = [newItem];
+
+                        var totals = Object.assign({}, newItem);
+
+                        //console.log(tableObject);
+                        var thisWeekShiftCount = 0;
+                        const loop = (times, callback) => {
+                          [...Array(times)].forEach((item, i) => callback(i));
+                        };
+
+                        loop(WEEKSAVAILABLE - 1, (i) => {
+                          console.log(`Iteration is #${i}`);
+
+                          thisWeekShiftCount =
+                            tableObject[tableObject.length - 1][
+                              "Total Weekly Shifts"
+                            ] *
+                            (1 + rampConfig.shiftGrowth / 100);
+                          newItem = {
+                            "Week Number": i + 1 + 1,
+                            "Total Weekly Shifts":
+                              Math.floor(thisWeekShiftCount),
+                            //----
+                            "Petitioning Attempts": 0,
+                            "Calls Made": Math.floor(
+                              thisWeekShiftCount *
+                                (1 - rampConfig.doorsVsPhones / 100) *
+                                rampConfig.callsPerShift
+                            ),
+                            "Doors Knocked": Math.floor(
+                              thisWeekShiftCount *
+                                (0 + rampConfig.doorsVsPhones / 100) *
+                                rampConfig.doorsPerShift
+                            ),
+                            "SMS Sent": Math.floor(
+                              rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE
+                            ),
+                            //----
+                            "Petitioning +IDs": 0,
+                            "Calls +IDs": Math.floor(
+                              (((thisWeekShiftCount *
+                                (1 - rampConfig.doorsVsPhones / 100) *
+                                rampConfig.callsPerShift *
+                                rampConfig.responseRatePhones) /
+                                100) *
+                                rampConfig.posRatePhones) /
+                                100
+                            ),
+                            "Doors +IDs": Math.floor(
+                              (((thisWeekShiftCount *
+                                (rampConfig.doorsVsPhones / 100) *
+                                rampConfig.doorsPerShift *
+                                rampConfig.responseRateDoors) /
+                                100) *
+                                rampConfig.posRateDoors) /
+                                100
+                            ),
+                            "Text +IDs": Math.floor(
+                              ((((rampConfig.totalIDtextsPlanned /
+                                WEEKSAVAILABLE) *
+                                rampConfig.responseRateTexts) /
+                                100) *
+                                rampConfig.posRateTexts) /
+                                100
+                            ),
+                            "Relational +IDs": 0,
+                            "Total Pos IDs": 0,
+                          };
+                          newItem["Total Pos IDs"] = Math.floor(
+                            newItem["Petitioning +IDs"] +
+                              newItem["Calls +IDs"] +
+                              newItem["Doors +IDs"] +
+                              newItem["Text +IDs"] +
+                              newItem["Relational +IDs"]
+                          );
+                          //newItem.map(a => console.log(a));
+                          Object.keys(newItem).forEach(function (key, index) {
+                            totals[key] += newItem[key];
+                          });
+                          tableObject.push(newItem);
+                          console.log(totals);
+                        });
+                        totals["Week Number"] = "Total";
+                        tableObject.push(totals);
+                        // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
+
+                        console.clear();
+                        tableObject.forEach((row) => {
+                          //row
+                          Object.keys(newItem).forEach(function (key, index) {
+                            //totals[key] += row[key];
+                            row[key] = isNaN(row[key])
+                              ? row[key]
+                              : nFormatter(row[key], 1);
+                          });
+                        });
+
+                        $("#tableContainer").html(
+                          ConvertJsonToTable(tableObject, "", null, "Download")
+                        );
+
+                        // REVERSE TABLE DIRECTO
+                        $("table").each(function () {
+                          var $this = $(this);
+                          var newrows = [];
+                          $this.find("tr").each(function () {
+                            var i = 0;
+                            $(this)
+                              .find("td")
+                              .each(function () {
+                                i++;
+                                if (newrows[i] === undefined) {
+                                  newrows[i] = $("<tr></tr>");
+                                }
+                                newrows[i].append($(this));
+                              });
+                            $(this)
+                              .find("th")
+                              .each(function () {
+                                i++;
+                                if (newrows[i] === undefined) {
+                                  newrows[i] = $("<tr></tr>");
+                                }
+                                newrows[i].append($(this));
+                              });
+                          });
+                          $this.find("tr").remove();
+                          $.each(newrows, function () {
+                            $this.append(this);
+                          });
+                        });
+
+                        /*
+                      var calculations = Array;
+                      calculations['Total Weekly Shifts'].push(0);
+                      tableObject = tableObject.map(x => {
+                        y = x;
+                        y['Week 1'] = "asdasd";
+                        return y;
+                      });
+                      formTable(tableObject, "#tableContainer");
+                      */
+                      }
+                      function nFormatter(num, digits) {
+                        const lookup = [
+                          { value: 1, symbol: "" },
+                          { value: 1e3, symbol: "k" },
+                          { value: 1e6, symbol: "M" },
+                          { value: 1e9, symbol: "G" },
+                          { value: 1e12, symbol: "T" },
+                          { value: 1e15, symbol: "P" },
+                          { value: 1e18, symbol: "E" },
+                        ];
+                        const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+                        var item = lookup
+                          .slice()
+                          .reverse()
+                          .find(function (item) {
+                            return num >= item.value;
+                          });
+                        return item
+                          ? (num / item.value)
+                              .toFixed(digits)
+                              .replace(rx, "$1") + item.symbol
+                          : "0";
+                      }
+                    </script>
+                    <!--end table stuff-->
+
+                    <!--assumptions-->
+                    <div class="row" id="righthandtoggle">
+                      <!--col-9-->
+
+                      <!--Start new assumption card-->
+                      <div class="col-4">
+                        <div class="card shadow-sm border-white mb-3">
+                          <div class="card-body">
+                            <h3 class="card-title">
+                              <strong>Assumptions</strong>
+                            </h3>
+                            <div>
+                              <select
+                                class="form-select mb-3"
+                                aria-label="Default select example"
+                              >
+                                <option selected>
+                                  Load Suggested Presets from Orgs.
+                                </option>
+                                <option value="1">
+                                  Working Families Party
+                                </option>
+                                <option value="2">DLCC</option>
+                                <option value="3">Emily's List</option>
+                              </select>
+                            </div>
+
+                            <form class="mt-3">
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Starting Shifts Complete / Week</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output>100</output>
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="startingShifts"
+                                    min="10"
+                                    max="250"
+                                    value="30"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Week-over-week shift growth</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >10%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="shiftGrowth"
+                                    min="0"
+                                    max="100"
+                                    value="10"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Shifts assigned to doors vs phones</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >60%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="doorsVsPhones"
+                                    min="0"
+                                    max="100"
+                                    value="60"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Total ID texts planned</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >150,000</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="totalIDtextsPlanned"
+                                    min="0"
+                                    max="1000000"
+                                    value="150000"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Avg. relational ID / total active vol.</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >4</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="relationalIDperVolunteer"
+                                    min="0"
+                                    max="25"
+                                    value="4"
+                                  />
+                                </div>
+                              </div>
+
+                              <br />
+                              <hr />
+                              <br />
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Doors/shift</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >40</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="doorsPerShift"
+                                    min="0"
+                                    max="80"
+                                    value="40"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Calls/shift</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >250</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="callsPerShift"
+                                    min="0"
+                                    max="400"
+                                    value="250"
+                                  />
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Start new assumption card-->
+                      <div class="col-4">
+                        <div class="card shadow-sm border-white mb-3">
+                          <div class="card-body">
+                            <h3 class="card-title">
+                              <strong>Response Rates</strong>
+                            </h3>
+
+                            <form class="mt-3">
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Doors</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >10%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="responseRateDoors"
+                                    min="0"
+                                    max="30"
+                                    value="10"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Phone (dialer)</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >2%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="responseRatePhones"
+                                    min="0"
+                                    max="10"
+                                    value="2"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Text</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >1%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="responseRateTexts"
+                                    min="0"
+                                    max="10"
+                                    value="1"
+                                  />
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Start new assumption card-->
+                      <div class="col-4">
+                        <div class="card shadow-sm border-white">
+                          <div class="card-body">
+                            <h3 class="card-title">
+                              <strong>Positivity Rates</strong>
+                            </h3>
+
+                            <form class="mt-3">
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Doors</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >47%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="posRateDoors"
+                                    min="0"
+                                    max="100"
+                                    value="47"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Phone (dialer)</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >43%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="posRatePhones"
+                                    min="0"
+                                    max="100"
+                                    value="43"
+                                  />
+                                </div>
+                              </div>
+                              <div class="mb-1 row align-items-center">
+                                <label
+                                  for="customRange1"
+                                  class="form-label col-6"
+                                  >Text</label
+                                >
+                                <div class="col-6 flex-row d-flex">
+                                  <output
+                                    style="width: 100px; text-align: center"
+                                    >55%</output
+                                  >
+                                  <input
+                                    type="range"
+                                    class="form-range"
+                                    id="posRateTexts"
+                                    min="0"
+                                    max="100"
+                                    value="55"
+                                  />
+                                </div>
+                              </div>
+                            </form>
+                            <script>
+                              $(function () {
+                                /*
+                              //tooltips init
+                              const tooltipTriggerList = document.querySelectorAll(
+                                '[data-bs-toggle="tooltip"]'
+                              );
+                              const tooltipList = [...tooltipTriggerList].map(
+                                (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                              );*/
+                                document
+                                  .querySelectorAll('input[type="range"]')
+                                  .forEach((a) =>
+                                    a.addEventListener(
+                                      "input",
+                                      (b) =>
+                                        (b.target.previousElementSibling.value =
+                                          b.target.value)
+                                    )
+                                  );
+                                document
+                                  .querySelectorAll('input[type="range"]')
+                                  .forEach(
+                                    (a) =>
+                                      (a.previousElementSibling.value = a.value)
+                                  );
+                              });
+                            </script>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--ends page inner content-->
+            </div>
+            <div
+              class="tab-pane"
+              id="v-pills-progress"
+              role="tabpanel"
+              aria-labelledby="v-pills-progress-tab"
+              tabindex="3"
+            >
+              <!--metrics page inner content-->
+              <div class="container mt-4" id="metrics-page-container">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+                      id="metric-page-title"
+                    >
+                      Progress
+                    </h1>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+
+                <div class="row p-0 mb-0 mt-0 row-cols-1 row-cols-md-3">
+                  <img src="dash.png" style="width: 100%" class="w-100" />
+                </div>
+
+                <br /><br /><br /><br /><br /><br /><br /><br />
+              </div>
+              <!--ends page inner content-->
+            </div>
+            <div
+              class="tab-pane"
+              id="v-pills-reports"
+              role="tabpanel"
+              aria-labelledby="v-pills-reports-tab"
+              tabindex="7"
+            >
+              <!--metrics page inner content-->
+              <div class="container mt-4" id="metrics-page-container">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+                      id="metric-page-title"
+                    >
+                      Reports
+                    </h1>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+
+                <div class="row p-0 mb-0 mt-0 row-cols-1 row-cols-md-3">
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h5
+                          class="card-title align-items-center d-flex flex-row mb-3"
+                        >
+                          <span class="flex-grow-1 justify-content-start d-flex"
+                            >Nightly Email (9 PM)</span
+                          ><span
+                            class="text-center my-0 justify-content-between d-flex"
+                            ><i
+                              class="bi bi-envelope pe-1"
+                              style="font-size: 2rem"
+                            ></i
+                          ></span>
+                        </h5>
+
+                        <p class="card-text">Send to the following emails:</p>
+                        <div class="input-group mb-3">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="campaign-email@gmail.com"
+                            aria-label="recipient@gmail.com"
+                            disabled="true"
+                            aria-describedby="button-addon2"
+                          />
+                          <button
+                            class="btn btn-outline-danger"
+                            type="button"
+                            id="button-remove"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="recipient@gmail.com"
+                            aria-label="recipient@gmail.com"
+                            aria-describedby="button-addon2"
+                          />
+                          <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            id="button-addon2"
+                          >
+                            Add
+                          </button>
+                        </div>
+
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            checked="true"
+                            role="switch"
+                            id="flexSwitchCheckDefault"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="flexSwitchCheckDefault"
+                            >Enabled</label
+                          >
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <small class="text-muted"
+                          >Last updated 3 mins ago</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h5
+                          class="card-title align-items-center d-flex flex-row mb-3"
+                        >
+                          <span class="flex-grow-1 justify-content-start d-flex"
+                            >Nightly Slack Message (9 PM)</span
+                          ><span
+                            class="text-center my-0 justify-content-between d-flex"
+                            ><i
+                              class="bi bi-slack pe-1"
+                              style="font-size: 2rem"
+                            ></i
+                          ></span>
+                        </h5>
+                        <p class="card-text">Send to the following channel:</p>
+                        <select
+                          class="form-select mb-3"
+                          aria-label="Default select example"
+                        >
+                          <option selected>#field</option>
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                        </select>
+
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            checked="true"
+                            role="switch"
+                            id="flexSwitchCheckDefault"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="flexSwitchCheckDefault"
+                            >Enabled</label
+                          >
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <small class="text-muted"
+                          >Last updated 3 mins ago</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h5
+                          class="card-title align-items-center d-flex flex-row mb-3"
+                        >
+                          <span class="flex-grow-1 justify-content-start d-flex"
+                            >Nightly SMS Message (9PM)</span
+                          ><span
+                            class="text-center my-0 justify-content-between d-flex"
+                            ><i
+                              class="bi bi-chat-text-fill pe-1"
+                              style="font-size: 2rem"
+                            ></i
+                          ></span>
+                        </h5>
+                        <p class="card-text">
+                          Send to the following phone numbers:
+                        </p>
+                        <div class="input-group mb-3">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="(555) 555-5555"
+                            aria-label="recipient@gmail.com"
+                            disabled="true"
+                            aria-describedby="button-addon2"
+                          />
+                          <button
+                            class="btn btn-outline-danger"
+                            type="button"
+                            id="button-remove"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                        <div class="input-group mb-3">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="(555) 555-5555"
+                            aria-label="recipient@gmail.com"
+                            aria-describedby="button-addon2"
+                          />
+                          <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            id="button-addon2"
+                          >
+                            Add
+                          </button>
+                        </div>
+
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="flexSwitchCheckDefault"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="flexSwitchCheckDefault"
+                            >Enable?</label
+                          >
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <small class="text-muted"
+                          >Last updated 3 mins ago</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <br /><br /><br /><br /><br /><br /><br /><br />
+              </div>
+              <!--ends page inner content-->
+            </div>
+            <div
+              class="tab-pane"
+              id="v-pills-volunteers"
+              role="tabpanel"
+              aria-labelledby="v-pills-volunteers-tab"
+              tabindex="4"
+            >
+              <script>
+                $(document).ready(function () {
+                  cbox = document.querySelectorAll(
+                    "#volunteers-navbar .btn-toggle-nav a"
+                  );
+                  cbox.forEach((box) => {
+                    box.addEventListener("mousedown", (a) =>
+                      setMetric(a.target.innerText)
+                    );
+                  });
+                });
+                function setMetric(metricName) {
+                  document.getElementById("volunteers-page-title").innerHTML =
+                    metricName;
+                  myChartVolunteersPage.data.datasets[0].data = [
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                  ];
+                  myChartVolunteersPage.update();
+                }
+              </script>
+
+              <!--metrics page inner content-->
+              <div class="container mt-4" id="volunteers-page-container">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+                      id="metric-page-title"
+                    >
+                      Active Volunteers (cumulative)
+                    </h1>
+
+                    <!--cumulative-->
+                    <div class="d-flex">
+                      <div class="form-check form-switch me-2">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          id="flexSwitchCheckDefault"
+                        />
+                        <label
+                          class="form-check-label align-middle"
+                          for="flexSwitchCheckDefault"
+                          >Cumulative</label
+                        >
+                      </div>
+                    </div>
+                    <!--dayweekmonth-->
+                    <div class="d-flex justify-content-center">
+                      <div
+                        class="btn-group shadow-sm"
+                        role="group"
+                        aria-label="Basic
+            outlined example"
+                        style="height: 2.5em !important"
+                      >
+                        <input
+                          type="radio"
+                          class="align-bottom align-items-baseline btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio1"
+                          autocomplete="off"
+                        />
+                        <label
+                          class="align-bottom d-inline btn btn-outline-primary"
+                          for="vbtn-radio1"
+                          >Day</label
+                        >
+                        <input
+                          type="radio"
+                          class="btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio2"
+                          autocomplete="off"
+                          checked
+                        />
+                        <label
+                          class="btn btn-outline-primary d-inline"
+                          for="vbtn-radio2"
+                          >Week</label
+                        >
+                        <input
+                          type="radio"
+                          class="btn-check"
+                          name="vbtn-radio"
+                          id="vbtn-radio3"
+                          autocomplete="off"
+                        />
+                        <label
+                          class="btn btn-outline-primary d-inline"
+                          for="vbtn-radio3"
+                          >Month</label
+                        >
+                      </div>
+                    </div>
+                    <div id="drp-container">
+                      <link
+                        rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+                        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+                        crossorigin="anonymous"
+                        referrerpolicy="no-referrer"
+                      />
+                      <div
+                        id="reportrange"
+                        class="shadow-sm"
+                        style="
+                          background: #fff;
+                          cursor: pointer;
+                          padding: 5px 10px;
+                          border: 1px solid #ccc;
+                          width: 100%;
+                        "
+                      >
+                        <i class="fa fa-calendar"></i>&nbsp; <span></span>
+                        <i class="fa fa-caret-down"></i>
+                        <style>
+                          #reportrange {
+                            color: #0d6efd !important;
+                            border: 1px solid #0d6efd !important;
+                            padding: 0.45em 0.6em !important;
+                            margin-left: 0.5em;
+                            border-radius: 0.4em;
+                          }
+
+                          .ranges,
+                          .ranges * {
+                            font-size: inherit !important;
+                            font-family: -apple-system, BlinkMacSystemFont,
+                              "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+                              "Open Sans", "Helvetica Neue", sans-serif;
+                          }
+
+                          .daterangepicker.ltr.show-ranges.opensright {
+                            width: 265px !important;
+                          }
+
+                          .daterangepicker.ltr.show-ranges.opensright * {
+                            width: 100% !important;
+                          }
+
+                          .daterangepicker .ranges li.active {
+                            background: #0d6efd !important;
+                          }
+
+                          .daterangepicker .ranges * * {
+                            padding-top: 12px !important;
+                            padding-bottom: 12px !important;
+                          }
+
+                          .form-switch .form-check-input {
+                            height: 1.5rem;
+                            width: 3em !important;
+                            border-radius: 2rem;
+                            margin-right: 0.4em;
+                            vertical-align: middle !important;
+                          }
+                        </style>
+                        <script type="text/javascript">
+                          $(function () {
+                            var start = moment().subtract(29, "days");
+                            var end = moment();
+
+                            function cb(start, end) {
+                              $("#reportrange span").html(
+                                start.format("MMM D, YYYY") +
+                                  " - " +
+                                  end.format("MMM D, YYYY")
+                              );
+                            }
+
+                            $("#reportrange").daterangepicker(
+                              {
+                                startDate: start,
+                                endDate: end,
+                                ranges: {
+                                  "Last 30 Days": [
+                                    moment().subtract(29, "days"),
+                                    moment(),
+                                  ],
+                                  "This Month": [
+                                    moment().startOf("month"),
+                                    moment().endOf("month"),
+                                  ],
+                                  "Last Month": [
+                                    moment()
+                                      .subtract(1, "month")
+                                      .startOf("month"),
+                                    moment()
+                                      .subtract(1, "month")
+                                      .endOf("month"),
+                                  ],
+                                  "Last 3 Months": [
+                                    moment().startOf("month"),
+                                    moment().endOf("month"),
+                                  ],
+                                  "Last 6 Months": [
+                                    moment()
+                                      .subtract(1, "month")
+                                      .startOf("month"),
+                                    moment()
+                                      .subtract(1, "month")
+                                      .endOf("month"),
+                                  ],
+
+                                  "This Year": [moment(), moment()],
+                                  "Last Year": [moment(), moment()],
+                                  "All Time": [moment(), moment()],
+                                },
+                              },
+                              cb
+                            );
+
+                            cb(start, end);
+                          });
+                        </script>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+
+                <div class="row mb-0 mt-3">
+                  <div class="col-sm-3">
+                    <ul class="list-group ps-0" id="volunteers-navbar">
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#home-collapse"
+                          aria-expanded="true"
+                        >
+                          Topline
+                        </button>
+                        <div class="collapse show" id="home-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Active Volunteers (cumulative)</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Total IDs</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Completed Shifts</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Newly Scheduled Shifts</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#dashboard-collapse"
+                          aria-expanded="false"
+                        >
+                          Gross Attempts
+                        </button>
+                        <div class="collapse show" id="dashboard-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >All Tactics (aggregated)</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#orders-collapse"
+                          aria-expanded="false"
+                        >
+                          IDs + Positive ID's
+                        </button>
+                        <div class="collapse show" id="orders-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >All Tactics (aggregated)</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#account-collapse"
+                          aria-expanded="false"
+                        >
+                          Contact Rates
+                        </button>
+                        <div class="collapse show" id="account-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li class="mb-3 list-group-item shadow-sm border-white">
+                        <button
+                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#account-collapse"
+                          aria-expanded="false"
+                        >
+                          Contact Rates
+                        </button>
+                        <div class="collapse show" id="account-collapse">
+                          <ul
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small"
+                          >
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                    <style>
+                      #volunteers-page-container .dropdown-toggle {
+                        outline: 0;
+                      }
+
+                      #volunteers-page-container .btn-toggle {
+                        padding: 0.25rem 0.5rem;
+                        font-weight: 600;
+                        color: rgba(0, 0, 0, 0.65);
+                        background-color: transparent;
+                      }
+
+                      #volunteers-page-container .btn-toggle:hover,
+                      #volunteers-page-container .btn-toggle:focus,
+                      #volunteers-page-container .btn-toggle-nav a:hover,
+                      #volunteers-page-container .btn-toggle-nav a:focus {
+                        color: white !important;
+                        background-color: black;
+                      }
+
+                      #volunteers-page-container .btn-toggle::before {
+                        width: 1.25em;
+                        line-height: 0;
+                        content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+                        transition: transform 0.35s ease;
+                        transform-origin: 0.5em 50%;
+                      }
+
+                      #volunteers-page-container
+                        .btn-toggle[aria-expanded="true"] {
+                        color: rgba(0, 0, 0, 0.85);
+                      }
+
+                      #volunteers-page-container
+                        .btn-toggle[aria-expanded="true"]::before {
+                        transform: rotate(90deg);
+                      }
+
+                      #volunteers-page-container .btn-toggle-nav a {
+                        padding: 0.1875rem 0.5rem;
+                        margin-top: 0.125rem;
+                        margin-left: 1.25rem;
+                      }
+                    </style>
+                  </div>
+                  <!--Column for metric cards-->
+                  <div class="col-sm-9">
+                    <!--New graphcard-->
+                    <div class="card shadow-sm border-white">
+                      <div class="card-body">
+                        <h6 class="text-secondary">Positive IDs</h6>
+                        <h3 class="card-title"><strong>255</strong></h3>
+                        <p class="card-text">
+                          <canvas
+                            id="myChartVolunteersPage"
+                            width="100%"
+                          ></canvas>
+                        </p>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Drilldown</th>
+                              <th scope="col">Apr 13</th>
+                              <th scope="col">Apr 20</th>
+                              <th scope="col">Apr 27</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">Drilldown</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">drilldown</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total</th>
+                              <td colspan="2">Larry the Bird</td>
+                              <td>@twitter</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <br /><br /><br /><br /><br /><br /><br /><br />
+              </div>
+              <!--ends page inner content-->
+
+              <script>
+                let myChartVolunteersPage;
+                $(function () {
+                  const chartOptions = {
+                    type: "bar",
+                    data: {
+                      labels: [
+                        "Apr 11",
+                        "Apr 18",
+                        "May 10",
+                        "May 17",
+                        "May 24",
+                        "June 5",
+                        "Apr 11",
+                        "Apr 18",
+                        "May 10",
+                        "May 17",
+                        "May 24",
+                        "June 5",
+                      ],
+                      datasets: [
+                        {
+                          label: "# of Votes",
+                          data: [12, 19, 3, 5, 2, 3],
+                          backgroundColor: [
+                            "#0d6efd", //black //?
+                          ],
+                        },
+                      ],
+                    },
+                    options: {
+                      interaction: {
+                        intersect: false,
+                        mode: "nearest",
+                        axis: "x",
+                      },
+                      elements: {
+                        line: {
+                          tension: 0,
+                        },
+                      },
+                      animation: {
+                        duration: 0,
+                      },
+
+                      plugins: {
+                        legend: false,
+                      },
+                      title: {
+                        display: false,
+                        text: "Contact attempts by week",
+                      },
+                      scales: {
+                        xAxes: [
+                          {
+                            gridLines: {
+                              display: false,
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  };
+
+                  myChartVolunteersPage = new Chart(
+                    document.getElementById("myChartVolunteersPage"),
+                    chartOptions
+                  );
+
+                  myChartVolunteersPage.data.datasets[0].data = [
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 20) + 5,
+                  ];
+                  myChartVolunteersPage.update();
+                });
+              </script>
+            </div>
+            <div
+              class="tab-pane"
+              id="v-pills-settings"
+              role="tabpanel"
+              aria-labelledby="v-pills-settings-tab"
+              tabindex="5"
+            >
+              <!--metrics page inner content-->
+              <div class="container mt-4" id="settings-page-container">
+                <div class="row d-block" style="margin-right: 0 !important">
+                  <!--heading bar and controls-->
+                  <div
+                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                  >
+                    <h1
+                      class="mt-0 h2 d-flex justify-content-start flex-grow-1"
+                      id="metric-page-title"
+                    >
+                      Settings
+                    </h1>
+                  </div>
+                  <!--end heading bar and controls-->
+                </div>
+                <style>
+                  #settings-page-container form {
+                    max-width: 550px;
+                  }
+
+                  #settings-page-container h5 {
+                    font-weight: bold;
+                    font-size: 1.3em;
+                    margin-bottom: 0.5em;
+                  }
+                </style>
+                <!--settings card-->
+                <div class="card shadow-sm border-white mb-3">
+                  <div class="card-body">
+                    <h5>Basics</h5>
+                    <form class="form-floating mb-3">
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="floatingInputValue"
+                        placeholder="name@example.com"
+                        value="Obama for Congress"
+                      />
+                      <label for="floatingInputValue">Organization name</label>
+                    </form>
+                    <form class="form-floating mb-3">
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="floatingInputValue"
+                        placeholder="ph"
+                        value="field-director@obama4c.com"
+                      />
+                      <label for="floatingInputValue"
+                        >Default contact email</label
+                      >
+                    </form>
+                  </div>
+                </div>
+                <!--settings card-->
+                <div class="card shadow-sm border-white mb-3">
+                  <div class="card-body">
+                    <h5>Survey Question &amp; Activist Code Mapping</h5>
+                    <form class="form-floating mb-3">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Will you support Barack Obama in the Democratic Primary?"
+                          aria-label="recipient@gmail.com"
+                          disabled="true"
+                          aria-describedby="button-addon2"
+                        />
+                        <button
+                          class="btn btn-danger"
+                          type="button"
+                          id="button-addon2"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <div class="input-group mb-3">
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Select a survey question</option>
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                        </select>
+                        <button
+                          class="btn btn-primary"
+                          type="button"
+                          id="button-addon2"
+                        >
+                          Add
+                        </button>
+                      </div>
+                      <div class="input-group mb-3">
+                        <select
+                          class="form-select"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Select an activist code</option>
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                        </select>
+                        <button
+                          class="btn btn-primary"
+                          type="button"
+                          id="button-addon2"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!--settings card-->
+                <div class="card shadow-sm border-white mb-3">
+                  <div class="card-body">
+                    <h5>Time Periods</h5>
+                    <form class="d-flex flex-row mb-3">
+                      <div>
+                        <label for="floatingInputValue"
+                          >Campaign Start Date</label
+                        >
+                        <div
+                          id="floatingInputValue"
+                          class="mt-1"
+                          style="
+                            color: #0d6efd !important;
+                            border: 1px solid #0d6efd !important;
+                            padding: 0.45em 0.6em !important;
+                            margin-left: 0;
+                            border-radius: 0.4em;
+                          "
+                        >
+                          <i class="fa fa-calendar"></i>&nbsp;
+                          <span>Oct 1, 2022</span>
+                          <i class="fa fa-caret-down"></i>
+                        </div>
+                      </div>
+                      <div class="ms-5">
+                        <label for="floatingInputValue">Election Day</label>
+                        <div
+                          id="floatingInputValue"
+                          class="mt-1"
+                          style="
+                            color: #0d6efd !important;
+                            border: 1px solid #0d6efd !important;
+                            padding: 0.45em 0.6em !important;
+                            margin-left: 0em;
+                            border-radius: 0.4em;
+                          "
+                        >
+                          <i class="fa fa-calendar"></i>&nbsp;
+                          <span>Oct 1, 2022</span>
+                          <i class="fa fa-caret-down"></i>
+                        </div>
+                      </div>
+                    </form>
+
+                    <div class="form-check form-switch flex-row d-flex">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                      />
+                      <label
+                        class="form-check-label"
+                        style="margin-top: auto; margin-bottom: auto"
+                        for="flexSwitchCheckDefault"
+                        >Include past election cycles in all metrics</label
+                      >
+                    </div>
+                    <div class="clearfix d-block mb-3"></div>
+                  </div>
+                </div>
+                <button class="btn btn-primary mt-1">Update All</button>
+              </div>
+              <!--ends page inner content-->
+            </div>
+          </div>
+        </main>
+      </div>
+      <footer class="text-center text-lg-start bg-dark text-muted">
+        <p class="text-center p-4">Footer</p>
+      </footer>
+    </div>
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Font Icon CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <style>
+      body {
+        font-family: system-ui !important;
+      }
+
+      h1 {
+        font-weight: bold !important;
+      }
+
+      :root {
+        --logocolor: #ffbe59;
+      }
+
+      .brand {
+        width: 90% !important;
+        margin: 0 auto;
+        padding-left: 3px;
+      }
+    </style>
+
+    <script>
+      const chartOptions = {
+        type: "bar",
+        data: {
+          labels: ["Apr 11", "Apr 18", "May 10", "May 17", "May 24", "June 5"],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                "#0d6efd", //black //?
+              ],
+            },
+          ],
+        },
+        options: {
+          interaction: {
+            intersect: false,
+            mode: "nearest",
+            axis: "x",
+          },
+          elements: {
+            line: {
+              tension: 0,
+            },
+          },
+          animation: {
+            duration: 0,
+          },
+
+          plugins: {
+            legend: false,
+          },
+          title: {
+            display: false,
+            text: "Contact attempts by week",
+          },
+          scales: {
+            xAxes: [
+              {
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+          },
+        },
+      };
+      $(function () {
+        /*  const myChart = new Chart(
+          document.getElementById("myChart"),
+          chartOptions
+        );*/
+        const myChart2 = new Chart(
+          document.getElementById("myChart2"),
+          chartOptions
+        );
+        const myChart3 = new Chart(
+          document.getElementById("myChart3"),
+          chartOptions
+        );
+        const myChart4 = new Chart(
+          document.getElementById("myChart4"),
+          chartOptions
+        );
+        const myChart5 = new Chart(
+          document.getElementById("myChart5"),
+          chartOptions
+        );
+        const myChart6 = new Chart(
+          document.getElementById("myChart6"),
+          chartOptions
+        );
+
+        myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
+        myChart2.update();
+        myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
+        myChart3.update();
+        myChart4.data.datasets[0].data = [10, 15, 2, 3, 7, 3];
+        myChart4.update();
+        myChart5.data.datasets[0].data = [25, 10, 25, 15, 16, 20];
+        myChart5.update();
+        myChart6.data.datasets[0].data = [3, 9, 8, 7, 6, 5];
+        myChart6.update();
+      });
+    </script>
 
     <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
 
