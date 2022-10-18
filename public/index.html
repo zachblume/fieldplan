@@ -23,11 +23,11 @@
 
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+      src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"
     ></script>
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+      src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"
     ></script>
     <script
       type="text/javascript"
@@ -70,10 +70,10 @@
 
   <body class="bg-light">
     <div
-      class="justify-content-center row flex flex-row py-5 my-5 hide-if-logged-in"
+      class="justify-content-center row flex flex-row py-5 my-5 mx-2 hide-if-logged-in"
       style="height: 100%"
     >
-      <div class="card col-4">
+      <div class="card col-md-4">
         <div class="card-body shadow-s py-5">
           <section id="firebaseui-auth-container">
             <center>
@@ -134,27 +134,19 @@
       <!-- Header -->
       <header></header>
       <div
-        class="grid"
+        class="row"
         id="wrapper"
-        style="
-          display: grid;
-          grid-template-columns: repeat(48, 1fr);
-          grid-template-rows: 1fr;
-          grid-column-gap: 0px;
-          grid-row-gap: 0px;
-          max-width: 1440px !important;
-          margin: 0 auto;
-        "
+        style="max-width: 1440px !important; margin: 0 auto"
       >
         <!-- Sidebar-->
         <div
-          class="d-block flex-column flex-shrink-0 p-3 bg-white navbar shadow-sm border-end"
-          style="grid-column: span 8; min-height: 100vh"
+          class="d-block p-md-3 px-3 bg-white navbar shadow-sm border-end col-12 col-md-2"
+          id="sidebar"
         >
-          <div class="brand mt-3">
+          <div class="brand mt-md-3">
             <a
               href="/"
-              class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
+              class="d-flex align-items-center mb-2 mb-md-3 mb-md-0 me-md-auto link-dark text-decoration-none"
             >
               <center>
                 <img
@@ -167,7 +159,7 @@
             </a>
           </div>
           <hr />
-          <div class="nav nav-pills flex-column mb-auto">
+          <div class="nav nav-pills flex-sm-column mb-auto">
             <button
               class="nav-link active p-3 text-start"
               id="v-pills-home-tab"
@@ -203,7 +195,7 @@
               aria-controls="v-pills-volunteers"
               aria-selected="true"
             >
-              <i class="bi-search"></i>&nbsp;&nbsp;&nbsp;Volunteer Insights
+              <i class="bi-search"></i>&nbsp;&nbsp;&nbsp;Volunteers
             </button>
             <button
               class="nav-link p-3 text-start"
@@ -215,7 +207,7 @@
               aria-controls="v-pills-ramp"
               aria-selected="true"
             >
-              <i class="bi-magic"></i>&nbsp;&nbsp;&nbsp;Ramp (Forecast)
+              <i class="bi-magic"></i>&nbsp;&nbsp;&nbsp;Forecast
             </button>
             <button
               class="nav-link p-3 text-start"
@@ -289,8 +281,7 @@
         <!-- Page content wrapper-->
         <main
           id="page-content-wrapper"
-          class="p-3 ms-sm-auto px-md-4 bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start"
-          style="grid-column: span 40; padding-left: 0.5rem !important"
+          class="p-3 ms-sm-auto px-md-4 bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12 col-md-10"
         >
           <!--end home page content-->
           <div
@@ -305,11 +296,11 @@
               tabindex="0"
             >
               <!--home page content-->
-              <div class="container mt-4">
+              <div class="container mt-md-4">
                 <div class="row d-block" style="margin-right: 0 !important">
                   <!--heading bar and controls-->
                   <div
-                    class="d-flex flex-row justify-content mb-2 align-items-center"
+                    class="d-md-flex flex-row justify-content mb-2 align-items-center"
                   >
                     <h1
                       class="mt-0 h2 d-flex justify-content-start flex-grow-1"
@@ -335,7 +326,7 @@
                       </div>
                     </div>
                     <!--dayweekmonth-->
-                    <div class="d-flex justify-content-center">
+                    <div class="d-md-flex justify-content-center">
                       <div
                         class="btn-group shadow-sm"
                         role="group"
@@ -693,7 +684,7 @@
                       <div class="col-sm-6">
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
-                            <h6 class="text-secondary">Positive IDs</h6>
+                            <h6 class="text-secondary">Shifts (total)</h6>
                             <h3 class="card-title"><strong>255</strong></h3>
                             <p class="card-text">
                               <canvas id="myChart3" width="100%"></canvas>
@@ -1319,8 +1310,8 @@
                 let myChartMetricsPage;
                 $(function () {
                   /*Chart.defaults.set('plugins.datalabels', {
-                color: '#FE777B'
-              });*/
+              color: '#FE777B'
+            });*/
                   const chartOptions = {
                     type: "bar",
                     data: {
@@ -1688,18 +1679,18 @@
                         console.log(rampConfig);
 
                         /*rangesAsJSobj={
-                      "startingShifts": "71",
-                      "shiftGrowth": "50",
-                      "doorsVsPhones": "50",
-                      "totalIDtextsPlanned": "50",
-                      "relationalIDperVolunteer": "50",
-                      "responseRateDoors": "50",
-                      "responseRatePhones": "50",
-                      "responseRateTexts": "50",
-                      "posRateDoors": "50",
-                      "posRatePhones": "50",
-                      "posRateTexts": "50"
-                  }*/
+                    "startingShifts": "71",
+                    "shiftGrowth": "50",
+                    "doorsVsPhones": "50",
+                    "totalIDtextsPlanned": "50",
+                    "relationalIDperVolunteer": "50",
+                    "responseRateDoors": "50",
+                    "responseRatePhones": "50",
+                    "responseRateTexts": "50",
+                    "posRateDoors": "50",
+                    "posRatePhones": "50",
+                    "posRateTexts": "50"
+                }*/
 
                         const WEEKSAVAILABLE = 16;
                         var newItem = {};
@@ -1893,15 +1884,15 @@
                         });
 
                         /*
-                  var calculations = Array;
-                  calculations['Total Weekly Shifts'].push(0);
-                  tableObject = tableObject.map(x => {
-                    y = x;
-                    y['Week 1'] = "asdasd";
-                    return y;
-                  });
-                  formTable(tableObject, "#tableContainer");
-                  */
+                var calculations = Array;
+                calculations['Total Weekly Shifts'].push(0);
+                tableObject = tableObject.map(x => {
+                  y = x;
+                  y['Week 1'] = "asdasd";
+                  return y;
+                });
+                formTable(tableObject, "#tableContainer");
+                */
                       }
                     </script>
                     <!--end table stuff-->
@@ -2239,13 +2230,13 @@
                             <script>
                               $(function () {
                                 /*
-                          //tooltips init
-                          const tooltipTriggerList = document.querySelectorAll(
-                            '[data-bs-toggle="tooltip"]'
-                          );
-                          const tooltipList = [...tooltipTriggerList].map(
-                            (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                          );*/
+                        //tooltips init
+                        const tooltipTriggerList = document.querySelectorAll(
+                          '[data-bs-toggle="tooltip"]'
+                        );
+                        const tooltipList = [...tooltipTriggerList].map(
+                          (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                        );*/
                                 document
                                   .querySelectorAll('input[type="range"]')
                                   .forEach((a) =>
@@ -3480,17 +3471,17 @@
       };
       $(function () {
         /*  const myChart = new Chart(
-      document.getElementById("myChart"),
+    document.getElementById("myChart"),
+    chartOptions
+  );
+    const myChart2 = new Chart(
+      document.getElementById("myChart2"),
       chartOptions
     );
-      const myChart2 = new Chart(
-        document.getElementById("myChart2"),
+      const myChart3 = new Chart(
+        document.getElementById("myChart3"),
         chartOptions
       );*/
-        const myChart3 = new Chart(
-          document.getElementById("myChart3"),
-          chartOptions
-        );
         const myChart4 = new Chart(
           document.getElementById("myChart4"),
           chartOptions
@@ -3505,10 +3496,10 @@
         );
 
         /*myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
-      myChart2.update();
-      */
-        myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
-        myChart3.update();
+    myChart2.update();
+    */
+        /*myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
+      myChart3.update();*/
         myChart4.data.datasets[0].data = [10, 15, 2, 3, 7, 3];
         myChart4.update();
         myChart5.data.datasets[0].data = [25, 10, 25, 15, 16, 20];
@@ -3523,10 +3514,6 @@
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-functions.js"></script>
-
-    <!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
     <link

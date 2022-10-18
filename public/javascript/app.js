@@ -1,3 +1,6 @@
+console.log("app.js begins running, time logged as StartTimeLogged");
+const StartTimeLogged = Date.now();
+
 const STRIPE_PUBLISHABLE_KEY =
   "pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO";
 
@@ -25,6 +28,19 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
+
+db.enablePersistence().catch((err) => {
+  if (err.code == "failed-precondition") {
+    // Multiple tabs open, persistence can only be enabled
+    // in one tab at a a time.
+    // ...
+  } else if (err.code == "unimplemented") {
+    // The current browser does not support all of the
+    // features required to enable persistence
+    // ...
+  }
+});
+// Subsequent queries will use persistence, if it was enabled successfully
 
 /**
  * Firebase Authentication configuration
@@ -59,8 +75,14 @@ const firebaseUiConfig = {
   // Your privacy policy url.
   //privacyPolicyUrl: "https://example.com/privacy",
 };
+
+console.log("queue firebase.auth().onAuthStateChanged((firebaseUser) after ");
+console.log(Date.now() - StartTimeLogged);
+LoggedInHomePageDisplay();
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
+    console.log("firebase.auth().onAuthStateChanged((firebaseUser) after ");
+    console.log(Date.now() - StartTimeLogged);
     // document.querySelector('#loader').style.display = 'none';
     // document.querySelector('main').style.display = 'block';
     document.querySelector("body").classList.add("logged-in");
@@ -73,11 +95,11 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     firebaseUI.disableAutoSignIn();
   }
 });
-
 /**
  * Data listeners
  */
 function startDataListeners() {
+  LoggedInHomePageDisplay();
   // Get all our products and render them to the page
   const products = document.querySelector(".products");
   const template = document.querySelector("#product");
@@ -164,7 +186,7 @@ function startDataListeners() {
       ).format((priceData.unit_amount / 100).toFixed(2))} per ${
         priceData.interval
       }, giving you the role: ${await getCustomClaimRole()}.`;
-      LoggedInHomePageDisplay();
+
       const element = document.querySelector("body");
 
       element.classList.add("logged-in");
@@ -327,23 +349,30 @@ function LoggedInHomePageDisplay() {
       },
     },
   };
-  let secondchart;
-  let firstchart;
-  firstchart = new Chart(document.getElementById("myChart2"), chart_options);
-  secondchart = new Chart(document.getElementById("myChart"), chart_options);
+  const charts = [];
+  charts[1] = new Chart(document.getElementById("myChart2"), chart_options);
+  charts[2] = new Chart(document.getElementById("myChart"), chart_options);
+
+  console.log("firestore gets called after");
+  console.log(Date.now() - StartTimeLogged);
+
   db.collection("data")
     .doc("weeklycontacthistory")
     .onSnapshot((doc) => {
       var parseddata = JSON.parse(doc.data().resultstring);
+
+      console.log("first firestore response after");
+      console.log(Date.now() - StartTimeLogged);
+
       console.log("Current data: ", parseddata);
-      updateGraph(parseddata, firstchart);
+      updateGraph(parseddata, charts[1]);
     });
   db.collection("data")
     .doc("weeklysurveys")
     .onSnapshot((doc) => {
       var parseddata = JSON.parse(doc.data().resultstring);
       console.log("Current data: ", parseddata);
-      updateGraph(parseddata, secondchart);
+      updateGraph(parseddata, charts[2]);
     });
 }
 

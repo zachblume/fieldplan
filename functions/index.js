@@ -43,6 +43,12 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       doctitle: "weeklysurveys",
       datecolumn: "DateCanvassed",
     },
+    total_shifts: {
+      metric: "count(*)",
+      table: "signups",
+      doctitle: "weeklysignups",
+      datecolumn: "DateCanvassed",
+    },
   };
 
   const metric = request.query.metric || "total_contact_attempts";

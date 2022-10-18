@@ -1,3 +1,39 @@
+@media (max-width: 700px) {
+  .nav button {
+    font-size: 0.85rem;
+    padding: 0.5rem !important;
+    border-bottom: 2px solid #ccc !important;
+    border-radius: 0 !important;
+    margin: 0.2rem;
+    color: #777;
+    /*font-weight: bold;*/
+  }
+  .nav button.active {
+    background: inherit !important;
+    color: black !important;
+    border-color: black !important;
+  }
+  .dropdown {
+    display: none !important;
+  }
+  hr {
+    margin: 0px !important;
+  }
+  .brand img,
+  .brand {
+    width: 100% !important;
+    margin-top: 0 !important;
+    padding: 0.3rem 0 !important;
+  }
+  #sidebar {
+    background: inherit !important;
+    border: 0 none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
 body {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
