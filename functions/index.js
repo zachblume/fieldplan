@@ -12,7 +12,7 @@ const storageRef = admin.storage();
 // [START bigquery_client_default_credentials]
 // Import the Google Cloud client library using default credentials
 const { BigQuery } = require("@google-cloud/bigquery");
-const { firebase } = require("googleapis/build/src/apis/firebase");
+// const { firebase } = require("googleapis/build/src/apis/firebase");
 const bigquery = new BigQuery();
 // [END bigquery_client_default_credentials]
 
@@ -21,34 +21,48 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello world");
 });
 
-exports.GetWeeklyContactAttempts = functions.https.onRequest(
-  async (request, response) => {
-    const [rows] = await briefquery(`
+exports.GetData = functions.https.onRequest(async (request, response) => {
+  const definitions = {
+    total_contact_attempts: { metric: "count(*)", table: "contacthistory" },
+  };
+
+  const metric = request.query.metric;
+  const period = request.query.period;
+  const metricDefinition = definitions[metric].metric;
+  const table = definitions[metric].table;
+  const [rows] = await briefquery(
+    `
       SELECT
-        DATE_TRUNC(DateCanvassed,ISOWEEK) AS week,
-        COUNT(*) AS contactattempts
+        DATE_TRUNC(DateCanvassed,` +
+      period +
+      `) AS period,
+        ` +
+      metricDefinition +
+      ` AS metric
       FROM
-        development.contacthistory
+        development.` +
+      table +
+      `
       GROUP BY
-        week
+        period
       ORDER BY
-        week ASC
-  `);
-    console.log(rows);
-    const resultstring = JSON.stringify(rows);
-    db.collection("data")
-      .doc("weeklycontacthistory")
-      .set({
-        resultstring,
-      })
-      .then(() => {
-        response.send("Document successfully written!");
-      })
-      .catch((error) => {
-        response.send("Error writing document: ", error);
-      });
-  }
-);
+        period ASC
+  `
+  );
+  console.log(rows);
+  const resultstring = JSON.stringify(rows);
+  db.collection("data")
+    .doc("weeklycontacthistory")
+    .set({
+      resultstring,
+    })
+    .then(() => {
+      response.send("Document successfully written!");
+    })
+    .catch((error) => {
+      response.send("Error writing document: ", error);
+    });
+});
 
 exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
   const fetch = require("node-fetch");
@@ -66,7 +80,7 @@ exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
       dateChangedFrom: "2022-02-08T01:02:03+04:00",
       dateChangedTo: "2022-05-08T01:09:03+04:00",
       resourceType: "ContactHistory",
-      requestedFields: ["DateCreated"],
+      requestedFields: [], // "DateCreated"
       fileSizeKbLimit: 100000,
       includeInactive: false,
     }),
@@ -104,7 +118,7 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
         .limit(1).get();
     response.send(changedEntityID.data);*/
 
-    const docpath = db.collection("apicalls").doc("fyVkQZTUWlGBVAPzxNmm");
+    const docpath = db.collection("apicalls").doc("iYiYP13lLLKoPUMc8EEh");
     const doc = await docpath.get();
     const changedEntityID = doc.data().apiResponse.exportJobId.toString();
 
@@ -127,7 +141,7 @@ exports.PollNGPVANForResponse = functions.https.onRequest(
       .then((res) => res.json())
       .then((json) => {
         // response.send(json)
-        //response.send(json);
+        // response.send(json);
         console.log(json);
         db.collection("apicalls")
           .add({
@@ -178,7 +192,7 @@ async function loadCSVtoSQL(bucketName, filepath, tableId) {
    */
   const datasetId = "development";
   // filepath = "testfixtitle.csv"; // that didnt fix it! ok.
-  //const tableId = "contacthistory";
+  // const tableId = "contacthistory";
   // const bucketName = "campaign-data-project.appspot.com";
   // const filename = "testexport_0101522_000000000000.csv";
 
@@ -187,7 +201,7 @@ async function loadCSVtoSQL(bucketName, filepath, tableId) {
   const metadata = {
     sourceFormat: "CSV",
     skipLeadingRows: 1,
-    //autodetect: true,
+    // autodetect: true,
     location: "US",
   };
 

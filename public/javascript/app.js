@@ -42,11 +42,14 @@ const firebaseUiConfig = {
   signInFlow: "redirect",
   signInSuccessUrl: "/",
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID, //,
-    //firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      clientId:
+        "640113081213-cgb821si2sshi87hdurs7doo7a7flo0c.apps.googleusercontent.com",
+    }, //firebase.auth.EmailAuthProvider.PROVIDER_ID,
   ],
 
-  credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
   // Your terms of service url.
   tosUrl: "https://example.com/terms",
   // Your privacy policy url.
@@ -305,14 +308,15 @@ function LoggedInHomePageDisplay() {
 }
 
 function updateGraph(graphdata) {
-  console.log(graphdata[0].week.value);
+  console.log(graphdata[0]);
+
   firstchart.data.labels = graphdata.map((x) =>
-    new Date(x.week.value).toLocaleDateString("en-us", {
+    new Date(x.period.value).toLocaleDateString("en-us", {
       month: "short",
       day: "numeric",
     })
   );
-  firstchart.data.datasets[0].data = graphdata.map((x) => x.contactattempts);
+  firstchart.data.datasets[0].data = graphdata.map((x) => x.metric);
   firstchart.update();
   console.log("updated");
 }
