@@ -19,8 +19,8 @@ const bigquery = new BigQuery();
 exports.helloWorld = functions.https.onRequest((request, response) => {
   console.log("request");
   console.log(request);
-  //console.log("response");
-  //console.log(response);
+  // console.log("response");
+  // console.log(response);
   functions.logger.info("Hello logs!");
   response.send("Hello world");
 });
@@ -50,7 +50,7 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
   const metricDefinition = definitions[metric].metric;
   const table = definitions[metric].table;
   const doctitle = definitions[metric].doctitle;
-  const metricDefinition = definitions[metric].datecolumn;
+  const datecolumn = definitions[metric].datecolumn;
   const [rows] = await briefquery(
     `
       SELECT

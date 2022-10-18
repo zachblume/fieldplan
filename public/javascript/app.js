@@ -327,7 +327,8 @@ function LoggedInHomePageDisplay() {
       },
     },
   };
-  let secondchart, firstchart;
+  let secondchart;
+  let firstchart;
   firstchart = new Chart(document.getElementById("myChart2"), chart_options);
   secondchart = new Chart(document.getElementById("myChart"), chart_options);
   db.collection("data")
