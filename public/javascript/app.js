@@ -254,6 +254,7 @@ async function getCustomClaimRole() {
 let firstchart;
 function LoggedInHomePageDisplay() {
   //document.querySelector("#LoggedInUser").style.display = "block";
+  Chart.register(ChartDataLabels);
   firstchart = new Chart(document.getElementById("myChart"), {
     type: "bar",
     data: {
@@ -266,6 +267,10 @@ function LoggedInHomePageDisplay() {
           backgroundColor: "#0d6efd", //black //?
 
           data: [0],
+          datalabels: {
+            align: "start",
+            anchor: "end",
+          },
         },
       ],
     },
@@ -277,6 +282,20 @@ function LoggedInHomePageDisplay() {
       },
       plugins: {
         legend: false,
+        datalabels: {
+          color: "white",
+          /* display: function (context) {
+            return context.dataset.data[context.dataIndex] > 15;
+          },*/
+          font: {
+            weight: "normal",
+            size: 9,
+          },
+          /*   borderColor: "white",
+          borderRadius: 32,
+          borderWidth: 2,*/
+          formatter: nFormatter,
+        },
       },
       elements: {
         line: {
@@ -324,4 +343,26 @@ function updateGraph(graphdata) {
   firstchart.data.datasets[0].data = graphdata.map((x) => x.metric);
   firstchart.update();
   console.log("updated");
+}
+
+function nFormatter(num, digits) {
+  const lookup = [
+    { value: 1, symbol: "" },
+    { value: 1e3, symbol: "k" },
+    { value: 1e6, symbol: "M" },
+    { value: 1e9, symbol: "G" },
+    { value: 1e12, symbol: "T" },
+    { value: 1e15, symbol: "P" },
+    { value: 1e18, symbol: "E" },
+  ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value;
+    });
+  return item
+    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
+    : "0";
 }

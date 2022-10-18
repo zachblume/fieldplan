@@ -64,11 +64,13 @@
       integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA="
       crossorigin="anonymous"
     ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   </head>
 
   <body class="bg-light">
     <div
-      class="justify-content-center row flex flex-row py-5 hide-if-logged-in"
+      class="justify-content-center row flex flex-row py-5 my-5 hide-if-logged-in"
       style="height: 100%"
     >
       <div class="card col-4">
@@ -81,7 +83,7 @@
                 width="150px"
                 class="d-inline-block align-text-top text-center mb-5"
               />
-              <h1 class="mb-2 h2">Welcome</h1>
+              <h1 class="mb-2 h2">Get Your Metrics</h1>
               <div id="loader">Loading &hellip;</div>
             </center>
           </section>
@@ -1316,6 +1318,9 @@
               <script>
                 let myChartMetricsPage;
                 $(function () {
+                  /*Chart.defaults.set('plugins.datalabels', {
+                  color: '#FE777B'
+                });*/
                   const chartOptions = {
                     type: "bar",
                     data: {
@@ -1683,18 +1688,18 @@
                         console.log(rampConfig);
 
                         /*rangesAsJSobj={
-                          "startingShifts": "71",
-                          "shiftGrowth": "50",
-                          "doorsVsPhones": "50",
-                          "totalIDtextsPlanned": "50",
-                          "relationalIDperVolunteer": "50",
-                          "responseRateDoors": "50",
-                          "responseRatePhones": "50",
-                          "responseRateTexts": "50",
-                          "posRateDoors": "50",
-                          "posRatePhones": "50",
-                          "posRateTexts": "50"
-                      }*/
+                        "startingShifts": "71",
+                        "shiftGrowth": "50",
+                        "doorsVsPhones": "50",
+                        "totalIDtextsPlanned": "50",
+                        "relationalIDperVolunteer": "50",
+                        "responseRateDoors": "50",
+                        "responseRatePhones": "50",
+                        "responseRateTexts": "50",
+                        "posRateDoors": "50",
+                        "posRatePhones": "50",
+                        "posRateTexts": "50"
+                    }*/
 
                         const WEEKSAVAILABLE = 16;
                         var newItem = {};
@@ -1889,38 +1894,15 @@
                         });
 
                         /*
-                      var calculations = Array;
-                      calculations['Total Weekly Shifts'].push(0);
-                      tableObject = tableObject.map(x => {
-                        y = x;
-                        y['Week 1'] = "asdasd";
-                        return y;
-                      });
-                      formTable(tableObject, "#tableContainer");
-                      */
-                      }
-                      function nFormatter(num, digits) {
-                        const lookup = [
-                          { value: 1, symbol: "" },
-                          { value: 1e3, symbol: "k" },
-                          { value: 1e6, symbol: "M" },
-                          { value: 1e9, symbol: "G" },
-                          { value: 1e12, symbol: "T" },
-                          { value: 1e15, symbol: "P" },
-                          { value: 1e18, symbol: "E" },
-                        ];
-                        const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-                        var item = lookup
-                          .slice()
-                          .reverse()
-                          .find(function (item) {
-                            return num >= item.value;
-                          });
-                        return item
-                          ? (num / item.value)
-                              .toFixed(digits)
-                              .replace(rx, "$1") + item.symbol
-                          : "0";
+                    var calculations = Array;
+                    calculations['Total Weekly Shifts'].push(0);
+                    tableObject = tableObject.map(x => {
+                      y = x;
+                      y['Week 1'] = "asdasd";
+                      return y;
+                    });
+                    formTable(tableObject, "#tableContainer");
+                    */
                       }
                     </script>
                     <!--end table stuff-->
@@ -2258,13 +2240,13 @@
                             <script>
                               $(function () {
                                 /*
-                              //tooltips init
-                              const tooltipTriggerList = document.querySelectorAll(
-                                '[data-bs-toggle="tooltip"]'
-                              );
-                              const tooltipList = [...tooltipTriggerList].map(
-                                (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                              );*/
+                            //tooltips init
+                            const tooltipTriggerList = document.querySelectorAll(
+                              '[data-bs-toggle="tooltip"]'
+                            );
+                            const tooltipList = [...tooltipTriggerList].map(
+                              (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                            );*/
                                 document
                                   .querySelectorAll('input[type="range"]')
                                   .forEach((a) =>
@@ -3499,9 +3481,9 @@
       };
       $(function () {
         /*  const myChart = new Chart(
-          document.getElementById("myChart"),
-          chartOptions
-        );*/
+        document.getElementById("myChart"),
+        chartOptions
+      );*/
         const myChart2 = new Chart(
           document.getElementById("myChart2"),
           chartOptions
