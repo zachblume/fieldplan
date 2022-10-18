@@ -83,7 +83,7 @@ const data = [
   },
 ];
 
-data_acs = [
+const data_acs = [
   {
     fieldName: "ActivistCodeID",
     fieldType: "N",
@@ -149,7 +149,7 @@ data_acs = [
   },
 ];
 
-data_sqs = [
+const data_sqs = [
   {
     fieldName: "ContactsSurveyResponseID",
     fieldType: "N",

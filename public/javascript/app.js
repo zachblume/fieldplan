@@ -3,6 +3,9 @@ const STRIPE_PUBLISHABLE_KEY =
 
 const prices = {};
 
+//global
+let currentUser;
+
 // Replace with your Firebase project config.
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -17,7 +20,7 @@ const firebaseConfig = {
 };
 
 // Replace with your cloud functions location
-const functionLocation = "us-central1";
+// const functionLocation = "us-central1";
 
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -29,7 +32,8 @@ const db = firebaseApp.firestore();
 const firebaseUI = new firebaseui.auth.AuthUI(firebase.auth());
 const firebaseUiConfig = {
   callbacks: {
-    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+    signInSuccessWithAuthResult: function () {
+      //function (authResult, redirectUrl) {
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
       // or whether we leave that to developer to handle.
@@ -89,10 +93,10 @@ function startDataListeners() {
           .orderBy("unit_amount")
           .get();
 
-        if (!"content" in document.createElement("template")) {
+        /*if (!"content" in document.createElement("template")) {
           console.error("Your browser doesn’t support HTML template elements.");
           return;
-        }
+        }*/
 
         const product = doc.data();
         const container = template.content.cloneNode(true);
@@ -228,7 +232,8 @@ async function subscribe(event) {
 // Billing portal handler
 document
   .querySelector("#billing-portal-button")
-  .addEventListener("click", async (event) => {
+  .addEventListener("click", async () => {
+    //async (event) => {
     document.querySelectorAll("button").forEach((b) => (b.disabled = true));
 
     // Call billing portal function
@@ -366,3 +371,4 @@ function nFormatter(num, digits) {
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
     : "0";
 }
+//test
