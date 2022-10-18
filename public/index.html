@@ -1319,8 +1319,8 @@
                 let myChartMetricsPage;
                 $(function () {
                   /*Chart.defaults.set('plugins.datalabels', {
-                  color: '#FE777B'
-                });*/
+                color: '#FE777B'
+              });*/
                   const chartOptions = {
                     type: "bar",
                     data: {
@@ -1684,22 +1684,22 @@
                         listOfRanges.forEach(
                           (a) => (rampConfig[a.id] = a.value)
                         );
-                        console.clear();
+
                         console.log(rampConfig);
 
                         /*rangesAsJSobj={
-                        "startingShifts": "71",
-                        "shiftGrowth": "50",
-                        "doorsVsPhones": "50",
-                        "totalIDtextsPlanned": "50",
-                        "relationalIDperVolunteer": "50",
-                        "responseRateDoors": "50",
-                        "responseRatePhones": "50",
-                        "responseRateTexts": "50",
-                        "posRateDoors": "50",
-                        "posRatePhones": "50",
-                        "posRateTexts": "50"
-                    }*/
+                      "startingShifts": "71",
+                      "shiftGrowth": "50",
+                      "doorsVsPhones": "50",
+                      "totalIDtextsPlanned": "50",
+                      "relationalIDperVolunteer": "50",
+                      "responseRateDoors": "50",
+                      "responseRatePhones": "50",
+                      "responseRateTexts": "50",
+                      "posRateDoors": "50",
+                      "posRatePhones": "50",
+                      "posRateTexts": "50"
+                  }*/
 
                         const WEEKSAVAILABLE = 16;
                         var newItem = {};
@@ -1772,7 +1772,7 @@
                         };
 
                         loop(WEEKSAVAILABLE - 1, (i) => {
-                          console.log(`Iteration is #${i}`);
+                          //console.log(`Iteration is #${i}`);
 
                           thisWeekShiftCount =
                             tableObject[tableObject.length - 1][
@@ -1841,13 +1841,12 @@
                             totals[key] += newItem[key];
                           });
                           tableObject.push(newItem);
-                          console.log(totals);
+                          //  console.log(totals);
                         });
                         totals["Week Number"] = "Total";
                         tableObject.push(totals);
                         // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
 
-                        console.clear();
                         tableObject.forEach((row) => {
                           //row
                           Object.keys(newItem).forEach(function (key, index) {
@@ -1894,15 +1893,15 @@
                         });
 
                         /*
-                    var calculations = Array;
-                    calculations['Total Weekly Shifts'].push(0);
-                    tableObject = tableObject.map(x => {
-                      y = x;
-                      y['Week 1'] = "asdasd";
-                      return y;
-                    });
-                    formTable(tableObject, "#tableContainer");
-                    */
+                  var calculations = Array;
+                  calculations['Total Weekly Shifts'].push(0);
+                  tableObject = tableObject.map(x => {
+                    y = x;
+                    y['Week 1'] = "asdasd";
+                    return y;
+                  });
+                  formTable(tableObject, "#tableContainer");
+                  */
                       }
                     </script>
                     <!--end table stuff-->
@@ -2240,13 +2239,13 @@
                             <script>
                               $(function () {
                                 /*
-                            //tooltips init
-                            const tooltipTriggerList = document.querySelectorAll(
-                              '[data-bs-toggle="tooltip"]'
-                            );
-                            const tooltipList = [...tooltipTriggerList].map(
-                              (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                            );*/
+                          //tooltips init
+                          const tooltipTriggerList = document.querySelectorAll(
+                            '[data-bs-toggle="tooltip"]'
+                          );
+                          const tooltipList = [...tooltipTriggerList].map(
+                            (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                          );*/
                                 document
                                   .querySelectorAll('input[type="range"]')
                                   .forEach((a) =>
@@ -3481,13 +3480,13 @@
       };
       $(function () {
         /*  const myChart = new Chart(
-        document.getElementById("myChart"),
+      document.getElementById("myChart"),
+      chartOptions
+    );
+      const myChart2 = new Chart(
+        document.getElementById("myChart2"),
         chartOptions
       );*/
-        const myChart2 = new Chart(
-          document.getElementById("myChart2"),
-          chartOptions
-        );
         const myChart3 = new Chart(
           document.getElementById("myChart3"),
           chartOptions
@@ -3505,8 +3504,9 @@
           chartOptions
         );
 
-        myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
-        myChart2.update();
+        /*myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
+      myChart2.update();
+      */
         myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
         myChart3.update();
         myChart4.data.datasets[0].data = [10, 15, 2, 3, 7, 3];

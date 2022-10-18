@@ -17,23 +17,46 @@ const bigquery = new BigQuery();
 // [END bigquery_client_default_credentials]
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
+  console.log("request");
+  console.log(request);
+  //console.log("response");
+  //console.log(response);
   functions.logger.info("Hello logs!");
   response.send("Hello world");
 });
 
+exports.helloWorldOnCall = functions.https.onCall((data, context) => {
+  return data;
+});
+
 exports.GetData = functions.https.onRequest(async (request, response) => {
   const definitions = {
-    total_contact_attempts: { metric: "count(*)", table: "contacthistory" },
+    total_contact_attempts: {
+      metric: "count(*)",
+      table: "contacthistory",
+      doctitle: "weeklycontacthistory",
+      datecolumn: "DateCanvassed",
+    },
+    total_survey_attempts: {
+      metric: "count(DISTINCT VanID)",
+      table: "ContactsSurveyResponses",
+      doctitle: "weeklysurveys",
+      datecolumn: "DateCanvassed",
+    },
   };
 
-  const metric = request.query.metric;
-  const period = request.query.period;
+  const metric = request.query.metric || "total_contact_attempts";
+  const period = request.query.period || "ISOWEEK";
   const metricDefinition = definitions[metric].metric;
   const table = definitions[metric].table;
+  const doctitle = definitions[metric].doctitle;
+  const metricDefinition = definitions[metric].datecolumn;
   const [rows] = await briefquery(
     `
       SELECT
-        DATE_TRUNC(DateCanvassed,` +
+        DATE_TRUNC(` +
+      datecolumn +
+      `,` +
       period +
       `) AS period,
         ` +
@@ -52,7 +75,7 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
   console.log(rows);
   const resultstring = JSON.stringify(rows);
   db.collection("data")
-    .doc("weeklycontacthistory")
+    .doc(doctitle)
     .set({
       resultstring,
     })

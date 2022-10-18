@@ -260,10 +260,10 @@ let firstchart;
 function LoggedInHomePageDisplay() {
   //document.querySelector("#LoggedInUser").style.display = "block";
   Chart.register(ChartDataLabels);
-  firstchart = new Chart(document.getElementById("myChart"), {
+  const chart_options = {
     type: "bar",
     data: {
-      labels: [0],
+      labels: [0, 0],
 
       datasets: [
         {
@@ -271,7 +271,7 @@ function LoggedInHomePageDisplay() {
           borderColor: "#3e95cd",
           backgroundColor: "#0d6efd", //black //?
 
-          data: [0],
+          data: [0, 0],
           datalabels: {
             align: "start",
             anchor: "end",
@@ -326,27 +326,38 @@ function LoggedInHomePageDisplay() {
         ],
       },
     },
-  });
+  };
+  let secondchart, firstchart;
+  firstchart = new Chart(document.getElementById("myChart2"), chart_options);
+  secondchart = new Chart(document.getElementById("myChart"), chart_options);
   db.collection("data")
     .doc("weeklycontacthistory")
     .onSnapshot((doc) => {
       var parseddata = JSON.parse(doc.data().resultstring);
       console.log("Current data: ", parseddata);
-      updateGraph(parseddata);
+      updateGraph(parseddata, firstchart);
+    });
+  db.collection("data")
+    .doc("weeklysurveys")
+    .onSnapshot((doc) => {
+      var parseddata = JSON.parse(doc.data().resultstring);
+      console.log("Current data: ", parseddata);
+      updateGraph(parseddata, secondchart);
     });
 }
 
-function updateGraph(graphdata) {
-  console.log(graphdata[0]);
+function updateGraph(graphdata, chartobject) {
+  //console.log(graphdata[0]);
+  //console.log(chartobject);
 
-  firstchart.data.labels = graphdata.map((x) =>
+  chartobject.data.labels = graphdata.map((x) =>
     new Date(x.period.value).toLocaleDateString("en-us", {
       month: "short",
       day: "numeric",
     })
   );
-  firstchart.data.datasets[0].data = graphdata.map((x) => x.metric);
-  firstchart.update();
+  chartobject.data.datasets[0].data = graphdata.map((x) => x.metric);
+  chartobject.update();
   console.log("updated");
 }
 
