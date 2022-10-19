@@ -21,24 +21,6 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-    />
-
     <!-- Core theme CSS (includes Bootstrap)-->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
@@ -46,52 +28,35 @@
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
-
-    <!-- Bootstrap Font Icon CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
-    />
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-      crossorigin="anonymous"
-    ></script>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
-      integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA="
-      crossorigin="anonymous"
-    ></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script>
+      console.time();
+      console.timeLog();
+    </script>
   </head>
 
   <body class="bg-light logged-in">
-    <div
-      class="justify-content-center row flex flex-row py-5 my-5 mx-2 hide-if-logged-in"
-      style="height: 100%"
-    >
-      <div class="card col-md-4">
-        <div class="card-body shadow-s py-5">
-          <section id="firebaseui-auth-container">
-            <center>
-              <img
-                src="Copy of Fieldplan (1).svg"
-                alt="Logo"
-                width="150px"
-                class="d-inline-block align-text-top text-center mb-5"
-              />
-              <h1 class="mb-2 h2">Get Your Metrics</h1>
-              <div id="loader">Loading &hellip;</div>
-            </center>
-          </section>
+    <section id="login-top">
+      <div
+        class="justify-content-center row flex flex-row py-5 my-5 mx-2 hide-if-logged-in"
+        style="height: 100%"
+      >
+        <div class="card col-md-4">
+          <div class="card-body shadow-s py-5">
+            <section id="firebaseui-auth-container">
+              <center>
+                <img
+                  src="Copy of Fieldplan (1).svg"
+                  alt="Logo"
+                  width="150px"
+                  class="d-inline-block align-text-top text-center mb-5"
+                />
+                <h1 class="mb-2 h2">Get Your Metrics</h1>
+                <div id="loader">Loading &hellip;</div>
+              </center>
+            </section>
+          </div>
         </div>
       </div>
-    </div>
-
-    <section id="login-top">
       <div id="subscribe">
         <h2>Subscribe</h2>
         <div class="test-card-notice">
@@ -133,11 +98,7 @@
     <div class="must-be-logged-in">
       <!-- Header -->
       <header></header>
-      <div
-        class="row"
-        id="wrapper"
-        style="max-width: 1440px !important; margin: 0 auto"
-      >
+      <div class="row mx-0" id="wrapper">
         <!-- Sidebar-->
         <div
           class="d-block text-center bg-white navbar shadow-sm border-end col-12 col-sm-1"
@@ -382,13 +343,6 @@
                       </div>
                     </div>
                     <div id="drp-container">
-                      <link
-                        rel="stylesheet"
-                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-                        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-                        crossorigin="anonymous"
-                        referrerpolicy="no-referrer"
-                      />
                       <div
                         id="reportrange"
                         class="shadow-sm"
@@ -873,13 +827,6 @@
                       </div>
                     </div>
                     <div id="drp-container">
-                      <link
-                        rel="stylesheet"
-                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-                        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-                        crossorigin="anonymous"
-                        referrerpolicy="no-referrer"
-                      />
                       <div
                         id="reportrange"
                         class="shadow-sm"
@@ -1328,8 +1275,8 @@
                 let myChartMetricsPage;
                 $(function () {
                   /*Chart.defaults.set('plugins.datalabels', {
-      color: '#FE777B'
-    });*/
+    color: '#FE777B'
+  });*/
                   const chartOptions = {
                     type: "bar",
                     data: {
@@ -1697,18 +1644,18 @@
                         console.log(rampConfig);
 
                         /*rangesAsJSobj={
-            "startingShifts": "71",
-            "shiftGrowth": "50",
-            "doorsVsPhones": "50",
-            "totalIDtextsPlanned": "50",
-            "relationalIDperVolunteer": "50",
-            "responseRateDoors": "50",
-            "responseRatePhones": "50",
-            "responseRateTexts": "50",
-            "posRateDoors": "50",
-            "posRatePhones": "50",
-            "posRateTexts": "50"
-        }*/
+          "startingShifts": "71",
+          "shiftGrowth": "50",
+          "doorsVsPhones": "50",
+          "totalIDtextsPlanned": "50",
+          "relationalIDperVolunteer": "50",
+          "responseRateDoors": "50",
+          "responseRatePhones": "50",
+          "responseRateTexts": "50",
+          "posRateDoors": "50",
+          "posRatePhones": "50",
+          "posRateTexts": "50"
+      }*/
 
                         const WEEKSAVAILABLE = 16;
                         var newItem = {};
@@ -1902,15 +1849,15 @@
                         });
 
                         /*
-        var calculations = Array;
-        calculations['Total Weekly Shifts'].push(0);
-        tableObject = tableObject.map(x => {
-          y = x;
-          y['Week 1'] = "asdasd";
-          return y;
-        });
-        formTable(tableObject, "#tableContainer");
-        */
+      var calculations = Array;
+      calculations['Total Weekly Shifts'].push(0);
+      tableObject = tableObject.map(x => {
+        y = x;
+        y['Week 1'] = "asdasd";
+        return y;
+      });
+      formTable(tableObject, "#tableContainer");
+      */
                       }
                     </script>
                     <!--end table stuff-->
@@ -2248,13 +2195,13 @@
                             <script>
                               $(function () {
                                 /*
-                //tooltips init
-                const tooltipTriggerList = document.querySelectorAll(
-                  '[data-bs-toggle="tooltip"]'
-                );
-                const tooltipList = [...tooltipTriggerList].map(
-                  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                );*/
+              //tooltips init
+              const tooltipTriggerList = document.querySelectorAll(
+                '[data-bs-toggle="tooltip"]'
+              );
+              const tooltipList = [...tooltipTriggerList].map(
+                (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+              );*/
                                 document
                                   .querySelectorAll('input[type="range"]')
                                   .forEach((a) =>
@@ -3410,18 +3357,6 @@
       </footer>
     </div>
 
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
-    <!-- Bootstrap Font Icon CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
-    />
     <style>
       body {
         font-family: system-ui !important;
@@ -3443,55 +3378,55 @@
     </style>
 
     <script>
-      const chartOptions = {
-        type: "bar",
-        data: {
-          labels: ["Apr 11", "Apr 18", "May 10", "May 17", "May 24", "June 5"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                "#0d6efd", //black //?
-              ],
-            },
-          ],
-        },
-        options: {
-          interaction: {
-            intersect: false,
-            mode: "nearest",
-            axis: "x",
-          },
-          elements: {
-            line: {
-              tension: 0,
-            },
-          },
-          animation: {
-            duration: 0,
-          },
+      /* const chartOptions = {
+       type: "bar",
+       data: {
+         labels: ["Apr 11", "Apr 18", "May 10", "May 17", "May 24", "June 5"],
+         datasets: [
+           {
+             label: "# of Votes",
+             data: [12, 19, 3, 5, 2, 3],
+             backgroundColor: [
+               "#0d6efd", //black //?
+             ],
+           },
+         ],
+       },
+       options: {
+         interaction: {
+           intersect: false,
+           mode: "nearest",
+           axis: "x",
+         },
+         elements: {
+           line: {
+             tension: 0,
+           },
+         },
+         animation: {
+           duration: 0,
+         },
 
-          plugins: {
-            legend: false,
-          },
-          title: {
-            display: false,
-            text: "Contact attempts by week",
-          },
-          scales: {
-            xAxes: [
-              {
-                gridLines: {
-                  display: false,
-                },
-              },
-            ],
-          },
-        },
-      };
-      $(function () {
-        /*  const myChart = new Chart(
+         plugins: {
+           legend: false,
+         },
+         title: {
+           display: false,
+           text: "Contact attempts by week",
+         },
+         scales: {
+           xAxes: [
+             {
+               gridLines: {
+                 display: false,
+               },
+             },
+           ],
+         },
+       },
+     };
+     $(function () {
+       /*  const myChart = new Chart(
 document.getElementById("myChart"),
 chartOptions
 );
@@ -3503,47 +3438,132 @@ const myChart3 = new Chart(
 document.getElementById("myChart3"),
 chartOptions
 );*/
-        const myChart4 = new Chart(
-          document.getElementById("myChart4"),
-          chartOptions
-        );
-        const myChart5 = new Chart(
-          document.getElementById("myChart5"),
-          chartOptions
-        );
-        const myChart6 = new Chart(
-          document.getElementById("myChart6"),
-          chartOptions
-        );
+      /*const myChart4 = new Chart(
+      document.getElementById("myChart4"),
+      chartOptions
+    );
+    const myChart5 = new Chart(
+      document.getElementById("myChart5"),
+      chartOptions
+    );
+    const myChart6 = new Chart(
+      document.getElementById("myChart6"),
+      chartOptions
+    );*/
 
-        /*myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
+      /*myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
 myChart2.update();
 */
-        /*myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
-myChart3.update();*/
-        myChart4.data.datasets[0].data = [10, 15, 2, 3, 7, 3];
-        myChart4.update();
-        myChart5.data.datasets[0].data = [25, 10, 25, 15, 16, 20];
-        myChart5.update();
-        myChart6.data.datasets[0].data = [3, 9, 8, 7, 6, 5];
-        myChart6.update();
-      });
+      /*myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
+myChart3.update();
+    myChart4.data.datasets[0].data = [10, 15, 2, 3, 7, 3];
+    myChart4.update();
+    myChart5.data.datasets[0].data = [25, 10, 25, 15, 16, 20];
+    myChart5.update();
+    myChart6.data.datasets[0].data = [3, 9, 8, 7, 6, 5];
+    myChart6.update();
+  });*/
     </script>
 
     <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
 
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-functions.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"
+      defer
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"
+      defer
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+      defer
+    ></script>
     <link
-      type="text/css"
       rel="stylesheet"
-      href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
     />
 
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      defer
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
+      defer
+      integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"
+      defer
+    ></script>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script
+      src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"
+      defer
+    ></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/7.14.6/firebase-functions.js"
+      defer
+    ></script>
+
+    <script
+      src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"
+      defer
+    ></script>
+    <link
+      rel="preload"
+      href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
     <!-- Application Code -->
-    <script src="javascript/app.js"></script>
+    <script src="javascript/app.js" defer></script>
+
+    <style async>
+      .logged-in header button {
+        display: block !important;
+      }
+
+      .must-be-logged-in {
+        display: none;
+      }
+      .logged-in .must-be-logged-in {
+        display: block;
+      }
+
+      .logged-in .hide-if-logged-in {
+        display: none;
+      }
+    </style>
+
+    <!-- Bootstrap Font Icon CSS -->
+
+    <link
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+
+    <link
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </body>
 </html>

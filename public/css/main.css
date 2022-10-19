@@ -21,7 +21,6 @@
   }
   .brand img,
   .brand {
-    /*width: 100% !important;*/
     display: block !important;
     margin: 0 auto !important;
     margin-top: 0 !important;
@@ -43,12 +42,12 @@ body {
   margin: 0;
 }
 
-main {
+/*main {
   display: none;
   margin: 0 auto 6rem;
   max-width: 1200px;
   width: 90vw;
-}
+}*/
 
 #firebaseui-auth-container {
   font-weight: 800;
@@ -184,21 +183,18 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.logged-in header button {
-  display: block !important;
-}
-
-.must-be-logged-in {
-  display: none;
-}
-.logged-in .must-be-logged-in {
-  display: block;
-}
-
-.logged-in .hide-if-logged-in {
-  display: none;
-}
-
 #credential_picker_container {
   position: inherit !important;
+}
+
+/*
+#wrapper {max-width: 1440px !important; margin: 0 auto}
+*/
+
+.container {
+  max-width: inherit !important;
+}
+
+#login-top {
+  display: none;
 }

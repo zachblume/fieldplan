@@ -1,5 +1,6 @@
 console.log("app.js begins running, time logged as StartTimeLogged");
 const StartTimeLogged = Date.now();
+console.timeLog();
 
 const STRIPE_PUBLISHABLE_KEY =
   "pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO";
@@ -26,6 +27,7 @@ const firebaseConfig = {
 // const functionLocation = "us-central1";
 
 // Initialize Firebase
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
@@ -78,11 +80,13 @@ const firebaseUiConfig = {
 
 console.log("queue firebase.auth().onAuthStateChanged((firebaseUser) after ");
 console.log(Date.now() - StartTimeLogged);
+console.timeLog();
 LoggedInHomePageDisplay();
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
     console.log("firebase.auth().onAuthStateChanged((firebaseUser) after ");
     console.log(Date.now() - StartTimeLogged);
+    console.timeLog();
     // document.querySelector('#loader').style.display = 'none';
     // document.querySelector('main').style.display = 'block';
     document.querySelector("body").classList.add("logged-in");
@@ -320,7 +324,7 @@ function LoggedInHomePageDisplay() {
           /*   borderColor: "white",
           borderRadius: 32,
           borderWidth: 2,*/
-          formatter: nFormatter,
+          /*formatter: nFormatter,*/
         },
       },
       elements: {
@@ -350,12 +354,27 @@ function LoggedInHomePageDisplay() {
     },
   };
   const charts = [];
-  charts[1] = new Chart(document.getElementById("myChart2"), chart_options);
-  charts[2] = new Chart(document.getElementById("myChart"), chart_options);
-  charts[3] = new Chart(document.getElementById("myChart3"), chart_options);
+  function cloneChartOptions(x) {
+    y = structuredClone(x);
+    y.options.plugins.datalabels.formatter = nFormatter;
+    return y;
+  }
+  charts[1] = new Chart(
+    document.getElementById("myChart2"),
+    cloneChartOptions(chart_options)
+  );
+  charts[2] = new Chart(
+    document.getElementById("myChart"),
+    cloneChartOptions(chart_options)
+  );
+  charts[3] = new Chart(
+    document.getElementById("myChart3"),
+    cloneChartOptions(chart_options)
+  );
 
   console.log("firestore gets called after");
   console.log(Date.now() - StartTimeLogged);
+  console.timeLog();
 
   db.collection("data")
     .doc("weeklycontacthistory")
@@ -364,6 +383,7 @@ function LoggedInHomePageDisplay() {
 
       console.log("first firestore response after");
       console.log(Date.now() - StartTimeLogged);
+      console.timeLog();
 
       console.log("Current data: ", parseddata);
       updateGraph(parseddata, charts[1]);
@@ -406,7 +426,9 @@ function updateGraph(graphdata, chartobject) {
   console.log("updated");
 }
 
-function nFormatter(num, digits) {
+function nFormatter(num, ...params) {
+  const digits = params.digits || 1;
+  console.log(digits);
   const lookup = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "k" },
