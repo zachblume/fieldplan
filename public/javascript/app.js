@@ -281,7 +281,6 @@ async function getCustomClaimRole() {
   return decodedToken.claims.stripeRole;
 }
 
-let firstchart;
 function LoggedInHomePageDisplay() {
   //document.querySelector("#LoggedInUser").style.display = "block";
   Chart.register(ChartDataLabels);
@@ -457,7 +456,8 @@ function waitForElm(selector) {
       return resolve(document.querySelector(selector));
     }
 
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(() => {
+      //(mutations) => {
       if (document.querySelector(selector)) {
         resolve(document.querySelector(selector));
         observer.disconnect();
