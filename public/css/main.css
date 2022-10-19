@@ -198,3 +198,7 @@ button:disabled {
 #login-top {
   display: none;
 }
+
+.not-logged-in #login-top {
+  display: block !important;
+}

@@ -81,7 +81,7 @@ const firebaseUiConfig = {
 console.log("queue firebase.auth().onAuthStateChanged((firebaseUser) after ");
 console.log(Date.now() - StartTimeLogged);
 console.timeLog();
-LoggedInHomePageDisplay();
+$(LoggedInHomePageDisplay);
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
     console.log("firebase.auth().onAuthStateChanged((firebaseUser) after ");
@@ -90,11 +90,13 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     // document.querySelector('#loader').style.display = 'none';
     // document.querySelector('main').style.display = 'block';
     document.querySelector("body").classList.add("logged-in");
+    document.querySelector("body").classList.remove("not-logged-in");
     currentUser = firebaseUser.uid;
     startDataListeners();
     //console.log(firebaseUser)
   } else {
     document.querySelector("body").classList.remove("logged-in");
+    document.querySelector("body").classList.add("not-logged-in");
     firebaseUI.start("#firebaseui-auth-container", firebaseUiConfig);
     firebaseUI.disableAutoSignIn();
   }
@@ -450,6 +452,7 @@ function nFormatter(num, ...params) {
 }
 //test
 
+/*
 function waitForElm(selector) {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
@@ -477,3 +480,5 @@ $(function () {
     console.log(elm.textContent);
   });
 });
+
+*/
