@@ -2611,11 +2611,13 @@
                     </div>
                     <div id="drp-container">
                       <link
-                        rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
                         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
                         crossorigin="anonymous"
                         referrerpolicy="no-referrer"
+                        rel="preload"
+                        as="style"
+                        onload="this.onload=null;this.rel='stylesheet'"
                       />
                       <div
                         id="reportrange"
@@ -3497,9 +3499,10 @@ myChart3.update();
       defer
     ></script>
     <link
-      rel="stylesheet"
-      type="text/css"
       href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+      rel="preload"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
 
     <script
