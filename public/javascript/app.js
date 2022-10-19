@@ -377,32 +377,22 @@ function LoggedInHomePageDisplay() {
   console.log(Date.now() - StartTimeLogged);
   console.timeLog();
 
-  db.collection("data")
-    .doc("weeklycontacthistory")
-    .onSnapshot((doc) => {
-      var parseddata = JSON.parse(doc.data().resultstring);
+  db.collection("data").onSnapshot((querySnapshot) => {
+    console.log("first firestore response after");
+    console.log(Date.now() - StartTimeLogged);
+    console.timeLog();
 
-      console.log("first firestore response after");
-      console.log(Date.now() - StartTimeLogged);
-      console.timeLog();
-
-      console.log("Current data: ", parseddata);
-      updateGraph(parseddata, charts[1]);
+    var data = {};
+    querySnapshot.forEach((doc) => {
+      data = doc.data();
+      choices = {
+        weeklycontacthistory: 1,
+        weeklysurveys: 2,
+        weeklysignups: 3,
+      };
+      updateGraph(JSON.parse(data.resultstring), charts[choices[doc.id]]);
     });
-  db.collection("data")
-    .doc("weeklysurveys")
-    .onSnapshot((doc) => {
-      var parseddata = JSON.parse(doc.data().resultstring);
-      console.log("Current data: ", parseddata);
-      updateGraph(parseddata, charts[2]);
-    });
-  db.collection("data")
-    .doc("weeklysignups")
-    .onSnapshot((doc) => {
-      var parseddata = JSON.parse(doc.data().resultstring);
-      console.log("Current data: ", parseddata);
-      updateGraph(parseddata, charts[3]);
-    });
+  });
 }
 
 function updateGraph(graphdata, chartobject) {
