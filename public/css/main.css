@@ -198,3 +198,7 @@ button:disabled {
 .logged-in .hide-if-logged-in {
   display: none;
 }
+
+#credential_picker_container {
+  position: inherit !important;
+}

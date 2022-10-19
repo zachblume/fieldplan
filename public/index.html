@@ -68,7 +68,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   </head>
 
-  <body class="bg-light">
+  <body class="bg-light logged-in">
     <div
       class="justify-content-center row flex flex-row py-5 my-5 mx-2 hide-if-logged-in"
       style="height: 100%"
@@ -1328,8 +1328,8 @@
                 let myChartMetricsPage;
                 $(function () {
                   /*Chart.defaults.set('plugins.datalabels', {
-        color: '#FE777B'
-      });*/
+      color: '#FE777B'
+    });*/
                   const chartOptions = {
                     type: "bar",
                     data: {
@@ -1697,18 +1697,18 @@
                         console.log(rampConfig);
 
                         /*rangesAsJSobj={
-              "startingShifts": "71",
-              "shiftGrowth": "50",
-              "doorsVsPhones": "50",
-              "totalIDtextsPlanned": "50",
-              "relationalIDperVolunteer": "50",
-              "responseRateDoors": "50",
-              "responseRatePhones": "50",
-              "responseRateTexts": "50",
-              "posRateDoors": "50",
-              "posRatePhones": "50",
-              "posRateTexts": "50"
-          }*/
+            "startingShifts": "71",
+            "shiftGrowth": "50",
+            "doorsVsPhones": "50",
+            "totalIDtextsPlanned": "50",
+            "relationalIDperVolunteer": "50",
+            "responseRateDoors": "50",
+            "responseRatePhones": "50",
+            "responseRateTexts": "50",
+            "posRateDoors": "50",
+            "posRatePhones": "50",
+            "posRateTexts": "50"
+        }*/
 
                         const WEEKSAVAILABLE = 16;
                         var newItem = {};
@@ -1902,15 +1902,15 @@
                         });
 
                         /*
-          var calculations = Array;
-          calculations['Total Weekly Shifts'].push(0);
-          tableObject = tableObject.map(x => {
-            y = x;
-            y['Week 1'] = "asdasd";
-            return y;
-          });
-          formTable(tableObject, "#tableContainer");
-          */
+        var calculations = Array;
+        calculations['Total Weekly Shifts'].push(0);
+        tableObject = tableObject.map(x => {
+          y = x;
+          y['Week 1'] = "asdasd";
+          return y;
+        });
+        formTable(tableObject, "#tableContainer");
+        */
                       }
                     </script>
                     <!--end table stuff-->
@@ -2248,13 +2248,13 @@
                             <script>
                               $(function () {
                                 /*
-                  //tooltips init
-                  const tooltipTriggerList = document.querySelectorAll(
-                    '[data-bs-toggle="tooltip"]'
-                  );
-                  const tooltipList = [...tooltipTriggerList].map(
-                    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                  );*/
+                //tooltips init
+                const tooltipTriggerList = document.querySelectorAll(
+                  '[data-bs-toggle="tooltip"]'
+                );
+                const tooltipList = [...tooltipTriggerList].map(
+                  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                );*/
                                 document
                                   .querySelectorAll('input[type="range"]')
                                   .forEach((a) =>
@@ -3500,8 +3500,8 @@ document.getElementById("myChart2"),
 chartOptions
 );
 const myChart3 = new Chart(
-  document.getElementById("myChart3"),
-  chartOptions
+document.getElementById("myChart3"),
+chartOptions
 );*/
         const myChart4 = new Chart(
           document.getElementById("myChart4"),
