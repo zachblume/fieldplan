@@ -18,7 +18,7 @@ const bigquery = new BigQuery();
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
   console.log("request");
-  console.log(request);
+  console.log(request.query);
   // console.log("response");
   // console.log(response);
   functions.logger.info("Hello logs!");
@@ -30,6 +30,7 @@ exports.helloWorldOnCall = functions.https.onCall((data, context) => {
 });
 
 exports.GetData = functions.https.onRequest(async (request, response) => {
+  // console.log(request.query);
   const definitions = {
     total_contact_attempts: {
       metric: "count(*)",
@@ -45,9 +46,9 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
     },
     total_shifts: {
       metric: "count(*)",
-      table: "signups",
+      table: "signups_joined_events",
       doctitle: "weeklysignups",
-      datecolumn: "DateCanvassed",
+      datecolumn: "startDate",
     },
   };
 
@@ -273,6 +274,7 @@ exports.bigquerytest = functions.https.onRequest(async (request, response) => {
 });
 
 async function briefquery(query) {
+  console.log("Query:", query);
   // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
   const options = {
     query: query,

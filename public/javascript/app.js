@@ -99,7 +99,6 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
  * Data listeners
  */
 function startDataListeners() {
-  LoggedInHomePageDisplay();
   // Get all our products and render them to the page
   const products = document.querySelector(".products");
   const template = document.querySelector("#product");
@@ -339,19 +338,21 @@ function LoggedInHomePageDisplay() {
         text: "Contact attempts by week",
       },
       scales: {
-        xAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
+        x: {
+          grid: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: false,
+            drawTicks: true,
           },
-        ],
+        },
       },
     },
   };
   const charts = [];
   charts[1] = new Chart(document.getElementById("myChart2"), chart_options);
   charts[2] = new Chart(document.getElementById("myChart"), chart_options);
+  charts[3] = new Chart(document.getElementById("myChart3"), chart_options);
 
   console.log("firestore gets called after");
   console.log(Date.now() - StartTimeLogged);
@@ -374,18 +375,32 @@ function LoggedInHomePageDisplay() {
       console.log("Current data: ", parseddata);
       updateGraph(parseddata, charts[2]);
     });
+  db.collection("data")
+    .doc("weeklysignups")
+    .onSnapshot((doc) => {
+      var parseddata = JSON.parse(doc.data().resultstring);
+      console.log("Current data: ", parseddata);
+      updateGraph(parseddata, charts[3]);
+    });
 }
 
 function updateGraph(graphdata, chartobject) {
   //console.log(graphdata[0]);
   //console.log(chartobject);
+  chartobject.data.labels = graphdata.map((x) => {
+    try {
+      return new Date(x.period.value).toLocaleDateString("en-us", {
+        month: "short",
+        day: "numeric",
+      });
+    } catch (error) {
+      console.error(error);
+      return x.period == null ? "" : x.period;
+      // expected output: ReferenceError: nonExistentFunction is not defined
+      // Note - error messages will vary depending on browser
+    }
+  });
 
-  chartobject.data.labels = graphdata.map((x) =>
-    new Date(x.period.value).toLocaleDateString("en-us", {
-      month: "short",
-      day: "numeric",
-    })
-  );
   chartobject.data.datasets[0].data = graphdata.map((x) => x.metric);
   chartobject.update();
   console.log("updated");

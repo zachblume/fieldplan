@@ -140,28 +140,32 @@
       >
         <!-- Sidebar-->
         <div
-          class="d-block p-md-3 px-3 bg-white navbar shadow-sm border-end col-12 col-md-2"
+          class="d-block text-center bg-white navbar shadow-sm border-end col-12 col-sm-1"
           id="sidebar"
         >
-          <div class="brand mt-md-3">
-            <a
-              href="/"
-              class="d-flex align-items-center mb-2 mb-md-3 mb-md-0 me-md-auto link-dark text-decoration-none"
-            >
-              <center>
-                <img
-                  src="Copy of Fieldplan (1).svg"
-                  alt="Logo"
-                  width="90%"
-                  class="d-inline-block align-text-top text-center"
-                />
-              </center>
+          <div class="brand mt-md-1">
+            <a href="/" class="align-items-center mb-2 d-block">
+              <img
+                src="squarelogo.png"
+                alt="Logo"
+                width="83px"
+                class="d-inline-block align-text-top text-center my-1"
+              />
+              <img
+                src="text.png"
+                alt="Logo"
+                width="83px"
+                class="d-inline-block align-text-top text-center my-1"
+              />
             </a>
           </div>
-          <hr />
-          <div class="nav nav-pills flex-sm-column mb-auto">
+
+          <div
+            class="d-flex nav nav-pills flex-sm-column mb-auto"
+            style="font-size: 1rem"
+          >
             <button
-              class="nav-link active p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2 active"
               id="v-pills-home-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-home"
@@ -170,10 +174,11 @@
               aria-controls="v-pills-home"
               aria-selected="true"
             >
-              <i class="bi-grid-fill"></i>&nbsp;&nbsp;&nbsp;Home
+              <div><i class="bi-grid-fill"></i></div>
+              Home
             </button>
             <button
-              class="nav-link p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2"
               id="v-pills-metrics-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-metrics"
@@ -182,11 +187,11 @@
               aria-controls="v-pills-metrics"
               aria-selected="true"
             >
-              <i class="bi-bar-chart-line-fill"></i>&nbsp;&nbsp;&nbsp;Field
+              <div><i class="bi-bar-chart-line-fill"></i></div>
               Metrics
             </button>
             <button
-              class="nav-link p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2 text-center"
               id="v-pills-volunteers-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-volunteers"
@@ -195,10 +200,11 @@
               aria-controls="v-pills-volunteers"
               aria-selected="true"
             >
-              <i class="bi-search"></i>&nbsp;&nbsp;&nbsp;Volunteers
+              <div><i class="bi-search"></i></div>
+              Volunteers
             </button>
             <button
-              class="nav-link p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2"
               id="v-pills-ramp-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-ramp"
@@ -207,10 +213,11 @@
               aria-controls="v-pills-ramp"
               aria-selected="true"
             >
-              <i class="bi-magic"></i>&nbsp;&nbsp;&nbsp;Forecast
+              <div><i class="bi-magic"></i></div>
+              Goals
             </button>
             <button
-              class="nav-link p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2"
               id="v-pills-progress-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-progress"
@@ -219,10 +226,11 @@
               aria-controls="v-pills-progress"
               aria-selected="true"
             >
-              <i class="bi-trophy-fill"></i>&nbsp;&nbsp;&nbsp;Progress to Goal
+              <div><i class="bi-trophy-fill"></i></div>
+              Progress
             </button>
             <button
-              class="nav-link p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2"
               id="v-pills-reports-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-reports"
@@ -231,12 +239,12 @@
               aria-controls="v-pills-reports"
               aria-selected="true"
             >
-              <i class="bi-envelope-fill"></i>&nbsp;&nbsp;&nbsp;Automated
-              Reports
+              <div><i class="bi-envelope-fill"></i></div>
+              Schedule
             </button>
 
             <button
-              class="nav-link p-3 text-start"
+              class="nav-link border-bottom rounded-0 p-2"
               id="v-pills-settings-tab"
               data-bs-toggle="pill"
               data-bs-target="#v-pills-settings"
@@ -245,11 +253,12 @@
               aria-controls="v-pills-settings"
               aria-selected="true"
             >
-              <i class="bi-gear-fill"></i>&nbsp;&nbsp;&nbsp;Settings
+              <div><i class="bi-gear-fill"></i></div>
+              Settings
             </button>
           </div>
-          <hr />
-          <div class="dropdown p-3 pt-2">
+
+          <div class="dropup p-3">
             <a
               href="#"
               class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
@@ -261,9 +270,9 @@
                 alt=""
                 width="32"
                 height="32"
-                class="rounded-circle me-2"
+                class="rounded-circle me-2 d-block"
               />
-              Zach Blume
+              Zach
             </a>
             <ul class="dropdown-menu text-small shadow">
               <li>
@@ -281,7 +290,7 @@
         <!-- Page content wrapper-->
         <main
           id="page-content-wrapper"
-          class="p-3 ms-sm-auto px-md-4 bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12 col-md-10"
+          class="p-2 py-3 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12 col-md-11"
         >
           <!--end home page content-->
           <div
@@ -330,8 +339,7 @@
                       <div
                         class="btn-group shadow-sm"
                         role="group"
-                        aria-label="Basic
-          outlined example"
+                        aria-label="Basic outlined example"
                         style="height: 2.5em !important"
                       >
                         <input
@@ -392,7 +400,8 @@
                           width: 100%;
                         "
                       >
-                        <i class="fa fa-calendar"></i>&nbsp; <span></span>
+                        <i class="fa fa-calendar"></i>
+                        &nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
                         <style>
                           #reportrange {
@@ -503,8 +512,11 @@
                   class="shadow-sm alert alert-success alert-dismissible fade show"
                   role="alert"
                 >
-                  <strong><i class="bi-check"></i> Synced!</strong> No issues.
-                  Data below is updated within 15 min.
+                  <strong>
+                    <i class="bi-check"></i>
+                    Synced!
+                  </strong>
+                  No issues. Data below is updated within 15 min.
                   <button
                     type="button"
                     class="btn-close"
@@ -518,7 +530,7 @@
                       <div class="card-body">
                         <h5 class="card-title">Quick Look</h5>
                         <style>
-                          nav-tabs nav-link {
+                          nav-tabs nav-link border-bottom rounded-0 {
                             border: 0 !important;
                           }
 
@@ -555,16 +567,21 @@
                         </style>
                         <ul class="nav nav-tabs mb-1" id="qltabs">
                           <li class="nav-item active">
-                            <a class="nav-link" aria-current="page" href="#"
+                            <a
+                              class="nav-link border-bottom rounded-0"
+                              aria-current="page"
+                              href="#"
                               >Today</a
                             >
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Yesterday</a>
+                            <a class="nav-link border-bottom rounded-0" href="#"
+                              >Yesterday</a
+                            >
                           </li>
                           <li class="nav-item dropdown">
                             <a
-                              class="nav-link dropdown-toggle"
+                              class="nav-link border-bottom rounded-0 dropdown-toggle"
                               data-bs-toggle="dropdown"
                               href="#"
                               role="button"
@@ -874,7 +891,8 @@
                           width: 100%;
                         "
                       >
-                        <i class="fa fa-calendar"></i>&nbsp; <span></span>
+                        <i class="fa fa-calendar"></i>
+                        &nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
                         <style>
                           #reportrange {
@@ -1310,8 +1328,8 @@
                 let myChartMetricsPage;
                 $(function () {
                   /*Chart.defaults.set('plugins.datalabels', {
-              color: '#FE777B'
-            });*/
+        color: '#FE777B'
+      });*/
                   const chartOptions = {
                     type: "bar",
                     data: {
@@ -1415,7 +1433,7 @@
                       class="mt-0 h2 d-flex justify-content-start"
                       id="metric-page-title"
                     >
-                      Forecast Ramp
+                      Forecast
                     </h1>
                     <div
                       class="form-check form-switch mb-3 d-flex flex-grow-1 ms-3 mt-1"
@@ -1679,18 +1697,18 @@
                         console.log(rampConfig);
 
                         /*rangesAsJSobj={
-                    "startingShifts": "71",
-                    "shiftGrowth": "50",
-                    "doorsVsPhones": "50",
-                    "totalIDtextsPlanned": "50",
-                    "relationalIDperVolunteer": "50",
-                    "responseRateDoors": "50",
-                    "responseRatePhones": "50",
-                    "responseRateTexts": "50",
-                    "posRateDoors": "50",
-                    "posRatePhones": "50",
-                    "posRateTexts": "50"
-                }*/
+              "startingShifts": "71",
+              "shiftGrowth": "50",
+              "doorsVsPhones": "50",
+              "totalIDtextsPlanned": "50",
+              "relationalIDperVolunteer": "50",
+              "responseRateDoors": "50",
+              "responseRatePhones": "50",
+              "responseRateTexts": "50",
+              "posRateDoors": "50",
+              "posRatePhones": "50",
+              "posRateTexts": "50"
+          }*/
 
                         const WEEKSAVAILABLE = 16;
                         var newItem = {};
@@ -1884,15 +1902,15 @@
                         });
 
                         /*
-                var calculations = Array;
-                calculations['Total Weekly Shifts'].push(0);
-                tableObject = tableObject.map(x => {
-                  y = x;
-                  y['Week 1'] = "asdasd";
-                  return y;
-                });
-                formTable(tableObject, "#tableContainer");
-                */
+          var calculations = Array;
+          calculations['Total Weekly Shifts'].push(0);
+          tableObject = tableObject.map(x => {
+            y = x;
+            y['Week 1'] = "asdasd";
+            return y;
+          });
+          formTable(tableObject, "#tableContainer");
+          */
                       }
                     </script>
                     <!--end table stuff-->
@@ -2230,13 +2248,13 @@
                             <script>
                               $(function () {
                                 /*
-                        //tooltips init
-                        const tooltipTriggerList = document.querySelectorAll(
-                          '[data-bs-toggle="tooltip"]'
-                        );
-                        const tooltipList = [...tooltipTriggerList].map(
-                          (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-                        );*/
+                  //tooltips init
+                  const tooltipTriggerList = document.querySelectorAll(
+                    '[data-bs-toggle="tooltip"]'
+                  );
+                  const tooltipList = [...tooltipTriggerList].map(
+                    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+                  );*/
                                 document
                                   .querySelectorAll('input[type="range"]')
                                   .forEach((a) =>
@@ -2661,7 +2679,8 @@
                           width: 100%;
                         "
                       >
-                        <i class="fa fa-calendar"></i>&nbsp; <span></span>
+                        <i class="fa fa-calendar"></i>
+                        &nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
                         <style>
                           #reportrange {
@@ -3335,7 +3354,8 @@
                             border-radius: 0.4em;
                           "
                         >
-                          <i class="fa fa-calendar"></i>&nbsp;
+                          <i class="fa fa-calendar"></i>
+                          &nbsp;
                           <span>Oct 1, 2022</span>
                           <i class="fa fa-caret-down"></i>
                         </div>
@@ -3353,7 +3373,8 @@
                             border-radius: 0.4em;
                           "
                         >
-                          <i class="fa fa-calendar"></i>&nbsp;
+                          <i class="fa fa-calendar"></i>
+                          &nbsp;
                           <span>Oct 1, 2022</span>
                           <i class="fa fa-caret-down"></i>
                         </div>
@@ -3471,17 +3492,17 @@
       };
       $(function () {
         /*  const myChart = new Chart(
-    document.getElementById("myChart"),
-    chartOptions
-  );
-    const myChart2 = new Chart(
-      document.getElementById("myChart2"),
-      chartOptions
-    );
-      const myChart3 = new Chart(
-        document.getElementById("myChart3"),
-        chartOptions
-      );*/
+document.getElementById("myChart"),
+chartOptions
+);
+const myChart2 = new Chart(
+document.getElementById("myChart2"),
+chartOptions
+);
+const myChart3 = new Chart(
+  document.getElementById("myChart3"),
+  chartOptions
+);*/
         const myChart4 = new Chart(
           document.getElementById("myChart4"),
           chartOptions
@@ -3496,10 +3517,10 @@
         );
 
         /*myChart2.data.datasets[0].data = [5, 6, 7, 8, 9, 10];
-    myChart2.update();
-    */
+myChart2.update();
+*/
         /*myChart3.data.datasets[0].data = [3, 2, 2, 5, 6, 8];
-      myChart3.update();*/
+myChart3.update();*/
         myChart4.data.datasets[0].data = [10, 15, 2, 3, 7, 3];
         myChart4.update();
         myChart5.data.datasets[0].data = [25, 10, 25, 15, 16, 20];
