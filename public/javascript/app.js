@@ -472,3 +472,744 @@ $(function () {
 });
 
 */
+
+///
+/// CLEAN THIS UP LATER
+///
+///
+window.addEventListener("DOMContentLoaded", start_up_scripts);
+function start_up_scripts() {
+  let myChartVolunteersPage;
+  $(function () {
+    const chartOptions = {
+      type: "bar",
+      data: {
+        labels: [
+          "Apr 11",
+          "Apr 18",
+          "May 10",
+          "May 17",
+          "May 24",
+          "June 5",
+          "Apr 11",
+          "Apr 18",
+          "May 10",
+          "May 17",
+          "May 24",
+          "June 5",
+        ],
+        datasets: [
+          {
+            label: "# of Votes",
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+              "#0d6efd", //black //?
+            ],
+          },
+        ],
+      },
+      options: {
+        interaction: {
+          intersect: false,
+          mode: "nearest",
+          axis: "x",
+        },
+        elements: {
+          line: {
+            tension: 0,
+          },
+        },
+        animation: {
+          duration: 0,
+        },
+
+        plugins: {
+          legend: false,
+        },
+        title: {
+          display: false,
+          text: "Contact attempts by week",
+        },
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                display: false,
+              },
+            },
+          ],
+        },
+      },
+    };
+
+    myChartVolunteersPage = new Chart(
+      document.getElementById("myChartVolunteersPage"),
+      chartOptions
+    );
+
+    myChartVolunteersPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
+    myChartVolunteersPage.update();
+  });
+
+  $(function () {
+    var start = moment().subtract(29, "days");
+    var end = moment();
+
+    function cb(start, end) {
+      $("#reportrange span").html(
+        start.format("MMM D, YYYY") + " - " + end.format("MMM D, YYYY")
+      );
+    }
+
+    $("#reportrange").daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges: {
+          "Last 30 Days": [moment().subtract(29, "days"), moment()],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
+          "Last Month": [
+            moment().subtract(1, "month").startOf("month"),
+            moment().subtract(1, "month").endOf("month"),
+          ],
+          "Last 3 Months": [moment().startOf("month"), moment().endOf("month")],
+          "Last 6 Months": [
+            moment().subtract(1, "month").startOf("month"),
+            moment().subtract(1, "month").endOf("month"),
+          ],
+
+          "This Year": [moment(), moment()],
+          "Last Year": [moment(), moment()],
+          "All Time": [moment(), moment()],
+        },
+      },
+      cb
+    );
+
+    cb(start, end);
+  });
+  $(function () {
+    var start = moment().subtract(29, "days");
+    var end = moment();
+
+    function cb(start, end) {
+      $("#reportrange span").html(
+        start.format("MMM D, YYYY") + " - " + end.format("MMM D, YYYY")
+      );
+    }
+
+    $("#reportrange").daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges: {
+          "Last 30 Days": [moment().subtract(29, "days"), moment()],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
+          "Last Month": [
+            moment().subtract(1, "month").startOf("month"),
+            moment().subtract(1, "month").endOf("month"),
+          ],
+          "Last 3 Months": [moment().startOf("month"), moment().endOf("month")],
+          "Last 6 Months": [
+            moment().subtract(1, "month").startOf("month"),
+            moment().subtract(1, "month").endOf("month"),
+          ],
+
+          "This Year": [moment(), moment()],
+          "Last Year": [moment(), moment()],
+          "All Time": [moment(), moment()],
+        },
+      },
+      cb
+    );
+
+    cb(start, end);
+  });
+
+  $(document).ready(function () {
+    cbox = document.querySelectorAll("#volunteers-navbar .btn-toggle-nav a");
+    cbox.forEach((box) => {
+      box.addEventListener("mousedown", (a) => setMetric(a.target.innerText));
+    });
+  });
+  $(function () {
+    /*
+//tooltips init
+const tooltipTriggerList = document.querySelectorAll(
+'[data-bs-toggle="tooltip"]'
+);
+const tooltipList = [...tooltipTriggerList].map(
+(tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+);*/
+    document
+      .querySelectorAll('input[type="range"]')
+      .forEach((a) =>
+        a.addEventListener(
+          "input",
+          (b) => (b.target.previousElementSibling.value = b.target.value)
+        )
+      );
+    document
+      .querySelectorAll('input[type="range"]')
+      .forEach((a) => (a.previousElementSibling.value = a.value));
+  });
+
+  $(function () {
+    document.addEventListener("input", function (e) {
+      if (e.target.type == "range") {
+        processRangesToFormTable();
+      }
+    });
+    processRangesToFormTable();
+  });
+
+  $(document).ready(function () {
+    cbox = document.querySelectorAll("#metrics-navbar .btn-toggle-nav a");
+    cbox.forEach((box) => {
+      box.addEventListener("mousedown", (a) => setMetric(a.target.innerText));
+    });
+  });
+  function setMetric(metricName) {
+    document.getElementById("metric-page-title").innerHTML = metricName;
+    myChartMetricsPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
+    myChartMetricsPage.update();
+  }
+
+  $(function () {
+    var start = moment().subtract(29, "days");
+    var end = moment();
+
+    function cb(start, end) {
+      $("#reportrange span").html(
+        start.format("MMM D, YYYY") + " - " + end.format("MMM D, YYYY")
+      );
+    }
+
+    $("#reportrange").daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges: {
+          "Last 30 Days": [moment().subtract(29, "days"), moment()],
+          "This Month": [moment().startOf("month"), moment().endOf("month")],
+          "Last Month": [
+            moment().subtract(1, "month").startOf("month"),
+            moment().subtract(1, "month").endOf("month"),
+          ],
+          "Last 3 Months": [moment().startOf("month"), moment().endOf("month")],
+          "Last 6 Months": [
+            moment().subtract(1, "month").startOf("month"),
+            moment().subtract(1, "month").endOf("month"),
+          ],
+
+          "This Year": [moment(), moment()],
+          "Last Year": [moment(), moment()],
+          "All Time": [moment(), moment()],
+        },
+      },
+      cb
+    );
+
+    cb(start, end);
+
+    let myChartMetricsPage;
+    $(function () {
+      /*Chart.defaults.set('plugins.datalabels', {
+    color: '#FE777B'
+  });*/
+      const chartOptions = {
+        type: "bar",
+        data: {
+          labels: [
+            "Apr 11",
+            "Apr 18",
+            "May 10",
+            "May 17",
+            "May 24",
+            "June 5",
+            "Apr 11",
+            "Apr 18",
+            "May 10",
+            "May 17",
+            "May 24",
+            "June 5",
+          ],
+          datasets: [
+            {
+              label: "# of Votes",
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                "#0d6efd", //black //?
+              ],
+            },
+          ],
+        },
+        options: {
+          interaction: {
+            intersect: false,
+            mode: "nearest",
+            axis: "x",
+          },
+          elements: {
+            line: {
+              tension: 0,
+            },
+          },
+          animation: {
+            duration: 0,
+          },
+
+          plugins: {
+            legend: false,
+          },
+          title: {
+            display: false,
+            text: "Contact attempts by week",
+          },
+          scales: {
+            xAxes: [
+              {
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      myChartMetricsPage = new Chart(
+        document.getElementById("myChartMetricsPage"),
+        chartOptions
+      );
+
+      myChartMetricsPage.data.datasets[0].data = [
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+        Math.floor(Math.random() * 20) + 5,
+      ];
+      myChartMetricsPage.update();
+    });
+  });
+
+  $(function () {
+    formTable([{}], "#tableContainer");
+  });
+}
+
+function collapsetds() {
+  document
+    .querySelectorAll("td:not(:last-of-type)")
+    .forEach(
+      (a) => (a.style.display = a.style.display == "none" ? "" : "none")
+    );
+  $("#collapseTableDiv").toggleClass("col-3");
+  $("#righthandtoggle").toggleClass("col-9");
+  return false;
+}
+
+function formTable(tableobject, querySelect) {
+  var table = document.querySelector(querySelect);
+  $(table).empty();
+  var jsonStr = tableobject; //JSON.parse(json);
+  var setHeaders = true;
+  for (i in jsonStr) {
+    var item = JSON.stringify(jsonStr[i]);
+    if (setHeaders) {
+      createEntry(table, item, true);
+      setHeaders = false;
+    }
+    createEntry(table, item, false);
+  }
+}
+
+function createEntry(table, item, isHeader) {
+  var thead = document.createElement("thead");
+  var tbody = document.createElement("tbody");
+  var tr = document.createElement("tr");
+  var json = JSON.parse(item);
+  for (i in json) {
+    //console.log(i);
+    var td = isHeader
+      ? document.createElement("th")
+      : document.createElement("td");
+    var textnode = isHeader
+      ? document.createTextNode(i)
+      : document.createTextNode(
+          isNaN(json[i]) ? json[i] : json[i].toLocaleString()
+        );
+    td.appendChild(textnode);
+    tr.appendChild(td);
+  }
+  if (isHeader) {
+    thead.appendChild(tr);
+    table.appendChild(thead);
+  } else {
+    if (table.querySelector("tbody")) {
+      table.querySelector("tbody").appendChild(tr);
+    } else {
+      tbody.appendChild(tr);
+      table.appendChild(tbody);
+    }
+  }
+}
+
+function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) {
+  var idMarkup,
+    classMarkup,
+    italic = "<i>{0}</i>",
+    link = linkText
+      ? '<a href="{0}">' + linkText + "</a>"
+      : '<a href="{0}">{0}</a>',
+    tbl =
+      '<table border="1" cellpadding="1" cellspacing="1"' +
+      (tableId ? ' id="' + tableId + '"' : "") +
+      (tableClassName ? ' class="' + tableClassName + '"' : "") +
+      ">{0}{1}</table>",
+    th = "<thead>{0}</thead>",
+    tb = "<tbody>{0}</tbody>",
+    tr = "<tr>{0}</tr>",
+    thRow = "<th>{0}</th>",
+    tdRow = "<td>{0}</td>",
+    thCon = "",
+    tbCon = "",
+    trCon = "";
+  if (parsedJson) {
+    var headers,
+      isStringArray = "string" == typeof parsedJson[0];
+    if (isStringArray) thCon += thRow.format("value");
+    else if ("object" == typeof parsedJson[0]) {
+      headers = array_keys(parsedJson[0]);
+      for (var i = 0; i < headers.length; i++)
+        thCon += thRow.format(headers[i]);
+    }
+    if (((th = th.format(tr.format(thCon))), isStringArray))
+      for (var i = 0; i < parsedJson.length; i++)
+        (tbCon += tdRow.format(parsedJson[i])),
+          (trCon += tr.format(tbCon)),
+          (tbCon = "");
+    else if (headers)
+      for (
+        var urlRegExp = RegExp(
+            /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
+          ),
+          javascriptRegExp = RegExp(/(^javascript:[\s\S]*;$)/gi),
+          i = 0;
+        i < parsedJson.length;
+        i++
+      ) {
+        for (var j = 0; j < headers.length; j++) {
+          var isUrl,
+            value = parsedJson[i][headers[j]];
+          urlRegExp.test(value) || javascriptRegExp.test(value)
+            ? (tbCon += tdRow.format(link.format(value)))
+            : value
+            ? "object" == typeof value
+              ? (tbCon += tdRow.format(
+                  ConvertJsonToTable(
+                    eval(value.data),
+                    value.tableId,
+                    value.tableClassName,
+                    value.linkText
+                  )
+                ))
+              : (tbCon += tdRow.format(value))
+            : (tbCon += tdRow.format(italic.format(value).toUpperCase()));
+        }
+        (trCon += tr.format(tbCon)), (tbCon = "");
+      }
+    return (tb = tb.format(trCon)), (tbl = tbl.format(th, tb));
+  }
+  return null;
+}
+function array_keys(t, r, a) {
+  var e = void 0 !== r,
+    o = [],
+    f = !!a,
+    n = !0,
+    i = "";
+  if (t && "object" == typeof t && t.change_key_case) return t.keys(r, a);
+  for (i in t)
+    t.hasOwnProperty(i) &&
+      ((n = !0),
+      e && (f && t[i] !== r ? (n = !1) : t[i] != r && (n = !1)),
+      n && (o[o.length] = i));
+  return o;
+}
+String.prototype.format = function () {
+  var t = arguments;
+  return this.replace(/{(\d+)}/g, function (r, a) {
+    return void 0 !== t[a] ? t[a] : "{" + a + "}";
+  });
+};
+
+function processRangesToFormTable() {
+  var rampConfig = {};
+  var listOfRanges = document.querySelectorAll("input[type=range]");
+  listOfRanges.forEach((a) => (rampConfig[a.id] = a.value));
+
+  console.log(rampConfig);
+
+  /*rangesAsJSobj={
+"startingShifts": "71",
+"shiftGrowth": "50",
+"doorsVsPhones": "50",
+"totalIDtextsPlanned": "50",
+"relationalIDperVolunteer": "50",
+"responseRateDoors": "50",
+"responseRatePhones": "50",
+"responseRateTexts": "50",
+"posRateDoors": "50",
+"posRatePhones": "50",
+"posRateTexts": "50"
+}*/
+
+  const WEEKSAVAILABLE = 16;
+  var newItem = {};
+
+  thisWeekShiftCount = rampConfig.startingShifts;
+  newItem = {
+    "Week Number": 1,
+    "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
+    //----
+    "Petitioning Attempts": 0,
+    "Calls Made": Math.floor(
+      thisWeekShiftCount *
+        (1 - rampConfig.doorsVsPhones / 100) *
+        rampConfig.callsPerShift
+    ),
+    "Doors Knocked": Math.floor(
+      thisWeekShiftCount *
+        (0 + rampConfig.doorsVsPhones / 100) *
+        rampConfig.doorsPerShift
+    ),
+    "SMS Sent": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
+    //----
+    "Petitioning +IDs": 0,
+    "Calls +IDs": Math.floor(
+      (((thisWeekShiftCount *
+        (1 - rampConfig.doorsVsPhones / 100) *
+        rampConfig.callsPerShift *
+        rampConfig.responseRatePhones) /
+        100) *
+        rampConfig.posRatePhones) /
+        100
+    ),
+    "Doors +IDs": Math.floor(
+      (((thisWeekShiftCount *
+        (rampConfig.doorsVsPhones / 100) *
+        rampConfig.doorsPerShift *
+        rampConfig.responseRateDoors) /
+        100) *
+        rampConfig.posRateDoors) /
+        100
+    ),
+    "Text +IDs": Math.floor(
+      ((((rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE) *
+        rampConfig.responseRateTexts) /
+        100) *
+        rampConfig.posRateTexts) /
+        100
+    ),
+    "Relational +IDs": 0,
+    "Total Pos IDs": 0,
+  };
+  newItem["Total Pos IDs"] = Math.floor(
+    newItem["Petitioning +IDs"] +
+      newItem["Calls +IDs"] +
+      newItem["Doors +IDs"] +
+      newItem["Text +IDs"] +
+      newItem["Relational +IDs"]
+  );
+  var tableObject = [newItem];
+
+  var totals = Object.assign({}, newItem);
+
+  //console.log(tableObject);
+  var thisWeekShiftCount = 0;
+  const loop = (times, callback) => {
+    [...Array(times)].forEach((item, i) => callback(i));
+  };
+
+  loop(WEEKSAVAILABLE - 1, (i) => {
+    //console.log(`Iteration is #${i}`);
+
+    thisWeekShiftCount =
+      tableObject[tableObject.length - 1]["Total Weekly Shifts"] *
+      (1 + rampConfig.shiftGrowth / 100);
+    newItem = {
+      "Week Number": i + 1 + 1,
+      "Total Weekly Shifts": Math.floor(thisWeekShiftCount),
+      //----
+      "Petitioning Attempts": 0,
+      "Calls Made": Math.floor(
+        thisWeekShiftCount *
+          (1 - rampConfig.doorsVsPhones / 100) *
+          rampConfig.callsPerShift
+      ),
+      "Doors Knocked": Math.floor(
+        thisWeekShiftCount *
+          (0 + rampConfig.doorsVsPhones / 100) *
+          rampConfig.doorsPerShift
+      ),
+      "SMS Sent": Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
+      //----
+      "Petitioning +IDs": 0,
+      "Calls +IDs": Math.floor(
+        (((thisWeekShiftCount *
+          (1 - rampConfig.doorsVsPhones / 100) *
+          rampConfig.callsPerShift *
+          rampConfig.responseRatePhones) /
+          100) *
+          rampConfig.posRatePhones) /
+          100
+      ),
+      "Doors +IDs": Math.floor(
+        (((thisWeekShiftCount *
+          (rampConfig.doorsVsPhones / 100) *
+          rampConfig.doorsPerShift *
+          rampConfig.responseRateDoors) /
+          100) *
+          rampConfig.posRateDoors) /
+          100
+      ),
+      "Text +IDs": Math.floor(
+        ((((rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE) *
+          rampConfig.responseRateTexts) /
+          100) *
+          rampConfig.posRateTexts) /
+          100
+      ),
+      "Relational +IDs": 0,
+      "Total Pos IDs": 0,
+    };
+    newItem["Total Pos IDs"] = Math.floor(
+      newItem["Petitioning +IDs"] +
+        newItem["Calls +IDs"] +
+        newItem["Doors +IDs"] +
+        newItem["Text +IDs"] +
+        newItem["Relational +IDs"]
+    );
+    //newItem.map(a => console.log(a));
+    Object.keys(newItem).forEach(function (key, index) {
+      totals[key] += newItem[key];
+    });
+    tableObject.push(newItem);
+    //  console.log(totals);
+  });
+  totals["Week Number"] = "Total";
+  tableObject.push(totals);
+  // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
+
+  tableObject.forEach((row) => {
+    //row
+    Object.keys(newItem).forEach(function (key, index) {
+      //totals[key] += row[key];
+      row[key] = isNaN(row[key]) ? row[key] : nFormatter(row[key], 1);
+    });
+  });
+
+  $("#tableContainer").html(
+    ConvertJsonToTable(tableObject, "", null, "Download")
+  );
+
+  // REVERSE TABLE DIRECTO
+  $("table").each(function () {
+    var $this = $(this);
+    var newrows = [];
+    $this.find("tr").each(function () {
+      var i = 0;
+      $(this)
+        .find("td")
+        .each(function () {
+          i++;
+          if (newrows[i] === undefined) {
+            newrows[i] = $("<tr></tr>");
+          }
+          newrows[i].append($(this));
+        });
+      $(this)
+        .find("th")
+        .each(function () {
+          i++;
+          if (newrows[i] === undefined) {
+            newrows[i] = $("<tr></tr>");
+          }
+          newrows[i].append($(this));
+        });
+    });
+    $this.find("tr").remove();
+    $.each(newrows, function () {
+      $this.append(this);
+    });
+  });
+
+  /*
+var calculations = Array;
+calculations['Total Weekly Shifts'].push(0);
+tableObject = tableObject.map(x => {
+y = x;
+y['Week 1'] = "asdasd";
+return y;
+});
+formTable(tableObject, "#tableContainer");
+*/
+}
+
+function setMetric(metricName) {
+  document.getElementById("volunteers-page-title").innerHTML = metricName;
+  myChartVolunteersPage.data.datasets[0].data = [
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+    Math.floor(Math.random() * 20) + 5,
+  ];
+  myChartVolunteersPage.update();
+}
