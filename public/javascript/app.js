@@ -427,7 +427,7 @@ function updateGraph(graphdata, chartobject) {
 
 function nFormatter(num, ...params) {
   const digits = params.digits || 1;
-  console.log(digits);
+  //console.log(digits);
   const lookup = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "k" },
