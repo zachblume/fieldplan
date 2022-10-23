@@ -112,29 +112,29 @@ async function loadAllGraphDataDirectlyFromIDB() {
   console.timeLog();
   console.time('idb');
 
-  var data = {};
+  //var data = {};
   var choices = {
     weeklycontacthistory: 1,
     weeklysurveys: 2,
     weeklysignups: 3,
     vanityvolunteers: 4,
   };
-  let testingvalue, idb;
+  let idb;
 
   try {
     let DBOpenRequest = window.indexedDB.open('firestore/[DEFAULT]/campaign-data-project/main', 10);
     console.timeLog('idb');
 
-    DBOpenRequest.onsuccess = (event) => {
+    DBOpenRequest.onsuccess = () => {
       console.log('<li>Database initialized.</li>');
       console.timeLog('idb');
       idb = DBOpenRequest.result;
       const transaction = idb.transaction(['remoteDocuments'], 'readwrite');
-      transaction.oncomplete = (event) => {
+      transaction.oncomplete = () => {
         console.log('<li>Transaction completed.</li>');
         console.timeLog('idb');
       };
-      transaction.onerror = (event) => {
+      transaction.onerror = () => {
         console.log(`<li>Transaction not opened due to error: ${transaction.error}</li>`);
       };
       const objectStore = transaction.objectStore('remoteDocuments');
@@ -892,9 +892,7 @@ function createEntry(table, item, isHeader) {
 }
 
 function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) {
-  var idMarkup,
-    classMarkup,
-    italic = '<i>{0}</i>',
+  var italic = '<i>{0}</i>',
     link = linkText ? '<a href="{0}">' + linkText + '</a>' : '<a href="{0}">{0}</a>',
     tbl =
       '<table border="1" cellpadding="1" cellspacing="1"' +
@@ -918,31 +916,26 @@ function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) {
       for (var i = 0; i < headers.length; i++) thCon += thRow.format(headers[i]);
     }
     if (((th = th.format(tr.format(thCon))), isStringArray))
-      for (var i = 0; i < parsedJson.length; i++)
+      for (i = 0; i < parsedJson.length; i++)
         (tbCon += tdRow.format(parsedJson[i])), (trCon += tr.format(tbCon)), (tbCon = '');
     else if (headers)
-      for (
-        var urlRegExp = RegExp(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi),
-          javascriptRegExp = RegExp(/(^javascript:[\s\S]*;$)/gi),
-          i = 0;
-        i < parsedJson.length;
-        i++
-      ) {
-        for (var j = 0; j < headers.length; j++) {
-          var isUrl,
-            value = parsedJson[i][headers[j]];
-          urlRegExp.test(value) || javascriptRegExp.test(value)
-            ? (tbCon += tdRow.format(link.format(value)))
-            : value
-            ? 'object' == typeof value
-              ? (tbCon += tdRow.format(
-                  ConvertJsonToTable(eval(value.data), value.tableId, value.tableClassName, value.linkText)
-                ))
-              : (tbCon += tdRow.format(value))
-            : (tbCon += tdRow.format(italic.format(value).toUpperCase()));
-        }
-        (trCon += tr.format(tbCon)), (tbCon = '');
+      var urlRegExp = RegExp(/(\b(https?|ftp|file):[/]{2}[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi),
+        javascriptRegExp = RegExp(/(^javascript:[\s\S]*;$)/gi);
+    for (i = 0; i < parsedJson.length; i++) {
+      for (var j = 0; j < headers.length; j++) {
+        var value = parsedJson[i][headers[j]];
+        urlRegExp.test(value) || javascriptRegExp.test(value)
+          ? (tbCon += tdRow.format(link.format(value)))
+          : value
+          ? 'object' == typeof value
+            ? (tbCon += tdRow.format(
+                ConvertJsonToTable(eval(value.data), value.tableId, value.tableClassName, value.linkText)
+              ))
+            : (tbCon += tdRow.format(value))
+          : (tbCon += tdRow.format(italic.format(value).toUpperCase()));
       }
+      (trCon += tr.format(tbCon)), (tbCon = '');
+    }
     return (tb = tb.format(trCon)), (tbl = tbl.format(th, tb));
   }
   return null;
@@ -954,8 +947,9 @@ function array_keys(t, r, a) {
     n = !0,
     i = '';
   if (t && 'object' == typeof t && t.change_key_case) return t.keys(r, a);
+  //t.hasOwnProperty(i)
   for (i in t)
-    t.hasOwnProperty(i) &&
+    Object.prototype.hasOwnProperty.call(t, i) &&
       ((n = !0), e && (f && t[i] !== r ? (n = !1) : t[i] != r && (n = !1)), n && (o[o.length] = i));
   return o;
 }
@@ -1093,7 +1087,7 @@ function processRangesToFormTable() {
         newItem['Relational +IDs']
     );
     //newItem.map(a => console.log(a));
-    Object.keys(newItem).forEach(function (key, index) {
+    Object.keys(newItem).forEach(function (key) {
       totals[key] += newItem[key];
     });
     tableObject.push(newItem);
@@ -1105,7 +1099,7 @@ function processRangesToFormTable() {
 
   tableObject.forEach((row) => {
     //row
-    Object.keys(newItem).forEach(function (key, index) {
+    Object.keys(newItem).forEach(function (key) {
       //totals[key] += row[key];
       row[key] = isNaN(row[key]) ? row[key] : nFormatter(row[key], 1);
     });
@@ -1149,6 +1143,9 @@ $(function () {
   /**
    * Event listeners
    */
+
+  //collapse tds button
+  $('#flexSwitchCheckChecked').addEventListener('onmousedown', collapsetds);
 
   // Signout button
   document.getElementById('signout').addEventListener('click', () => firebase.auth().signOut());
