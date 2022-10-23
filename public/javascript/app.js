@@ -868,48 +868,6 @@ function collapsetds() {
   return false;
 }
 
-function formTable(tableobject, querySelect) {
-  var table = document.querySelector(querySelect);
-  $(table).empty();
-  var jsonStr = tableobject; //JSON.parse(json);
-  var setHeaders = true;
-  for (i in jsonStr) {
-    var item = JSON.stringify(jsonStr[i]);
-    if (setHeaders) {
-      createEntry(table, item, true);
-      setHeaders = false;
-    }
-    createEntry(table, item, false);
-  }
-}
-
-function createEntry(table, item, isHeader) {
-  var thead = document.createElement('thead');
-  var tbody = document.createElement('tbody');
-  var tr = document.createElement('tr');
-  var json = JSON.parse(item);
-  for (i in json) {
-    //console.log(i);
-    var td = isHeader ? document.createElement('th') : document.createElement('td');
-    var textnode = isHeader
-      ? document.createTextNode(i)
-      : document.createTextNode(isNaN(json[i]) ? json[i] : json[i].toLocaleString());
-    td.appendChild(textnode);
-    tr.appendChild(td);
-  }
-  if (isHeader) {
-    thead.appendChild(tr);
-    table.appendChild(thead);
-  } else {
-    if (table.querySelector('tbody')) {
-      table.querySelector('tbody').appendChild(tr);
-    } else {
-      tbody.appendChild(tr);
-      table.appendChild(tbody);
-    }
-  }
-}
-
 function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) {
   var italic = '<i>{0}</i>',
     link = linkText ? '<a href="{0}">' + linkText + '</a>' : '<a href="{0}">{0}</a>',
