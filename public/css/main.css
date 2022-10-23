@@ -37,8 +37,8 @@
 
 body {
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
   margin: 0;
 }
 
@@ -89,7 +89,7 @@ header img {
 }
 
 .product input {
-  border: 1px solid #039be5;
+  border: 1px solid blue;
   border-radius: 0.25rem;
   font-size: 1.125rem;
   line-height: 1.25rem;
@@ -182,11 +182,11 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
+/*
 #credential_picker_container {
   position: inherit !important;
 }
-
+*/
 /*
 #wrapper {max-width: 1440px !important; margin: 0 auto}
 */
@@ -201,4 +201,31 @@ button:disabled {
 
 .not-logged-in #login-top {
   display: block !important;
+}
+
+.metrics-card-container-clickable .card {
+  cursor: pointer;
+}
+
+#sidebar button {
+  font-size: 0.9rem !important;
+  color: #666;
+}
+
+#sidebar button.active {
+  background: #f8f9fa;
+  color: #444;
+}
+
+#sidebar button div {
+  display: inline;
+  margin-right: 0.2em;
+}
+
+#sidebar button {
+  padding-top: 1.2rem !important;
+  padding-bottom: 1.2rem !important;
+}
+#sidebar {
+  min-height: 100vw;
 }

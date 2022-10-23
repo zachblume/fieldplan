@@ -4,25 +4,19 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ["eslint:recommended", "prettier"],
+  extends: ['eslint:recommended', 'prettier'],
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
   rules: {
-    "no-undef": 0,
-    "no-unused-vars": [
-      "error",
+    'no-undef': 0,
+    'no-unused-vars': [
+      'error',
       {
-        varsIgnorePattern: "STRIPE",
+        varsIgnorePattern: 'STRIPE',
       },
     ],
   },
-  ignorePatterns: [
-    "functions/*",
-    "*/functions/*",
-    "functions/*.js",
-    "node*",
-    ".eslintrc.js",
-  ],
+  ignorePatterns: ['functions/*', '*/functions/*', 'functions/*.js', 'node*', '.eslintrc.js'],
 };

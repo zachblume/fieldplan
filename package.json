@@ -8,7 +8,8 @@
     "deploy": "firebase deploy",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --fix && npx prettier --write . ",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write .",
+    "prettier-watch": "(npx onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}&)"
   },
   "repository": {
     "type": "git",
