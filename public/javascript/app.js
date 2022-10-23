@@ -21,6 +21,7 @@ function nFormatter(num, ...params) {
     });
   return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : '0';
 }
+
 function HomePageChartCompose() {
   Chart.register(ChartDataLabels);
   const chart_options = {
@@ -152,6 +153,10 @@ async function loadAllGraphDataDirectlyFromIDB() {
         console.log('idb finish');
         console.timeLog();
       };
+      //close idb
+
+      // now let's close the database again!
+      idb.close();
     };
   } catch (error) {
     console.error(error);
@@ -659,29 +664,29 @@ function start_up_scripts() {
     cbox.forEach((box) => {
       box.addEventListener('mousedown', (a) => setMetric(a.target.innerText));
     });
-  });
-  $(function () {
-    /*
-//tooltips init
-const tooltipTriggerList = document.querySelectorAll(
-'[data-bs-toggle="tooltip"]'
-);
-const tooltipList = [...tooltipTriggerList].map(
-(tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-);*/
+
     document
       .querySelectorAll('input[type="range"]')
       .forEach((a) => a.addEventListener('input', (b) => (b.target.previousElementSibling.value = b.target.value)));
-    document.querySelectorAll('input[type="range"]').forEach((a) => (a.previousElementSibling.value = a.value));
+    //  document.querySelectorAll('input[type="range"]').forEach((a) => (a.previousElementSibling.value = a.value));
   });
 
   $(function () {
     document.addEventListener('input', function (e) {
       if (e.target.type == 'range') {
-        processRangesToFormTable();
+        updateForecastSettingsInFirestore(getRampConfigFromInputs());
+        processRangesToFormTable(getRampConfigFromInputs());
       }
     });
-    processRangesToFormTable();
+    //processRangesToFormTable(getRampConfigFromInputs());
+    db.collection('ramp-settings')
+      .doc('user1')
+      .get()
+      .then(async (snapshot) => {
+        //On settings change, update table
+        processRangesToFormTable(snapshot.data());
+        setRanges(snapshot.data());
+      });
   });
 
   $(document).ready(function () {
@@ -835,15 +840,29 @@ const tooltipList = [...tooltipTriggerList].map(
     });
   });
 
+  /*//old table form fucntion loader
   $(function () {
     formTable([{}], '#tableContainer');
-  });
+  });*/
+}
+
+function updateForecastSettingsInFirestore(rampConfig) {
+  return db
+    .collection('ramp-settings')
+    .doc('user1')
+    .set(rampConfig)
+    .then(() => {
+      console.log('Document successfully updated!');
+    })
+    .catch((error) => {
+      // The document probably doesn't exist.
+      console.error('Error updating document: ', error);
+    });
 }
 
 function collapsetds() {
-  document
-    .querySelectorAll('td:not(:last-of-type)')
-    .forEach((a) => (a.style.display = a.style.display == 'none' ? '' : 'none'));
+  document.querySelectorAll('td:not(:last-of-type):not(:first-of-type)').forEach((a) => $(a).toggle());
+  document.querySelectorAll('th:not(:last-of-type):not(:first-of-type)').forEach((a) => $(a).toggle());
   $('#collapseTableDiv').toggleClass('col-3');
   $('#righthandtoggle').toggleClass('col-9');
   return false;
@@ -960,28 +979,23 @@ String.prototype.format = function () {
   });
 };
 
-function processRangesToFormTable() {
+function getRampConfigFromInputs() {
   var rampConfig = {};
   var listOfRanges = document.querySelectorAll('input[type=range]');
   listOfRanges.forEach((a) => (rampConfig[a.id] = a.value));
+  return rampConfig;
+}
 
+function setRanges(rampConfig) {
+  Object.keys(rampConfig).forEach((key) => (document.getElementById(key).value = rampConfig[key]));
+
+  document.querySelectorAll('input[type="range"]').forEach((a) => (a.previousElementSibling.value = a.value));
+}
+
+function processRangesToFormTable(rampConfig) {
   console.log(rampConfig);
 
-  /*rangesAsJSobj={
-"startingShifts": "71",
-"shiftGrowth": "50",
-"doorsVsPhones": "50",
-"totalIDtextsPlanned": "50",
-"relationalIDperVolunteer": "50",
-"responseRateDoors": "50",
-"responseRatePhones": "50",
-"responseRateTexts": "50",
-"posRateDoors": "50",
-"posRatePhones": "50",
-"posRateTexts": "50"
-}*/
-
-  const WEEKSAVAILABLE = 16;
+  const WEEKSAVAILABLE = rampConfig.weeksAvailable || 16;
   var newItem = {};
 
   thisWeekShiftCount = rampConfig.startingShifts;
@@ -1097,6 +1111,7 @@ function processRangesToFormTable() {
   tableObject.push(totals);
   // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
 
+  //format thousdnads/ks!
   tableObject.forEach((row) => {
     //row
     Object.keys(newItem).forEach(function (key) {
@@ -1105,38 +1120,61 @@ function processRangesToFormTable() {
     });
   });
 
-  $('#tableContainer').html(ConvertJsonToTable(tableObject, '', null, 'Download'));
+  $('#tableContainer').html(ConvertJsonToTable(transposeTable(tableObject), '', null, 'Download'));
+  if ($('#flexSwitchCheckChecked').is(':checked')) {
+    collapsetds();
+    $('#collapseTableDiv').toggleClass('col-3');
+    $('#righthandtoggle').toggleClass('col-9');
+  }
+}
 
-  // REVERSE TABLE DIRECTO
-  $('table').each(function () {
-    var $this = $(this);
-    var newrows = [];
-    $this.find('tr').each(function () {
-      var i = 0;
-      $(this)
-        .find('td')
-        .each(function () {
-          i++;
-          if (newrows[i] === undefined) {
-            newrows[i] = $('<tr></tr>');
-          }
-          newrows[i].append($(this));
-        });
-      $(this)
-        .find('th')
-        .each(function () {
-          i++;
-          if (newrows[i] === undefined) {
-            newrows[i] = $('<tr></tr>');
-          }
-          newrows[i].append($(this));
-        });
+function transposeTable(table) {
+  /*var newtable = Array(),
+    firstRowObject;
+  var i = 0;
+  Object.keys(table[0]).forEach(function (key, index) {
+    //myObject[key] *= 2;
+    console.log(key);
+    newtable.push({});
+    //loop through each row and add each rows value from key to new key object
+    table.forEach((row) => {
+      if (i > 0) {
+        //table[0][key];
+        console.log(key);
+        newtable[i][key] = index;
+      }
+      i++;
     });
-    $this.find('tr').remove();
-    $.each(newrows, function () {
-      $this.append(this);
+    //console.log(index);
+    //newtable[key] = {};
+  });
+  
+  return newtable;
+  */
+  var answer = table.map((el) => Object.values(el));
+  var matrix = answer;
+  answer = matrix[0].map((col, c) => matrix.map((row, r) => matrix[r][c]));
+  newanswer = Array();
+
+  newanswer = Array();
+  answer.forEach((el, i) => {
+    newanswer[i] = {};
+    newanswer[i][Object.keys(table[0])[0]] = Object.keys(table[0])[i];
+    /*  answer.forEach((el, i) => {
+    newanswer[i] = Array();
+    newanswer[i].push(Object.keys(table[0])[i]);
+    newanswer[i] = newanswer[i].concat(answer[i]);
+  });
+  answer = newanswer; */
+  });
+
+  answer.forEach((el, i) => {
+    answer[i].forEach((el2, j) => {
+      newanswer[i][answer[0][j] + ' '] = el2;
     });
   });
+
+  return newanswer;
 }
 
 $(function () {
@@ -1145,7 +1183,7 @@ $(function () {
    */
 
   //collapse tds button
-  $('#flexSwitchCheckChecked').addEventListener('onmousedown', collapsetds);
+  document.getElementById('flexSwitchCheckChecked').addEventListener('input', collapsetds);
 
   // Signout button
   document.getElementById('signout').addEventListener('click', () => firebase.auth().signOut());
