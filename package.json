@@ -25,5 +25,8 @@
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "2.7.1"
+  },
+  "dependencies": {
+    "json2csv": "^5.0.7"
   }
 }
