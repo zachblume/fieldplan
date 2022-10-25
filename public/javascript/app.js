@@ -1,3 +1,8 @@
+console.log('app.js begins running, time logged as StartTimeLogged');
+const StartTimeLogged = Date.now();
+console.timeLog();
+
+// Begin with IDB direct chart compose if it exists to save miliseconds
 const charts = [];
 
 function nFormatter(num, ...params) {
@@ -31,7 +36,7 @@ function HomePageChartCompose() {
 
       datasets: [
         {
-          label: 'Contact Attempts',
+          //label: 'Metric label',
           borderColor: '#3e95cd',
           backgroundColor: '#0d6efd', //black //?
 
@@ -190,21 +195,15 @@ function updateGraph(graphdata, chartobject) {
 HomePageChartCompose();
 loadAllGraphDataDirectlyFromIDB();
 
-console.log('app.js begins running, time logged as StartTimeLogged');
-const StartTimeLogged = Date.now();
-console.timeLog();
-
-const STRIPE_PUBLISHABLE_KEY =
-  'pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO';
-
-const prices = {};
+// END IDB DIRECT ACCESS time saving thing
 
 //global variables
 let currentUser;
 let myChartMetricsPage;
+const STRIPE_PUBLISHABLE_KEY =
+  'pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO';
+const prices = {};
 
-// Replace with your Firebase project config.
-// Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: 'AIzaSyAYGt2ch3s2T3JpZjPT8oKsCnXy26GSkzg',
@@ -216,14 +215,13 @@ const firebaseConfig = {
   measurementId: 'G-RW17X0TYNJ',
 };
 
-// Replace with your cloud functions location
-// const functionLocation = "us-central1";
+// Replace with your cloud functions location // const functionLocation = "us-central1";
 
 // Initialize Firebase
-
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
+// Enable persistence
 db.enablePersistence().catch((err) => {
   if (err.code == 'failed-precondition') {
     // Multiple tabs open, persistence can only be enabled
@@ -244,10 +242,8 @@ const firebaseUI = new firebaseui.auth.AuthUI(firebase.auth());
 const firebaseUiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function () {
-      //function (authResult, redirectUrl) {
-      // User successfully signed in.
-      // Return type determines whether we continue the redirect automatically
-      // or whether we leave that to developer to handle.
+      //function (authResult, redirectUrl) { - User successfully signed in.
+      // True= continue the redirect automatically
       return true;
     },
     uiShown: () => {
@@ -260,126 +256,130 @@ const firebaseUiConfig = {
     {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       clientId: '640113081213-cgb821si2sshi87hdurs7doo7a7flo0c.apps.googleusercontent.com',
-    }, //firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    },
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
 
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
-  // Your terms of service url.
-  //tosUrl: "https://example.com/terms",
-  // Your privacy policy url.
-  //privacyPolicyUrl: "https://example.com/privacy",
 };
 
-console.log('queue firebase.auth().onAuthStateChanged((firebaseUser) after ');
-console.log(Date.now() - StartTimeLogged);
-console.timeLog();
 $(LoggedInHomePageDisplay);
+
+console.log('queue firebase.auth().onAuthStateChanged((firebaseUser) after ', Date.now() - StartTimeLogged);
+console.timeLog();
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
   if (firebaseUser) {
-    console.log('firebase.auth().onAuthStateChanged((firebaseUser) after ');
-    console.log(Date.now() - StartTimeLogged);
+    // Show page as user is logged in
+    console.log('firebase.auth().onAuthStateChanged((firebaseUser) after ', Date.now() - StartTimeLogged);
     console.timeLog();
-    // document.querySelector('#loader').style.display = 'none';
-    // document.querySelector('main').style.display = 'block';
+
     document.querySelector('body').classList.add('logged-in');
     document.querySelector('body').classList.remove('not-logged-in');
+
     currentUser = firebaseUser.uid;
+
     startDataListeners();
-    //console.log(firebaseUser)
   } else {
+    // Show login page
     document.querySelector('body').classList.remove('logged-in');
     document.querySelector('body').classList.add('not-logged-in');
     firebaseUI.start('#firebaseui-auth-container', firebaseUiConfig);
     firebaseUI.disableAutoSignIn();
   }
 });
+
 /**
  * Data listeners
  */
 function startDataListeners() {
-  // Get all our products and render them to the page
-  const products = document.querySelector('.products');
-  const template = document.querySelector('#product');
-
   db.collection('products')
     .where('active', '==', true)
     .get()
     .then(function (querySnapshot) {
-      querySnapshot.forEach(async function (doc) {
-        const priceSnap = await doc.ref.collection('prices').where('active', '==', true).orderBy('unit_amount').get();
-
-        /*if (!"content" in document.createElement("template")) {
-          console.error("Your browser doesn’t support HTML template elements.");
-          return;
-        }*/
-
-        const product = doc.data();
-        const container = template.content.cloneNode(true);
-
-        container.querySelector('h2').innerText = product.name.toUpperCase();
-        container.querySelector('.description').innerText = product.description?.toUpperCase() || '';
-        // Prices dropdown
-        priceSnap.docs.forEach((doc) => {
-          const priceId = doc.id;
-          const priceData = doc.data();
-          prices[priceId] = priceData;
-          const content = document.createTextNode(
-            `${new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: priceData.currency,
-            }).format((priceData.unit_amount / 100).toFixed(2))} per ${priceData.interval ?? 'once'}`
-          );
-          const option = document.createElement('option');
-          option.value = priceId;
-          option.appendChild(content);
-          container.querySelector('#price').appendChild(option);
-        });
-
-        if (product.images.length) {
-          const img = container.querySelector('img');
-          img.src = product.images[0];
-          img.alt = product.name;
-        }
-
-        const form = container.querySelector('form');
-        form.addEventListener('submit', subscribe);
-
-        products.appendChild(container);
-      });
+      querySnapshot.forEach(handleProductSnapshot);
     });
+
   // Get all subscriptions for the customer
   db.collection('customers')
     .doc(currentUser)
     .collection('subscriptions')
     .where('status', 'in', ['trialing', 'active'])
-    .onSnapshot(async (snapshot) => {
-      if (snapshot.empty) {
-        // Show products
-        //document.querySelector('#subscribe').style.display = 'block';
-        return;
-      }
-      //document.querySelector('#subscribe').style.display = 'none';
-      //document.querySelector('#my-subscription').style.display = 'block';
-      // In this implementation we only expect one Subscription to exist
-      const subscription = snapshot.docs[0].data();
-      const priceData = (await subscription.price.get()).data();
-      //console.log(firebase.auth().currentUser)
-      var username = firebase.auth().currentUser.displayName;
-      document.querySelector(
-        '#my-subscription p'
-      ).textContent = `Hi ${username}, you are paying ${new Intl.NumberFormat('en-US', {
+    .onSnapshot(handleCustomerSnapshot);
+}
+
+async function handleCustomerSnapshot(snapshot) {
+  if (snapshot.empty) {
+    // Show products
+    //document.querySelector('#subscribe').style.display = 'block';
+    return;
+  }
+  //document.querySelector('#subscribe').style.display = 'none';
+  //document.querySelector('#my-subscription').style.display = 'block';
+  // In this implementation we only expect one Subscription to exist
+  const subscription = snapshot.docs[0].data();
+  const priceData = (await subscription.price.get()).data();
+  //console.log(firebase.auth().currentUser)
+  var username = firebase.auth().currentUser.displayName;
+  document.querySelector('#my-subscription p').textContent = `Hi ${username}, you are paying ${new Intl.NumberFormat(
+    'en-US',
+    {
+      style: 'currency',
+      currency: priceData.currency,
+    }
+  ).format((priceData.unit_amount / 100).toFixed(2))} per ${
+    priceData.interval
+  }, giving you the role: ${await getCustomClaimRole()}.`;
+
+  const element = document.querySelector('body');
+
+  element.classList.add('logged-in');
+}
+
+async function handleProductSnapshot(doc) {
+  // Get all our products and render them to the page
+  const products = document.querySelector('.products');
+  const template = document.querySelector('#product');
+
+  const priceSnap = await doc.ref.collection('prices').where('active', '==', true).orderBy('unit_amount').get();
+
+  /*if (!"content" in document.createElement("template")) {
+    console.error("Your browser doesn’t support HTML template elements.");
+    return;
+  }*/
+
+  const product = doc.data();
+  const container = template.content.cloneNode(true);
+
+  container.querySelector('h2').innerText = product.name.toUpperCase();
+  container.querySelector('.description').innerText = product.description?.toUpperCase() || '';
+  // Prices dropdown
+  priceSnap.docs.forEach((doc) => {
+    const priceId = doc.id;
+    const priceData = doc.data();
+    prices[priceId] = priceData;
+    const content = document.createTextNode(
+      `${new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: priceData.currency,
-      }).format((priceData.unit_amount / 100).toFixed(2))} per ${
-        priceData.interval
-      }, giving you the role: ${await getCustomClaimRole()}.`;
+      }).format((priceData.unit_amount / 100).toFixed(2))} per ${priceData.interval ?? 'once'}`
+    );
+    const option = document.createElement('option');
+    option.value = priceId;
+    option.appendChild(content);
+    container.querySelector('#price').appendChild(option);
+  });
 
-      const element = document.querySelector('body');
+  if (product.images.length) {
+    const img = container.querySelector('img');
+    img.src = product.images[0];
+    img.alt = product.name;
+  }
 
-      element.classList.add('logged-in');
-    });
+  const form = container.querySelector('form');
+  form.addEventListener('submit', subscribe);
+
+  products.appendChild(container);
 }
 
 // Checkout handler
@@ -434,12 +434,8 @@ async function getCustomClaimRole() {
 }
 
 function LoggedInHomePageDisplay() {
-  //document.querySelector("#LoggedInUser").style.display = "block";
-
-  // Data handler (onSnapshot)
   //db.disableNetwork().then((a) => {
-  console.log('firestore gets called after');
-  console.log(Date.now() - StartTimeLogged);
+  console.log('firestore gets called after', Date.now() - StartTimeLogged);
   console.timeLog();
   db.collection('data').onSnapshot(loadAllGraphData);
   /*    .get({ source: 'cache' })
@@ -448,7 +444,6 @@ function LoggedInHomePageDisplay() {
       db.collection('data').onSnapshot(loadAllGraphData);
     });*/
   //});
-  // End data snapshot handler
 }
 
 async function loadAllGraphData(querySnapshot) {
@@ -471,9 +466,9 @@ async function loadAllGraphData(querySnapshot) {
   populateQuickLookup(querySnapshot);
 }
 
-//test
-
 /*
+// This moves the google one tap picker to a new location
+// However its not working so i have it disabled
 function waitForElm(selector) {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
@@ -510,92 +505,6 @@ $(function () {
 ///
 window.addEventListener('DOMContentLoaded', start_up_scripts);
 function start_up_scripts() {
-  /**volunteers page version**/
-  /*
-  let myChartVolunteersPage;
-  $(function () {
-    const chartOptions = {
-      type: 'bar',
-      data: {
-        labels: [
-          'Apr 11',
-          'Apr 18',
-          'May 10',
-          'May 17',
-          'May 24',
-          'June 5',
-          'Apr 11',
-          'Apr 18',
-          'May 10',
-          'May 17',
-          'May 24',
-          'June 5',
-        ],
-        datasets: [
-          {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              '#0d6efd', //black //?
-            ],
-          },
-        ],
-      },
-      options: {
-        interaction: {
-          intersect: false,
-          mode: 'nearest',
-          axis: 'x',
-        },
-        elements: {
-          line: {
-            tension: 0,
-          },
-        },
-        animation: {
-          duration: 0,
-        },
-
-        plugins: {
-          legend: false,
-        },
-        title: {
-          display: false,
-          text: 'Contact attempts by week',
-        },
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                display: false,
-              },
-            },
-          ],
-        },
-      },
-    };
-
-    myChartVolunteersPage = new Chart(document.getElementById('myChartVolunteersPage'), chartOptions);
-
-    myChartVolunteersPage.data.datasets[0].data = [
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-    ];
-    myChartVolunteersPage.update();
-  });
-  */
-
   $(function () {
     var start = moment().subtract(29, 'days');
     var end = moment();
