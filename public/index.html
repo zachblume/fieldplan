@@ -235,7 +235,13 @@
         >
           <!--end home page content-->
           <div class="tab-content container-fluid p-0 m-0" id="v-pills-tabContent">
-            <div class="tab-pane" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+            <div
+              class="tab-pane show active"
+              id="v-pills-home"
+              role="tabpanel"
+              aria-labelledby="v-pills-home-tab"
+              tabindex="0"
+            >
               <!--home page content-->
               <div class="container mt-md-4">
                 <div class="row d-block" style="margin-right: 0 !important">
@@ -343,11 +349,11 @@
                   <!--end heading bar and controls-->
                 </div>
                 <div class="shadow-sm alert alert-success alert-dismissible fade show" role="alert">
-                  <strong>
+                  <b>
                     <i class="bi-check"></i>
                     Synced!
-                  </strong>
-                  No issues. Data below is updated within 15 min.
+                  </b>
+                  No issues. Data below updates without refresh every 15 minutes.
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <div class="row mb-0 mt-3">
@@ -360,39 +366,42 @@
                             border: 0 !important;
                           }
 
-                          #qltabs {
-                            font-size: 0.9rem !important;
+                          .underline-nav {
+                            font-size: 0.85rem !important;
                           }
 
-                          #qltabs .nav-item {
-                            padding: 0.4rem 0.6rem !important;
+                          .underline-nav .nav-item {
+                            padding: 0.4rem 0.5rem !important;
                           }
 
-                          #qltabs a {
+                          .underline-nav a {
                             color: grey;
                           }
 
-                          #qltabs .active a {
+                          .underline-nav .active a {
                             color: black;
                             font-weight: bold;
                           }
 
-                          #qltabs .nav-item > a {
+                          .underline-nav .nav-item > a {
                             padding: 0 !important;
                             border: 0 !important;
                           }
 
-                          #qltabs .active {
+                          .underline-nav .active {
                             border-bottom: 3px solid black;
                             margin-bottom: -1px;
                           }
 
-                          #qltabs .dropdown-menu {
+                          .underline-nav .dropdown-menu {
                             margin-top: 0px !important;
                           }
                         </style>
-                        <ul class="nav nav-tabs mb-1" id="qltabs">
+                        <ul class="nav nav-tabs mb-1 underline-nav" id="qltabs">
                           <li class="nav-item active">
+                            <a class="nav-link border-bottom rounded-0" aria-current="page" href="#">All Time</a>
+                          </li>
+                          <li class="nav-item">
                             <a class="nav-link border-bottom rounded-0" aria-current="page" href="#">Today</a>
                           </li>
                           <li class="nav-item">
@@ -430,57 +439,57 @@
                           </li>
                         </ul>
 
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush" id="ql-display">
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Positive IDs <strong>147</strong>
+                            Positive IDs <b>147</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Shifts Completed <strong>25</strong>
+                            Shifts Completed <b>25</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Pos ID/shift complete <strong>25</strong>
+                            Pos ID/shift complete <b>25</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Doors knocked <strong>755</strong>
+                            Doors knocked <b>755</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Calls made <strong>2,432</strong>
+                            Calls made <b>2,432</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Texts sent <strong>10,000</strong>
+                            Texts sent <b>10,000</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Rel. added <strong>240</strong>
+                            Rel. added <b>240</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            Rel. Pos IDs <strong>25</strong>
+                            Rel. Pos IDs <b>25</b>
                           </li>
 
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            % Shift Completion <strong>55%</strong>
+                            % Shift Completion <b>55%</b>
                           </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                           >
-                            New Shifts Scheduled <strong>42</strong>
+                            New Shifts Scheduled <b>42</b>
                           </li>
                         </ul>
                       </div>
@@ -494,7 +503,7 @@
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
                             <h6 class="text-secondary">Positive IDs</h6>
-                            <h3 class="card-title"><strong>255</strong></h3>
+                            <h3 class="card-title"><b>255</b></h3>
                             <p class="card-text">
                               <canvas id="myChart" width="100%"></canvas>
                             </p>
@@ -506,7 +515,7 @@
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
                             <h6 class="text-secondary">Contact Attempts</h6>
-                            <h3 class="card-title"><strong>255</strong></h3>
+                            <h3 class="card-title"><b>255</b></h3>
                             <p class="card-text">
                               <canvas id="myChart2" width="100%"></canvas>
                             </p>
@@ -521,7 +530,7 @@
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
                             <h6 class="text-secondary">Shifts</h6>
-                            <h3 class="card-title"><strong>255</strong></h3>
+                            <h3 class="card-title"><b>255</b></h3>
                             <p class="card-text">
                               <canvas id="myChart3" width="100%"></canvas>
                             </p>
@@ -533,7 +542,7 @@
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
                             <h6 class="text-secondary">Total Volunteers (1+ signups)</h6>
-                            <h3 class="card-title"><strong>345</strong></h3>
+                            <h3 class="card-title"><b>345</b></h3>
                             <p class="card-text">
                               <canvas id="myChart4" width="100%"></canvas>
                             </p>
@@ -550,7 +559,7 @@
                     <div class="card shadow-sm border-white">
                       <div class="card-body">
                         <h6 class="text-secondary">Positive IDs</h6>
-                        <h3 class="card-title"><strong>255</strong></h3>
+                        <h3 class="card-title"><b>255</b></h3>
                         <p class="card-text">
                           <canvas id="myChart5" width="100%"></canvas>
                         </p>
@@ -562,7 +571,7 @@
                     <div class="card shadow-sm border-white">
                       <div class="card-body">
                         <h6 class="text-secondary">Contact Attempts</h6>
-                        <h3 class="card-title"><strong>255</strong></h3>
+                        <h3 class="card-title"><b>255</b></h3>
                         <p class="card-text">
                           <canvas id="myChart6" width="100%"></canvas>
                         </p>
@@ -878,7 +887,7 @@
                     <div class="card shadow-sm border-white">
                       <div class="card-body">
                         <h6 class="text-secondary">Positive IDs</h6>
-                        <h3 class="card-title"><strong>255</strong></h3>
+                        <h3 class="card-title"><b>255</b></h3>
                         <p class="card-text">
                           <canvas id="myChartMetricsPage" width="100%"></canvas>
                         </p>
@@ -920,13 +929,7 @@
               </div>
               <!--ends page inner content-->
             </div>
-            <div
-              class="tab-pane show active"
-              id="v-pills-ramp"
-              role="tabpanel"
-              aria-labelledby="v-pills-ramp-tab"
-              tabindex="2"
-            >
+            <div class="tab-pane" id="v-pills-ramp" role="tabpanel" aria-labelledby="v-pills-ramp-tab" tabindex="2">
               <!--ramp page inner content-->
               <div class="container mt-4" id="ramp-page-container">
                 <div class="row d-block" style="margin-right: 0 !important">
@@ -953,32 +956,21 @@
                       <!--col-3-->
                       <!--Start main table card-->
 
-                      <div id="tableDIV" class="table-responsive" style="font-size: 0.75rem">
+                      <div id="tableDIV" class="table-responsive" style="font-size: 0.9rem">
                         <table id="tableContainer" class="table table-hover table-bordered table-striped"></table>
                       </div>
                     </div>
                     <!--table stuff-->
                     <style>
-                      #ramp-page-container tbody * {
-                        padding-top: 0 !important;
-                        padding-bottom: 0 !important;
-                      }
-
-                      #ramp-page-container table tbody td {
-                        padding-top: 3px !important;
-                        padding-bottom: 3px !important;
-                      }
-
                       #collapseTableDiv {
                       }
 
-                      #ramp-page-container th,
-                      #ramp-page-container tr > td:last-of-type,
-                      #ramp-page-container tr:first-of-type,
-                      #ramp-page-container tr:first-of-type > td {
-                        background: #666 !important;
-                        color: white !important;
+                      #ramp-page-container thead tr th,
+                      #ramp-page-container tr:last-of-type td {
                         font-weight: bold !important;
+                        border-top: 1px solid black;
+                        border-bottom: 1px solid black;
+                        border-collapse: collapse;
                       }
                     </style>
 
@@ -991,7 +983,7 @@
                         <div class="card shadow-sm border-white mb-3">
                           <div class="card-body">
                             <h3 class="card-title">
-                              <strong>Assumptions</strong>
+                              <b>Assumptions</b>
                             </h3>
                             <div>
                               <select class="form-select mb-3" aria-label="Default select example">
@@ -1135,7 +1127,7 @@
                         <div class="card shadow-sm border-white mb-3">
                           <div class="card-body">
                             <h3 class="card-title">
-                              <strong>Response Rates</strong>
+                              <b>Response Rates</b>
                             </h3>
 
                             <form class="mt-3">
@@ -1190,7 +1182,7 @@
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
                             <h3 class="card-title">
-                              <strong>Positivity Rates</strong>
+                              <b>Positivity Rates</b>
                             </h3>
 
                             <form class="mt-3">
@@ -1743,7 +1735,7 @@
                     <div class="card shadow-sm border-white">
                       <div class="card-body">
                         <h6 class="text-secondary">Positive IDs</h6>
-                        <h3 class="card-title"><strong>255</strong></h3>
+                        <h3 class="card-title"><b>255</b></h3>
                         <p class="card-text">
                           <canvas id="myChartVolunteersPage" width="100%"></canvas>
                         </p>

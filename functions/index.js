@@ -40,7 +40,7 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
     },
     total_survey_attempts: {
       metric: 'count(DISTINCT VanID)',
-      table: 'ContactsSurveyResponses',
+      table: 'ContactsSurveyResponses WHERE surveyQuestionID=469152',
       doctitle: 'weeklysurveys',
       datecolumn: 'DateCanvassed',
     },
