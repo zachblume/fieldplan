@@ -302,53 +302,13 @@
                         <i class="fa fa-calendar"></i>
                         &nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
-                        <style>
-                          #reportrange {
-                            color: #0d6efd !important;
-                            border: 1px solid #0d6efd !important;
-                            padding: 0.45em 0.6em !important;
-                            margin-left: 0.5em;
-                            border-radius: 0.4em;
-                          }
-
-                          .ranges,
-                          .ranges * {
-                            font-size: inherit !important;
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-                              Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                          }
-
-                          .daterangepicker.ltr.show-ranges.opensright {
-                            width: 265px !important;
-                          }
-
-                          .daterangepicker.ltr.show-ranges.opensright * {
-                            width: 100% !important;
-                          }
-
-                          .daterangepicker .ranges li.active {
-                            background: #0d6efd !important;
-                          }
-
-                          .daterangepicker .ranges * * {
-                            padding-top: 12px !important;
-                            padding-bottom: 12px !important;
-                          }
-
-                          .form-switch .form-check-input {
-                            height: 1.5rem;
-                            width: 3em !important;
-                            border-radius: 2rem;
-                            margin-right: 0.4em;
-                            vertical-align: middle !important;
-                          }
-                        </style>
                       </div>
                     </div>
                   </div>
                   <!--end heading bar and controls-->
                 </div>
-                <div class="shadow-sm alert alert-success alert-dismissible fade show" role="alert">
+                <!--
+                <div class="shadow-sm alert alert-light alert-dismissible fade show shadow-sm" role="alert">
                   <b>
                     <i class="bi-check"></i>
                     Synced!
@@ -356,56 +316,18 @@
                   No issues. Data below updates without refresh every 15 minutes.
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+                -->
                 <div class="row mb-0 mt-3">
                   <div class="col-sm-3">
                     <div class="card shadow-sm border-white">
-                      <div class="card-body">
-                        <h5 class="card-title">Quick Look</h5>
-                        <style>
-                          nav-tabs nav-link border-bottom rounded-0 {
-                            border: 0 !important;
-                          }
-
-                          .underline-nav {
-                            font-size: 0.85rem !important;
-                          }
-
-                          .underline-nav .nav-item {
-                            padding: 0.4rem 0.5rem !important;
-                          }
-
-                          .underline-nav a {
-                            color: grey;
-                          }
-
-                          .underline-nav .active a {
-                            color: black;
-                            font-weight: bold;
-                          }
-
-                          .underline-nav .nav-item > a {
-                            padding: 0 !important;
-                            border: 0 !important;
-                          }
-
-                          .underline-nav .active {
-                            border-bottom: 3px solid black;
-                            margin-bottom: -1px;
-                          }
-
-                          .underline-nav .dropdown-menu {
-                            margin-top: 0px !important;
-                          }
-                        </style>
+                      <div class="card-body mb-0 pb-0">
+                        <h5 class="card-title">Quick Metrics</h5>
                         <ul class="nav nav-tabs mb-1 underline-nav" id="qltabs">
                           <li class="nav-item active">
                             <a class="nav-link border-bottom rounded-0" aria-current="page" href="#">All Time</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link border-bottom rounded-0" aria-current="page" href="#">Today</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link border-bottom rounded-0" href="#">Yesterday</a>
                           </li>
                           <li class="nav-item dropdown">
                             <a
@@ -438,57 +360,70 @@
                             </ul>
                           </li>
                         </ul>
-
+                      </div>
+                      <div style="position: relative !important">
+                        <span
+                          class="badge text-bg-light ms-2 position-absolute text-muted"
+                          style="right: 0; z-index: 100; top: -18px; margin-right: 15px; font-size: 0.7rem"
+                          >% to goal</span
+                        >
+                      </div>
+                      <div>
                         <ul class="list-group list-group-flush" id="ql-display">
                           <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                            class="list-group-item list-group-item-action d-flex justify-content-between d-flex justify-content-between mt-0"
                           >
-                            Positive IDs <b>147</b>
+                            <span>Positive IDs</span>
+                            <div class="position:relative">
+                              <b>147</b><span class="badge bg-primary ms-2">87%</span>
+                            </div>
                           </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
-                            Shifts Completed <b>25</b>
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
+                            <span>Shifts Complete</span>
+                            <div>
+                              <b>25</b>
+                              <span class="badge bg-primary">74%</span>
+                            </div>
                           </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          <!--<li
+                            class="list-group-item list-group-item-action d-flex justify-content-between"
                           >
                             Pos ID/shift complete <b>25</b>
+                          </li>-->
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
+                            <span>Doors knocked</span>
+                            <div>
+                              <b>25</b>
+                              <span class="badge bg-secondary">88%</span>
+                            </div>
                           </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
-                            Doors knocked <b>755</b>
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
+                            <span>Calls made</span>
+                            <div>
+                              <b>25</b>
+                              <span class="badge bg-secondary">97%</span>
+                            </div>
                           </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
-                            Calls made <b>2,432</b>
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
+                            <span>Texts sent</span>
+                            <div>
+                              <b>25</b>
+                              <span class="badge bg-secondary">110%</span>
+                            </div>
                           </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
-                            Texts sent <b>10,000</b>
-                          </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                          <!--  <li
+                            class="list-group-item list-group-item-action d-flex justify-content-between"
                           >
                             Rel. added <b>240</b>
-                          </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
+                          </li>-->
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
                             Rel. Pos IDs <b>25</b>
                           </li>
 
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
                             % Shift Completion <b>55%</b>
                           </li>
-                          <li
-                            class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
-                          >
+                          <li class="list-group-item list-group-item-action d-flex justify-content-between">
                             New Shifts Scheduled <b>42</b>
                           </li>
                         </ul>
@@ -502,8 +437,7 @@
                       <div class="col-sm-6">
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
-                            <h6 class="text-secondary">Positive IDs</h6>
-                            <h3 class="card-title"><b>255</b></h3>
+                            <h5 class="card-title">Positive IDs</h5>
                             <p class="card-text">
                               <canvas id="myChart" width="100%"></canvas>
                             </p>
@@ -514,8 +448,7 @@
                       <div class="col-sm-6">
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
-                            <h6 class="text-secondary">Contact Attempts</h6>
-                            <h3 class="card-title"><b>255</b></h3>
+                            <h5 class="card-title">Contact Attempts</h5>
                             <p class="card-text">
                               <canvas id="myChart2" width="100%"></canvas>
                             </p>
@@ -529,8 +462,7 @@
                       <div class="col-sm-6">
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
-                            <h6 class="text-secondary">Shifts</h6>
-                            <h3 class="card-title"><b>255</b></h3>
+                            <h5 class="card-title">Shifts</h5>
                             <p class="card-text">
                               <canvas id="myChart3" width="100%"></canvas>
                             </p>
@@ -541,8 +473,7 @@
                       <div class="col-sm-6">
                         <div class="card shadow-sm border-white">
                           <div class="card-body">
-                            <h6 class="text-secondary">Total Volunteers (1+ signups)</h6>
-                            <h3 class="card-title"><b>345</b></h3>
+                            <h5 class="card-title">New Volunteers (first signup)</h5>
                             <p class="card-text">
                               <canvas id="myChart4" width="100%"></canvas>
                             </p>
@@ -650,39 +581,6 @@
                         <i class="fa fa-calendar"></i>
                         &nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
-                        <style>
-                          #reportrange {
-                            color: #0d6efd !important;
-                            border: 1px solid #0d6efd !important;
-                            padding: 0.45em 0.6em !important;
-                            margin-left: 0.5em;
-                            border-radius: 0.4em;
-                          }
-
-                          .ranges,
-                          .ranges * {
-                            font-size: inherit !important;
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-                              Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                          }
-
-                          .daterangepicker.ltr.show-ranges.opensright {
-                            width: 265px !important;
-                          }
-
-                          .daterangepicker.ltr.show-ranges.opensright * {
-                            width: 100% !important;
-                          }
-
-                          .daterangepicker .ranges li.active {
-                            background: #0d6efd !important;
-                          }
-
-                          .daterangepicker .ranges * * {
-                            padding-top: 12px !important;
-                            padding-bottom: 12px !important;
-                          }
-                        </style>
                       </div>
                     </div>
                   </div>
@@ -1488,47 +1386,6 @@
                         <i class="fa fa-calendar"></i>
                         &nbsp; <span></span>
                         <i class="fa fa-caret-down"></i>
-                        <style>
-                          #reportrange {
-                            color: #0d6efd !important;
-                            border: 1px solid #0d6efd !important;
-                            padding: 0.45em 0.6em !important;
-                            margin-left: 0.5em;
-                            border-radius: 0.4em;
-                          }
-
-                          .ranges,
-                          .ranges * {
-                            font-size: inherit !important;
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-                              Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                          }
-
-                          .daterangepicker.ltr.show-ranges.opensright {
-                            width: 265px !important;
-                          }
-
-                          .daterangepicker.ltr.show-ranges.opensright * {
-                            width: 100% !important;
-                          }
-
-                          .daterangepicker .ranges li.active {
-                            background: #0d6efd !important;
-                          }
-
-                          .daterangepicker .ranges * * {
-                            padding-top: 12px !important;
-                            padding-bottom: 12px !important;
-                          }
-
-                          .form-switch .form-check-input {
-                            height: 1.5rem;
-                            width: 3em !important;
-                            border-radius: 2rem;
-                            margin-right: 0.4em;
-                            vertical-align: middle !important;
-                          }
-                        </style>
                       </div>
                     </div>
                   </div>
@@ -1957,7 +1814,6 @@
     </style>
 
     <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js" defer></script>
 

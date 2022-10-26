@@ -2968,8 +2968,8 @@
                 return Array();
               },
             },
-            paths,
-            fill: 'black',
+            //paths,
+            //fill: 'black',
           },
         ],
       };
@@ -3037,75 +3037,6 @@
         newchart('myChart4', globalchart_options);
         console.timeLog();
       }
-      const globalchart_options = {
-        type: 'bar',
-        data: {
-          labels: [1, 2, 3, 4],
-
-          datasets: [
-            {
-              label: 'Contact Attempts',
-              borderColor: '#3e95cd',
-              backgroundColor: '#0d6efd', //black //?
-
-              data: [1, 2, 3, 4],
-              datalabels: {
-                align: 'start',
-                anchor: 'end',
-              },
-            },
-          ],
-        },
-        options: {
-          interaction: {
-            intersect: false,
-            mode: 'nearest',
-            axis: 'x',
-          },
-          plugins: {
-            legend: false,
-            datalabels: {
-              color: 'white',
-              /* display: function (context) {
-                return context.dataset.data[context.dataIndex] > 15;
-              },*/
-              font: {
-                weight: 'normal',
-                size: 9,
-              },
-              /*   borderColor: "white",
-              borderRadius: 32,
-              borderWidth: 2,*/
-              /*formatter: nFormatter,*/
-            },
-          },
-          elements: {
-            line: {
-              tension: 0,
-            },
-          },
-          animation: {
-            duration: 0,
-          },
-
-          legend: { display: false },
-          title: {
-            display: true,
-            text: 'Contact attempts by week',
-          },
-          scales: {
-            x: {
-              grid: {
-                display: true,
-                drawBorder: true,
-                drawOnChartArea: false,
-                drawTicks: true,
-              },
-              tics: { autoSkip: true, maxTicksLimit: 3 },
-            },
-          },
-        },
-      };
 
       function cloneChartOptions(x) {
         y = structuredClone(x);

@@ -229,3 +229,95 @@ button:disabled {
 #sidebar {
   min-height: 100vw;
 }
+
+#reportrange {
+  color: #0d6efd !important;
+  border: 1px solid #0d6efd !important;
+  padding: 0.45em 0.6em !important;
+  margin-left: 0.5em;
+  border-radius: 0.4em;
+}
+
+.ranges,
+.ranges *,
+.daterangepicker,
+.daterangepicker * {
+  font-size: inherit !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif !important;
+}
+.daterangepicker .drp-calendar {
+  font-size: 0.9rem !important;
+}
+
+.daterangepicker.ltr.show-ranges:not(.show-calendar) {
+  width: 265px !important;
+}
+
+.daterangepicker.ltr.show-ranges:not(.show-calendar) * {
+  width: 100% !important;
+}
+
+.daterangepicker .ranges li.active {
+  background: #0d6efd !important;
+}
+
+.daterangepicker .ranges * * {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.ranges {
+  border-right: 1px solid #ddd;
+}
+
+.drp-calendar.left {
+  border-left: none !important;
+}
+
+.form-switch .form-check-input {
+  height: 1.5rem;
+  width: 3em !important;
+  border-radius: 2rem;
+  margin-right: 0.4em;
+  vertical-align: middle !important;
+}
+
+nav-tabs nav-link border-bottom rounded-0 {
+  border: 0 !important;
+}
+
+.underline-nav {
+  font-size: 0.85rem !important;
+}
+
+.underline-nav .nav-item {
+  padding: 0.4rem 0.5rem !important;
+}
+
+.underline-nav a {
+  color: grey;
+}
+
+.underline-nav .active a {
+  color: black;
+  font-weight: bold;
+}
+
+.underline-nav .nav-item > a {
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.underline-nav .active {
+  border-bottom: 3px solid black;
+  margin-bottom: -1px;
+}
+
+.underline-nav .dropdown-menu {
+  margin-top: 0px !important;
+}
+
+.card-title {
+  font-weight: bold;
+}

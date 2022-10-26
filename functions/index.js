@@ -34,14 +34,38 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
   const definitions = {
     total_contact_attempts: {
       metric: 'count(*)',
-      table: 'contacthistory',
+      table: 'contacthistory_with_joins',
       doctitle: 'weeklycontacthistory',
+      datecolumn: 'DateCanvassed',
+    },
+    doors: {
+      metric: 'count(*)',
+      table: 'contacthistory_with_joins WHERE contactType LIKE "%Walk%"',
+      doctitle: 'weeklydoors',
+      datecolumn: 'DateCanvassed',
+    },
+    calls: {
+      metric: 'count(*)',
+      table: 'contacthistory_with_joins WHERE contactType LIKE "%Phone%"',
+      doctitle: 'weeklycalls',
+      datecolumn: 'DateCanvassed',
+    },
+    texts: {
+      metric: 'count(*)',
+      table: 'contacthistory_with_joins WHERE contactType LIKE "%SMS%"',
+      doctitle: 'weeklytexts',
       datecolumn: 'DateCanvassed',
     },
     total_survey_attempts: {
       metric: 'count(DISTINCT VanID)',
       table: 'ContactsSurveyResponses WHERE surveyQuestionID=469152',
       doctitle: 'weeklysurveys',
+      datecolumn: 'DateCanvassed',
+    },
+    positiveids: {
+      metric: 'count(DISTINCT VanID)',
+      table: 'ContactsSurveyResponses WHERE surveyResponseID=1911988 OR surveyResponseID=1911989',
+      doctitle: 'weeklypositiveids',
       datecolumn: 'DateCanvassed',
     },
     total_shifts: {
@@ -75,11 +99,20 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
         first_signup_date
       ORDER BY
         first_signup_date )
+    /* -- Comment: The following lines are a cumulative graph
     SELECT
       SUM(signups) OVER (ORDER BY first_signup_date RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS metric,
       first_signup_date AS period
     FROM
-      first_signup_aggregated_by_day`,
+      first_signup_aggregated_by_day
+      */
+      
+      SELECT count(*) as metric, 
+      DATE_TRUNC(first_signup_date,ISOWEEK) as period
+       FROM first_signup_table
+       group by period
+      
+      `,
     },
   };
 

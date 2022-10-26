@@ -1,3 +1,10 @@
+const choices = {
+  weeklycontacthistory: 1,
+  positiveids: 2,
+  weeklysignups: 3,
+  vanityvolunteers: 4,
+};
+
 console.log('app.js begins running, time logged as StartTimeLogged');
 const StartTimeLogged = Date.now();
 console.timeLog();
@@ -30,25 +37,32 @@ function nFormatter(num, ...params) {
 function HomePageChartCompose() {
   Chart.register(ChartDataLabels);
   const chart_options = {
-    type: 'bar',
+    type: 'line',
     data: {
       labels: [0, 0],
-
       datasets: [
         {
           //label: 'Metric label',
-          borderColor: '#3e95cd',
           backgroundColor: '#0d6efd', //black //?
-
+          pointStyle: 'circle',
+          pointSize: 0,
+          borderColor: '#0d6efd',
           data: [0, 0],
           datalabels: {
+            display: false,
             align: 'start',
             anchor: 'end',
+            rotation: 90,
+            padding: 0,
           },
         },
       ],
     },
     options: {
+      responsive: true,
+      layout: {
+        padding: {}, // This is global chart padding
+      },
       interaction: {
         intersect: false,
         mode: 'nearest',
@@ -57,17 +71,15 @@ function HomePageChartCompose() {
       plugins: {
         legend: false,
         datalabels: {
+          //display: false,
           color: 'white',
-          /* display: function (context) {
-                return context.dataset.data[context.dataIndex] > 15;
-              },*/
+          /*display: function (context) {
+            return context.dataset.data[context.dataIndex] > 15;
+          },*/
           font: {
             weight: 'normal',
             size: 9,
           },
-          /*   borderColor: "white",
-              borderRadius: 32,
-              borderWidth: 2,*/
           /*formatter: nFormatter,*/
         },
       },
@@ -93,7 +105,12 @@ function HomePageChartCompose() {
             drawOnChartArea: false,
             drawTicks: true,
           },
-          tics: { autoSkip: true, maxTicksLimit: 3 },
+          ticks: { autoSkip: true },
+        },
+        y: {
+          //display: false,
+          grid: { drawOnChartArea: true },
+          ticks: { autoSkip: true, maxTicksLimit: 5 },
         },
       },
     },
@@ -112,19 +129,13 @@ function HomePageChartCompose() {
 }
 
 async function loadAllGraphDataDirectlyFromIDB() {
-  //console.clear();
   console.log('idb function start');
   //console.log(Date.now() - StartTimeLogged);
   console.timeLog();
   console.time('idb');
 
   //var data = {};
-  var choices = {
-    weeklycontacthistory: 1,
-    weeklysurveys: 2,
-    weeklysignups: 3,
-    vanityvolunteers: 4,
-  };
+
   let idb;
 
   try {
@@ -257,10 +268,10 @@ const firebaseUiConfig = {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       clientId: '640113081213-cgb821si2sshi87hdurs7doo7a7flo0c.apps.googleusercontent.com',
     },
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
+    //firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
 
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
+  //credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
 };
 
 $(LoggedInHomePageDisplay);
@@ -452,12 +463,7 @@ async function loadAllGraphData(querySnapshot) {
   console.timeLog();
 
   var data = {};
-  var choices = {
-    weeklycontacthistory: 1,
-    weeklysurveys: 2,
-    weeklysignups: 3,
-    vanityvolunteers: 4,
-  };
+
   querySnapshot.forEach((doc) => {
     data = doc.data();
     if (doc.id in choices) updateGraph(JSON.parse(data.resultstring), charts[choices[doc.id]]);
@@ -516,38 +522,7 @@ function start_up_scripts() {
     $('#reportrange').daterangepicker(
       {
         startDate: start,
-        endDate: end,
-        ranges: {
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
-          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-          'Last 3 Months': [moment().startOf('month'), moment().endOf('month')],
-          'Last 6 Months': [
-            moment().subtract(1, 'month').startOf('month'),
-            moment().subtract(1, 'month').endOf('month'),
-          ],
-
-          'This Year': [moment(), moment()],
-          'Last Year': [moment(), moment()],
-          'All Time': [moment(), moment()],
-        },
-      },
-      cb
-    );
-
-    cb(start, end);
-  });
-  $(function () {
-    var start = moment().subtract(29, 'days');
-    var end = moment();
-
-    function cb(start, end) {
-      $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
-    }
-
-    $('#reportrange').daterangepicker(
-      {
-        startDate: start,
+        opens: 'left',
         endDate: end,
         ranges: {
           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
@@ -634,127 +609,84 @@ function start_up_scripts() {
   }
 
   $(function () {
-    var start = moment().subtract(29, 'days');
-    var end = moment();
-
-    function cb(start, end) {
-      $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
-    }
-
-    $('#reportrange').daterangepicker(
-      {
-        startDate: start,
-        endDate: end,
-        ranges: {
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
-          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-          'Last 3 Months': [moment().startOf('month'), moment().endOf('month')],
-          'Last 6 Months': [
-            moment().subtract(1, 'month').startOf('month'),
-            moment().subtract(1, 'month').endOf('month'),
-          ],
-
-          'This Year': [moment(), moment()],
-          'Last Year': [moment(), moment()],
-          'All Time': [moment(), moment()],
-        },
-      },
-      cb
-    );
-
-    cb(start, end);
-
-    $(function () {
-      /*Chart.defaults.set('plugins.datalabels', {
-    color: '#FE777B'
-  });*/
-      const chartOptions = {
-        type: 'bar',
-        data: {
-          labels: [
-            'Apr 11',
-            'Apr 18',
-            'May 10',
-            'May 17',
-            'May 24',
-            'June 5',
-            'Apr 11',
-            'Apr 18',
-            'May 10',
-            'May 17',
-            'May 24',
-            'June 5',
-          ],
-          datasets: [
-            {
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                '#0d6efd', //black //?
-              ],
-            },
-          ],
-        },
-        options: {
-          interaction: {
-            intersect: false,
-            mode: 'nearest',
-            axis: 'x',
-          },
-          elements: {
-            line: {
-              tension: 0,
-            },
-          },
-          animation: {
-            duration: 0,
-          },
-
-          plugins: {
-            legend: false,
-          },
-          title: {
-            display: false,
-            text: 'Contact attempts by week',
-          },
-          scales: {
-            xAxes: [
-              {
-                gridLines: {
-                  display: false,
-                },
-              },
+    const chartOptions = {
+      type: 'bar',
+      data: {
+        labels: [
+          'Apr 11',
+          'Apr 18',
+          'May 10',
+          'May 17',
+          'May 24',
+          'June 5',
+          'Apr 11',
+          'Apr 18',
+          'May 10',
+          'May 17',
+          'May 24',
+          'June 5',
+        ],
+        datasets: [
+          {
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+              '#0d6efd', //black //?
             ],
           },
+        ],
+      },
+      options: {
+        interaction: {
+          intersect: false,
+          mode: 'nearest',
+          axis: 'x',
         },
-      };
+        elements: {
+          line: {
+            tension: 0,
+          },
+        },
+        animation: {
+          duration: 0,
+        },
 
-      myChartMetricsPage = new Chart(document.getElementById('myChartMetricsPage'), chartOptions);
+        plugins: {
+          legend: false,
+        },
+        title: {
+          display: false,
+          text: 'Contact attempts by week',
+        },
+        scales: {
+          x: {
+            gridLines: {
+              display: false,
+            },
+          },
+        },
+      },
+    };
 
-      myChartMetricsPage.data.datasets[0].data = [
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-        Math.floor(Math.random() * 20) + 5,
-      ];
-      myChartMetricsPage.update();
-    });
+    myChartMetricsPage = new Chart(document.getElementById('myChartMetricsPage'), chartOptions);
+
+    myChartMetricsPage.data.datasets[0].data = [
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+      Math.floor(Math.random() * 20) + 5,
+    ];
+    myChartMetricsPage.update();
   });
-
-  /*//old table form fucntion loader
-  $(function () {
-    formTable([{}], '#tableContainer');
-  });*/
 }
 
 function updateForecastSettingsInFirestore(rampConfig) {
@@ -1089,7 +1021,6 @@ function processRangesToFormTable(rampConfig) {
       row[key] = isNaN(row[key]) ? row[key] : nFormatter(row[key], 1);
     });
   });
-  //console.clear();
 
   console.log('tbobj', tableObject);
   console.log('transposeTable(tableObject)', transposeTable(tableObject));
@@ -1158,7 +1089,7 @@ $(function () {
 if (!Array.sum) {
   // Check if sum method exists in Array.prototype
   Array.prototype.sum = function () {
-    return this.reduce((total, num) => total + num);
+    return this.length > 0 ? this.reduce((total, num) => total + num) : 0;
   };
 }
 
@@ -1177,11 +1108,10 @@ function populateQuickLookup(querySnapshot) {
       .map((a) => a.metric)
       .sum();
   });
-  console.log(metrics.alltime);
-  //var metrics = getMetric('all-time').positiveIds;
-  $('#ql-display li:contains("Pos") b').html(metrics.alltime.positiveids);
-  $('#ql-display li:contains("Shifts") b').html(metrics.alltime.shifts);
-  $('#ql-display li:contains("Doors") b').html(metrics.alltime.doors);
-  $('#ql-display li:contains("Calls") b').html(metrics.alltime.calls);
-  $('#ql-display li:contains("Texts") b').html(metrics.alltime.texts);
+  console.log('metrics.alltime', metrics.alltime);
+  $('#ql-display li:contains("Positive") b').html(metrics.alltime.weeklypositiveids.toLocaleString());
+  $('#ql-display li:contains("Shifts") b').html(metrics.alltime.weeklysignups.toLocaleString());
+  $('#ql-display li:contains("Doors") b').html(metrics.alltime.weeklydoors.toLocaleString());
+  $('#ql-display li:contains("Calls") b').html(metrics.alltime.weeklycalls.toLocaleString());
+  $('#ql-display li:contains("Texts") b').html(metrics.alltime.weeklytexts.toLocaleString());
 }
