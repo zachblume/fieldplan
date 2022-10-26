@@ -27,6 +27,6 @@ Field Plan: 100% self service, 5 minutes to setup, stays forever in sync. Get me
 - What's our average number of relationships per volunteer in Reach?
 - How many positive IDs are we generating per newly scheduled shift on average?
 
-## Link to production
+## Link to development demo
 
 - https://fieldplan.app/
