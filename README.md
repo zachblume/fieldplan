@@ -4,10 +4,10 @@
 
 A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program.
 
-- Why are you spending hours per week exporting data manually, filling out reports, and making metrics?
-- Why are we hiring data professions to spend 3 weeks setting up Phoenix, an overly complex SQL mirror, then code from scratch the same metrics everyone else uses, and then waiting hours for Phoenix to update and having it periodically go out of sync?
+- Why are we spending hours per week exporting data manually, filling out reports, and making metrics when all of it is stored in a database?
+- Why are small campaigns hiring data professionals or pooling resources ad-hoc, spending 3 weeks setting up Phoenix, an overly complex SQL mirror, then coding from scratch the same metrics everyone else uses, and then waiting hours for Phoenix to update and having it periodically experience broken sync?
 
-Field Plan is 100% self service. It takes 5 minutes to setup, and then stays forever in sync. The metrics are standardized across campaigns, giving you confidence you are looking at meaningful insights.
+Field Plan: 100% self service, 5 minutes to setup, stays forever in sync. Get metrics standardized across campaigns, giving you confidence you are looking at meaningful insights.
 
 **Features:**
 
@@ -15,13 +15,17 @@ Field Plan is 100% self service. It takes 5 minutes to setup, and then stays for
 - Syncs instantly with Mobilize, ScaleToWin, and Reach to add color to volunteer-side metrics lost in NGPVAN's data structure.
 - Allows you to configure a simple field ramp and show your progress to goal, based on industry standard research.
 - Will allow you to benchmark your field metrics against anonymized ramps and production metrics from other past campaigns.
+- See not only your voter-contact metrics but also your volunteer-organizing metrics.
+- Send nightly 9pm field reports to yourself and your team via email, slack, and text.
 
 **Instantly get answers on one page to questions like:**
 
+- How many voters have we positive ID'd as voting for us?
 - How many total phone calls and door knocks have we ever made?
-- Today, how many volunteers signed up for a new shift?
+- This week, how many volunteers signed up for a new shift?
 - Whats our average week-over-week growth in shifts been?
 - What's our average number of relationships per volunteer in Reach?
+- How many positive IDs are we generating per newly scheduled shift on average?
 
 ## Link to production
 
