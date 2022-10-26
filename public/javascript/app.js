@@ -204,7 +204,7 @@ function updateGraph(graphdata, chartobject) {
 }
 
 HomePageChartCompose();
-loadAllGraphDataDirectlyFromIDB();
+//loadAllGraphDataDirectlyFromIDB();
 
 // END IDB DIRECT ACCESS time saving thing
 
