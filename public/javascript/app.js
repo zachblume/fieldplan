@@ -567,7 +567,7 @@ function start_up_scripts() {
     //processRangesToFormTable(getRampConfigFromInputs());
     db.collection('ramp-settings')
       .doc('user1')
-      .get({ source: 'cache' })
+      .get() //{ source: 'cache' })
       .then(async (snapshot) => {
         //On settings change, update table
         processRangesToFormTable(snapshot.data());
