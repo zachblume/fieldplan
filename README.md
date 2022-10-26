@@ -2,6 +2,8 @@
 
 # Field Plan.app
 
+Live demo: https://fieldplan.app/
+
 A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program.
 
 - Why are we spending hours per week exporting data manually, filling out reports, and making metrics when all of it is stored in a database?
@@ -26,7 +28,3 @@ Field Plan: 100% self service, 5 minutes to setup, stays forever in sync. Get me
 - Whats our average week-over-week growth in shifts been?
 - What's our average number of relationships per volunteer in Reach?
 - How many positive IDs are we generating per newly scheduled shift on average?
-
-## Link to development demo
-
-- https://fieldplan.app/
