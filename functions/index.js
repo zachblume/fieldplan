@@ -1,19 +1,20 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and set up
-// triggers.
+// Firebase functions
 const functions = require('firebase-functions');
 
-// The Firebase Admin SDK to access Firestore.
+// Firebase Admin SDK
 const admin = require('firebase-admin');
 admin.initializeApp();
+
+// Firestore
 const db = admin.firestore();
 const storageRef = admin.storage();
 
-// [START bigquery_query]
-// [START bigquery_client_default_credentials]
-// Import the Google Cloud client library using default credentials
+// BQ with default credentials
 const { BigQuery } = require('@google-cloud/bigquery');
 const bigquery = new BigQuery();
-// [END bigquery_client_default_credentials]
+
+// Node Fetch
+const fetch = require('node-fetch');
 
 /**
  *
@@ -162,8 +163,6 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
  *
  */
 exports.ExportFromNGPVAN = functions.https.onRequest((request, response) => {
-  const fetch = require('node-fetch');
-
   const url = 'https://api.securevan.com/v4/changedEntityExportJobs';
   const options = {
     method: 'POST',
@@ -211,22 +210,12 @@ exports.ExportFromNGPVAN = functions.https.onRequest((request, response) => {
  *
  */
 exports.PollNGPVANForResponse = functions.https.onRequest(async (request, response) => {
-  /* // Get last API call
-     const changedEntityID = await db.collection('apicalls')
-        .orderBy('timestampLogged', 'desc')
-        // Order documents by added_at field in descending order
-        .limit(1).get();
-    response.send(changedEntityID.data);*/
-
-  const docpath = db.collection('apicalls').doc('iYiYP13lLLKoPUMc8EEh');
-  const doc = await docpath.get();
+  // Settings
+  const doc = await db.collection('apicalls').doc('iYiYP13lLLKoPUMc8EEh').get();
   const changedEntityID = doc.data().apiResponse.exportJobId.toString();
-
   const bucketTitle = 'gs://campaign-data-project.appspot.com';
-
-  const fetch = require('node-fetch');
-
   const url = 'https://api.securevan.com/v4/changedEntityExportJobs/' + changedEntityID;
+
   const options = {
     method: 'GET',
     headers: {
@@ -235,49 +224,50 @@ exports.PollNGPVANForResponse = functions.https.onRequest(async (request, respon
     },
   };
 
-  await fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => {
-      // response.send(json)
-      // response.send(json);
-      console.log(json);
-      db.collection('apicalls')
-        .add({
-          originalRequestURL: url,
-          originalRequestOptions: options,
-          apiResponse: json,
-          timestampLogged: Date.now(),
-        })
-        .then(async () => {
-          const url = json.files[0].downloadUrl;
-          console.log(json.files[0].downloadUrl);
-          // const response_getcsv = getCSV(url, options);
-          const fetch = require('node-fetch');
-          await fetch(url)
-            .then((res) => res.buffer())
-            .then(async (data) => {
-              const myBucket = storageRef.bucket(bucketTitle);
-              const getLastItem = (thePath) => thePath.substring(thePath.lastIndexOf('/') + 1);
-              const saveAs = getLastItem(url);
-              const file = myBucket.file(saveAs);
-              await file.save(data).then((varvar) => {
-                db.collection('api-response-csvs').add({
-                  changedEntityID: changedEntityID,
-                  url: url,
-                  savedAs: saveAs,
-                  savedAtTimestamp: Date.now(),
-                });
-                response.send('Saved csv to firestore as ' + saveAs);
-                loadCSVtoSQL(bucketTitle, saveAs, 'contacthistory');
-              });
-            })
-            .catch((err) => response.send('error:' + err));
-        })
-        .catch((error) => {
-          response.send('Error logged api call: ' + error);
-        });
-    })
-    .catch((err) => response.send('error:' + err));
+  // Make API request
+  const res = await fetch(url, options);
+  const json = await res.json();
+
+  // Log API request
+  await db.collection('apicalls').add({
+    originalRequestURL: url,
+    originalRequestOptions: options,
+    apiResponse: json,
+    timestampLogged: Date.now(),
+  });
+
+  // If a URL for a response CSV exists, fetch it to store in GCS
+  if (json.files[0].downloadUrl) {
+    // Fetch the downloadable file and load it into byte buffer
+    const fufilledRes = await fetch(json.files[0].downloadUrl);
+    const data = await fufilledRes.buffer();
+
+    // Define filename to 'to save as'
+    const getLastItem = (thePath) => thePath.substring(thePath.lastIndexOf('/') + 1);
+    const saveAs = getLastItem(url);
+
+    // Open storage connection
+    const myBucket = storageRef.bucket(bucketTitle);
+    const file = myBucket.file(saveAs);
+
+    // Save the file to GCS
+    const fileSaveRes = await file.save(data);
+    console.log('fileSaveRes', fileSaveRes);
+
+    // Log API response
+    db.collection('api-response-csvs').add({
+      changedEntityID: changedEntityID,
+      url: url,
+      savedAs: saveAs,
+      savedAtTimestamp: Date.now(),
+    });
+
+    // Send it off to be loaded from GCS-CSV to SQL server
+    loadCSVtoSQL(bucketTitle, saveAs, 'contacthistory');
+
+    // Report success
+    response.send('Saved csv to firestore as ' + saveAs);
+  }
 });
 
 /**
@@ -343,25 +333,28 @@ async function briefquery(query) {
  *
  */
 exports.LoadEveryMobilizeEventEver = functions.https.onRequest(async (request, response) => {
-  response.send(pingMobilizeAPI());
+  response.send(await pingMobilizeAPI());
 });
 
-function pingMobilizeAPI(url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000') {
-  const fetch = require('node-fetch');
-
+async function pingMobilizeAPI(url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000') {
   const options = {
     method: 'GET',
     headers: {}, // body: {},
   };
 
-  fetch(url, options)
-    .then((res) => res.json())
-    .then((data) => {
-      const resultstring = JSON.stringify(data.data);
-      db.collection('mobilize-all-projects').add({
-        resultstring: resultstring,
-      });
-      if (data.next) pingMobilizeAPI(data.next);
-      else return Date.now().toString();
-    });
+  // Make request
+  const res = await fetch(url, options);
+  const data = await res.json();
+
+  // Get result
+  const resultstring = JSON.stringify(data.data);
+
+  // Put it in Firestore
+  db.collection('mobilize-all-projects').add({
+    resultstring: resultstring,
+  });
+
+  // Recurse
+  if (data.next) await pingMobilizeAPI(data.next);
+  else return Date.now().toString();
 }

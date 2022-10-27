@@ -143,35 +143,37 @@ async function loadAllGraphDataDirectlyFromIDB() {
     console.timeLog('idb');
 
     DBOpenRequest.onsuccess = () => {
-      console.log('<li>Database initialized.</li>');
+      console.log('IDB initialized.');
       console.timeLog('idb');
       idb = DBOpenRequest.result;
-      const transaction = idb.transaction(['remoteDocuments'], 'readwrite');
-      transaction.oncomplete = () => {
-        console.log('<li>Transaction completed.</li>');
-        console.timeLog('idb');
-      };
-      transaction.onerror = () => {
-        console.log(`<li>Transaction not opened due to error: ${transaction.error}</li>`);
-      };
-      const objectStore = transaction.objectStore('remoteDocuments');
-      var allRecords = objectStore.getAll();
 
-      allRecords.onsuccess = function () {
-        allRecords.result.forEach((doc) => {
-          if (doc.parentPath.includes('data')) {
-            docName = doc.document.name.split('/').pop();
-            resultStringValue = doc.document.fields.resultstring.stringValue;
-            updateGraph(JSON.parse(resultStringValue), charts[choices[docName]]);
-            console.timeLog('idb');
-          }
-        });
-        console.log('idb finish');
-        console.timeLog();
-      };
-      //close idb
+      if (idb.objectStoreNames.contains('remoteDocuments')) {
+        const transaction = idb.transaction(['remoteDocuments'], 'readwrite');
+        transaction.oncomplete = () => {
+          console.log('IDB transaction completed.');
+          console.timeLog('idb');
+        };
+        transaction.onerror = () => {
+          console.log(`IDB transaction not opened due to error: ${transaction.error}`);
+        };
+        const objectStore = transaction.objectStore('remoteDocuments');
+        var allRecords = objectStore.getAll();
 
-      // now let's close the database again!
+        allRecords.onsuccess = function () {
+          allRecords.result.forEach((doc) => {
+            if (doc.parentPath.includes('data')) {
+              docName = doc.document.name.split('/').pop();
+              resultStringValue = doc.document.fields.resultstring.stringValue;
+              updateGraph(JSON.parse(resultStringValue), charts[choices[docName]]);
+              console.timeLog('idb');
+            }
+          });
+          console.log('idb finish');
+          console.timeLog();
+        };
+      }
+
+      // Close IDB
       idb.close();
     };
   } catch (error) {
@@ -204,7 +206,7 @@ function updateGraph(graphdata, chartobject) {
 }
 
 HomePageChartCompose();
-//loadAllGraphDataDirectlyFromIDB();
+loadAllGraphDataDirectlyFromIDB();
 
 // END IDB DIRECT ACCESS time saving thing
 
