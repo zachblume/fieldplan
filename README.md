@@ -7,7 +7,7 @@ Live demo: https://fieldplan.app
 A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program.
 
 - Why spend hours per week exporting data manually, filling out reports, and making metrics -- all of it is stored in a database!
-- Why spend valuable data staffer time on such a simple, repeatable problem?
+- Why spend valuable data staffer time on such a simple, unchanging problem?
 - Why spend 3 weeks setting up a SQL mirror, then coding from scratch the same metrics everyone else uses, and then wait hours to update, periodically experiencing downtime?
 
 Field Plan: 100% self service, 5 minutes to setup, stays forever in sync. Get metrics standardized across campaigns, giving you confidence you are looking at meaningful insights.
