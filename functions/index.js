@@ -12,25 +12,15 @@ const storageRef = admin.storage();
 // [START bigquery_client_default_credentials]
 // Import the Google Cloud client library using default credentials
 const { BigQuery } = require('@google-cloud/bigquery');
-// const { firebase } = require("googleapis/build/src/apis/firebase");
 const bigquery = new BigQuery();
 // [END bigquery_client_default_credentials]
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  console.log('request');
-  console.log(request.query);
-  // console.log("response");
-  // console.log(response);
-  functions.logger.info('Hello logs!');
-  response.send('Hello world');
-});
-
-exports.helloWorldOnCall = functions.https.onCall((data, context) => {
-  return data;
-});
-
+/**
+ *
+ * Query SQL database and move transformed data to Firestore
+ *
+ */
 exports.GetData = functions.https.onRequest(async (request, response) => {
-  // console.log(request.query);
   const definitions = {
     total_contact_attempts: {
       metric: 'count(*)',
@@ -163,11 +153,15 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       });
     }
   }
-
   response.send('Cloud function finished');
 });
 
-exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
+/**
+ *
+ * Make a request to NGPVAN for a resource
+ *
+ */
+exports.ExportFromNGPVAN = functions.https.onRequest((request, response) => {
   const fetch = require('node-fetch');
 
   const url = 'https://api.securevan.com/v4/changedEntityExportJobs';
@@ -211,6 +205,11 @@ exports.NGPVANAPItoSQL = functions.https.onRequest((request, response) => {
     .catch((err) => response.send('error:' + err));
 });
 
+/**
+ *
+ * Followup and get the response from NGPVAN and store it in Google Cloud Storage
+ *
+ */
 exports.PollNGPVANForResponse = functions.https.onRequest(async (request, response) => {
   /* // Get last API call
      const changedEntityID = await db.collection('apicalls')
@@ -281,106 +280,74 @@ exports.PollNGPVANForResponse = functions.https.onRequest(async (request, respon
     .catch((err) => response.send('error:' + err));
 });
 
-async function loadCSVtoSQL(bucketName, filepath, tableId) {
-  // Imports a GCS file into a table with manually defined schema.
+/**
+ *
+ * Load CSV from GCS to SQL server
+ *
+ */
+async function loadCSVtoSQL(bucketName = 'campaign-data-project.appspot.com', filepath, tableId = 'contacthistory') {
+  // Override tableid for development purposes
+  const tableId = 'temptable';
 
-  /**
-   * TODO(developer): Uncomment the following lines before running the sample.
-   */
+  // In dev, everything is in this dataset.
   const datasetId = 'development';
-  // filepath = "testfixtitle.csv"; // that didnt fix it! ok.
-  // const tableId = "contacthistory";
-  // const bucketName = "campaign-data-project.appspot.com";
-  // const filename = "testexport_0101522_000000000000.csv";
 
-  // Configure the load job. For full list of options, see:
-  // https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad
+  // Load job options at https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobConfigurationLoad
   const metadata = {
     sourceFormat: 'CSV',
     skipLeadingRows: 1,
-    // autodetect: true,
-    location: 'US',
+    location: 'US', // autodetect: true,
   };
 
-  // Load data from a Google Cloud Storage file into the table
+  // Load data from a Google Cloud Storage file into a temp table and await finish
   const [job] = await bigquery
     .dataset(datasetId)
-    .table('newtemptable')
+    .table(tableId)
     .load(storageRef.bucket(bucketName).file(filepath), metadata);
 
-  // load() waits for the job to finish
-  console.log(`Job ${job.id} completed.`);
-
-  // Print the status and statistics
-  console.log('Status:');
-  console.log(job.status);
-  console.log('\nJob Statistics:');
-  console.log(job.statistics);
-  console.log('\nProcess Time:');
-  console.log(job.statistics.endTime - job.statistics.creationTime);
-
   // Check the job's status for errors
-  const errors = job.status.errors;
-  if (errors && errors.length > 0) {
-    throw errors;
-  }
+  if ((errors = job.status.errors) && errors && errors.length > 0) throw errors;
 }
 
-exports.bigquerytest = functions.https.onRequest(async (request, response) => {
-  // Queries the U.S. given names dataset for the state of Texas.
-  // Wait for the query to finish
-  const [rows] = await briefquery(`SELECT name
-    FROM \`bigquery-public-data.usa_names.usa_1910_2013\`
-    WHERE state = 'TX'
-    LIMIT 100`);
-
-  // Print the results
-  console.log('Rows:');
-  rows.forEach((row) => console.log(row));
-  response.send('finished');
-});
-
-async function briefquery(query) {
-  console.log('Query:', query);
+/**
+ *
+ * Returns query results, compactly
+ *
+ */
+async function briefquery(query) {  
   // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
   const options = {
     query: query,
-    // Location must match that of the dataset(s) referenced in the query.
     location: 'US',
   };
 
   // Run the query as a job
   const [job] = await bigquery.createQueryJob(options);
-  console.log(`Job ${job.id} started.`);
+  
   // Print the status and statistics
-  console.log('Status:');
-  console.log(job.metadata.status);
-  console.log('\nJob Statistics:');
-  console.log(job.metadata.statistics);
-  console.log('\nProcess Time:');
-  console.log(job.metadata.statistics.endTime - job.metadata.statistics.creationTime);
+  console.log('Query:', query);
+  console.log('Job Status:', job.metadata.status);
+  console.log('\nJob Statistics:', job.metadata..statistics);
+  console.log('\nProcess Time:', job.metadata..statistics.endTime - job.statistics.creationTime);
 
   const queryresults = await job.getQueryResults();
-  // Wait for the query to finish
-  // Returns rows of query
   return queryresults;
 }
 
-exports.mobilizefetch = functions.https.onRequest(async (request, response) => {
-  await fetchloader();
-
-  response.send(Date.now().toString());
-});
-
-async function fetchloader(url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000') {
+/**
+ *
+ * Test function that stores every public Mobilize event ever in Firestore
+ *
+ */
+exports.LoadEveryMobilizeEventEver = functions.https.onRequest(async (request, response) => {
   const fetch = require('node-fetch');
 
-  // const url = '';
   const options = {
     method: 'GET',
-    headers: {},
-    // body: {},
+    headers: {}, // body: {},
   };
+
+  const url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000';
 
   fetch(url, options)
     .then((res) => res.json())
@@ -390,5 +357,6 @@ async function fetchloader(url = 'https://events.mobilizeamerica.io/api/v1/organ
         resultstring: resultstring,
       });
       if (data.next) fetchloader(data.next);
+      else response.send(Date.now().toString());
     });
 }
