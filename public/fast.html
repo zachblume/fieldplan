@@ -2718,23 +2718,23 @@
         return jl;
       })();
 
-      // save/restore cursor and tooltip state across re-inits
-      let cursLeft = -10;
-      let cursTop = -10;
-
-      const cursorMemo = {
-        set: (left, top) => {
-          cursLeft = left;
-          cursTop = top;
-        },
-        get: () => ({ left: cursLeft, top: cursTop }),
-      };
-
       function tooltipsPlugin(opts) {
+        // save/restore cursor and tooltip state across re-inits
+        let cursLeft = -10;
+        let cursTop = -10;
+
+        const cursorMemo = {
+          set: (left, top) => {
+            cursLeft = left;
+            cursTop = top;
+          },
+          get: () => ({ left: cursLeft, top: cursTop }),
+        };
         let cursortt;
         let seriestt;
 
         function init(u, opts, data) {
+          console.log('opts', opts);
           let over = u.over;
 
           let tt = (cursortt = document.createElement('div'));
@@ -2928,10 +2928,10 @@
         cursor: { y: false },
         plugins: [
           tooltipsPlugin({
-            cursorMemo,
+            //cursorMemo,
           }),
         ],
-        plugins: [tooltipsPlugin()],
+        //plugins: [tooltipsPlugin()],
         //title: 'Resize',
         ...getSize(),
         axes: [
@@ -2950,7 +2950,7 @@
                 })
               );
             },
-            grid: { show: false },
+            //grid: { show: false },
             //  splits:
           },
           { grid: { show: false } },
@@ -2963,7 +2963,6 @@
             //auto: false,
             //distr: 2,
             time: true,
-            grid: { show: false },
           },
           y: {
             auto: true,
@@ -3076,7 +3075,7 @@
         console.log('idb function start');
         //console.log(Date.now() - StartTimeLogged);
         console.timeLog();
-        //console.time('idb');
+        console.time('idb');
 
         var data = {};
         var choices = {
@@ -3112,7 +3111,7 @@
                 docName = doc.document.name.split('/').pop();
                 resultStringValue = doc.document.fields.resultstring.stringValue;
                 count++;
-                if (count == 3) createGraph(JSON.parse(resultStringValue));
+                if (count > 0) createGraph(JSON.parse(resultStringValue));
                 //console.log(resultStringValue);
 
                 //console.timeLog('idb');

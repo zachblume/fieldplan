@@ -1,3 +1,21 @@
+body {
+  font-family: system-ui !important;
+}
+
+h1 {
+  font-weight: bold !important;
+}
+
+:root {
+  --logocolor: #ffbe59;
+}
+
+.brand {
+  width: 90% !important;
+  margin: 0 auto;
+  padding-left: 3px;
+}
+
 @media (max-width: 700px) {
   .nav button {
     font-size: 0.85rem;
