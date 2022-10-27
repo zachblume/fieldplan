@@ -283,11 +283,13 @@ exports.PollNGPVANForResponse = functions.https.onRequest(async (request, respon
 /**
  *
  * Load CSV from GCS to SQL server
- *
+ * @param {string} bucketName GCS Bucket name
+ * @param {string} filepath g:// GCS URI where CSV we want to load is stored
+ * @param {tableId} tableId Table we're inserting into
  */
 async function loadCSVtoSQL(bucketName = 'campaign-data-project.appspot.com', filepath, tableId = 'contacthistory') {
   // Override tableid for development purposes
-  const tableId = 'temptable';
+  tableId = 'temptable';
 
   // In dev, everything is in this dataset.
   const datasetId = 'development';
@@ -306,15 +308,16 @@ async function loadCSVtoSQL(bucketName = 'campaign-data-project.appspot.com', fi
     .load(storageRef.bucket(bucketName).file(filepath), metadata);
 
   // Check the job's status for errors
-  if ((errors = job.status.errors) && errors && errors.length > 0) throw errors;
+  const errors = job.status.errors;
+  if (errors && errors.length > 0) throw errors;
 }
 
 /**
  *
  * Returns query results, compactly
- *
+ * @param {string} query SQL query to run
  */
-async function briefquery(query) {  
+async function briefquery(query) {
   // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
   const options = {
     query: query,
@@ -323,12 +326,12 @@ async function briefquery(query) {
 
   // Run the query as a job
   const [job] = await bigquery.createQueryJob(options);
-  
+
   // Print the status and statistics
   console.log('Query:', query);
   console.log('Job Status:', job.metadata.status);
-  console.log('\nJob Statistics:', job.metadata..statistics);
-  console.log('\nProcess Time:', job.metadata..statistics.endTime - job.statistics.creationTime);
+  console.log('\nJob Statistics:', job.metadata.statistics);
+  console.log('\nProcess Time:', job.metadata.statistics.endTime - job.statistics.creationTime);
 
   const queryresults = await job.getQueryResults();
   return queryresults;
@@ -340,14 +343,16 @@ async function briefquery(query) {
  *
  */
 exports.LoadEveryMobilizeEventEver = functions.https.onRequest(async (request, response) => {
+  response.send(pingMobilizeAPI());
+});
+
+function pingMobilizeAPI(url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000') {
   const fetch = require('node-fetch');
 
   const options = {
     method: 'GET',
     headers: {}, // body: {},
   };
-
-  const url = 'https://events.mobilizeamerica.io/api/v1/organizations?per_page=10000';
 
   fetch(url, options)
     .then((res) => res.json())
@@ -356,7 +361,7 @@ exports.LoadEveryMobilizeEventEver = functions.https.onRequest(async (request, r
       db.collection('mobilize-all-projects').add({
         resultstring: resultstring,
       });
-      if (data.next) fetchloader(data.next);
-      else response.send(Date.now().toString());
+      if (data.next) pingMobilizeAPI(data.next);
+      else return Date.now().toString();
     });
 }
