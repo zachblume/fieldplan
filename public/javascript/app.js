@@ -571,9 +571,13 @@ function start_up_scripts() {
       .doc('user1')
       .get() //{ source: 'cache' })
       .then(async (snapshot) => {
+        //Setup ramp page
         //On settings change, update table
         processRangesToFormTable(snapshot.data());
         setRanges(snapshot.data());
+
+        //Setup progress page
+        progressRampFormTable(snapshot.data());
       });
   });
 
@@ -897,9 +901,10 @@ function setRanges(rampConfig) {
 }
 
 function processRangesToFormTable(rampConfig) {
-  console.log(rampConfig);
-
+  // Setting that controls how many rows to iterate over
   const WEEKSAVAILABLE = rampConfig.weeksAvailable || 16;
+
+  //Clear a row
   var newItem = {};
 
   thisWeekShiftCount = rampConfig.startingShifts;
@@ -956,9 +961,7 @@ function processRangesToFormTable(rampConfig) {
     [...Array(times)].forEach((item, i) => callback(i));
   };
 
-  loop(WEEKSAVAILABLE - 1, (i) => {
-    //console.log(`Iteration is #${i}`);
-
+  for (let i = 0; i < WEEKSAVAILABLE; i++) {
     thisWeekShiftCount =
       tableObject[tableObject.length - 1]['Total Weekly Shifts'] * (1 + rampConfig.shiftGrowth / 100);
     newItem = {
@@ -1010,7 +1013,7 @@ function processRangesToFormTable(rampConfig) {
     });
     tableObject.push(newItem);
     //  console.log(totals);
-  });
+  }
   totals['Week Number'] = 'Total';
   tableObject.push(totals);
   // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
@@ -1024,8 +1027,6 @@ function processRangesToFormTable(rampConfig) {
     });
   });
 
-  console.log('tbobj', tableObject);
-  console.log('transposeTable(tableObject)', transposeTable(tableObject));
   $('#tableContainer').html(ConvertJsonToTable(transposeTable(tableObject), '', null, 'Download'));
   if ($('#flexSwitchCheckChecked').is(':checked')) {
     collapsetds();
@@ -1117,3 +1118,5 @@ function populateQuickLookup(querySnapshot) {
   $('#ql-display li:contains("Calls") b').html(metrics.alltime.weeklycalls.toLocaleString());
   $('#ql-display li:contains("Texts") b').html(metrics.alltime.weeklytexts.toLocaleString());
 }
+
+async function progressRampFormTable(snapshot) {}
