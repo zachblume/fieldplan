@@ -1,4 +1,4 @@
-![Logo](public/img/FP-Logo.svg)
+![Logo](public/img/FP-Logo-White.svg)
 
 # Field Plan.app
 
