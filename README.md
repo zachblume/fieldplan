@@ -14,7 +14,6 @@ Field Plan: 100% self service, 5 minutes to setup, stays forever in sync. Get me
 **Features:**
 
 - Syncs every 15 minutes with NGPVAN.
-- Syncs instantly with Mobilize, ScaleToWin, and Reach to add color to volunteer-side metrics lost in NGPVAN's data structure.
 - Allows you to configure a simple field ramp and show your progress to goal, based on industry standard research.
 - Will allow you to benchmark your field metrics against anonymized ramps and production metrics from other past campaigns.
 - See not only your voter-contact metrics but also your volunteer-organizing metrics.
@@ -26,5 +25,4 @@ Field Plan: 100% self service, 5 minutes to setup, stays forever in sync. Get me
 - How many total phone calls and door knocks have we ever made?
 - This week, how many volunteers signed up for a new shift?
 - Whats our average week-over-week growth in shifts been?
-- What's our average number of relationships per volunteer in Reach?
 - How many positive IDs are we generating per newly scheduled shift on average?
