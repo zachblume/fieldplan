@@ -1132,7 +1132,7 @@ function navigatePage(page) {
   // Switch tabs
   $('.tab-pane').removeClass('active').removeClass('show');
   document.querySelectorAll('.nav-link').forEach((el) => {
-    $('body').removeClass(el.innerText.trim().toLowerCase());
+    $('body').removeClass(el.innerText.trim().toLowerCase() + '-page');
   });
-  $('body').addClass(page.toLowerCase());
+  $('body').addClass(page.toLowerCase() + '-page');
 }

@@ -318,7 +318,8 @@ nav-tabs nav-link border-bottom rounded-0 {
 }
 
 .card-title {
-  font-weight: bold;
+  margin-bottom: 1rem !important;
+  color: #333 !important;
 }
 #collapseTableDiv {
 }
@@ -448,21 +449,21 @@ nav i {
   padding-top: 1.1rem !important;
 }
 
-.home #v-pills-home {
+.home-page #v-pills-home {
   display: block !important;
 }
-.metrics #v-pills-metrics {
+.metrics-page #v-pills-metrics {
   display: block !important;
 }
-.goals #v-pills-ramp {
+.goals-page #v-pills-ramp {
   display: block !important;
 }
-.progress #v-pills-progress {
+.progress-page #v-pills-progress {
   display: block !important;
 }
-.reports #v-pills-reports {
+.reports-page #v-pills-reports {
   display: block !important;
 }
-.settings #v-pills-settings {
+.settings-page #v-pills-settings {
   display: block !important;
 }
