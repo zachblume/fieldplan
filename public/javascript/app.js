@@ -4,6 +4,7 @@ const choices = {
   weeklysignups: 3,
   vanityvolunteers: 4,
   percent_complete: 5,
+  positive_id_per_completed_shift: 6,
 };
 
 console.log('app.js begins running, time logged as StartTimeLogged');
@@ -1116,10 +1117,12 @@ function populateQuickLookup(querySnapshot) {
   });
   console.log('metrics.alltime', metrics.alltime);
   $('#ql-display li:contains("Positive") b').html(metrics.alltime.weeklypositiveids.toLocaleString());
-  $('#ql-display li:contains("Shifts") b').html(metrics.alltime.weeklysignups.toLocaleString());
+  $('#ql-display li:contains("Shifts Complete") b').html(metrics.alltime.weeklycompleteshifts.toLocaleString());
   $('#ql-display li:contains("Doors") b').html(metrics.alltime.weeklydoors.toLocaleString());
   $('#ql-display li:contains("Calls") b').html(metrics.alltime.weeklycalls.toLocaleString());
   $('#ql-display li:contains("Texts") b').html(metrics.alltime.weeklytexts.toLocaleString());
+  $('#ql-display li:contains("% Shift Completion") b').html(metrics.alltime.percent_complete_alltime * 100 + '%');
+  $('#ql-display li:contains("Scheduled") b').html(metrics.alltime.weeklysignups.toLocaleString());
 }
 
 async function progressRampFormTable(snapshot) {}

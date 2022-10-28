@@ -65,6 +65,12 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       doctitle: 'weeklysignups',
       datecolumn: 'startDate',
     },
+    total_complete_shifts: {
+      metric: 'count(*)',
+      table: 'signups_joined_events WHERE statusName="Completed"',
+      doctitle: 'weeklycompleteshifts',
+      datecolumn: 'startDate',
+    },
     percent_complete: {
       doctitle: 'percent_complete',
       query: `WITH
@@ -101,6 +107,92 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       count_incomplete
     USING
       (period)`,
+    },
+    percent_complete_alltime: {
+      doctitle: 'percent_complete_alltime',
+      query: `WITH
+      count_completed AS (
+      SELECT
+        COUNT(*) AS completed,
+        DATE_TRUNC(startDate,ISOWEEK) AS period,
+      FROM
+        development.signups_joined_events
+      WHERE
+        statusName="Completed"
+      GROUP BY
+        period
+      ORDER BY
+        period ASC),
+      count_incomplete AS (
+      SELECT
+        COUNT(*) AS not_completed,
+        DATE_TRUNC(startDate,ISOWEEK) AS period,
+      FROM
+        development.signups_joined_events
+      WHERE
+        statusName!="Completed"
+      GROUP BY
+        period
+      ORDER BY
+        period ASC),
+      periodic AS (
+      SELECT
+        not_completed,
+        completed,
+        period
+      FROM
+        count_completed
+      LEFT JOIN
+        count_incomplete
+      USING
+        (period))
+    SELECT
+      ROUND(SUM(completed)/(SUM(not_completed)+SUM(completed)),2) AS metric, 'alltime' as period
+    FROM
+      periodic
+    `,
+    },
+    positive_id_per_completed_shift: {
+      doctitle: 'positive_id_per_completed_shift',
+      query: `WITH
+      weeklyposids AS (
+      SELECT
+        DATE_TRUNC(DateCanvassed,ISOWEEK) AS period,
+        COUNT(DISTINCT VanID) AS positive_ids
+      FROM
+        development.ContactsSurveyResponses
+      WHERE
+        surveyQuestionID=469152
+      GROUP BY
+        period ),
+      weeklysignups AS (
+      SELECT
+        DATE_TRUNC(startDate,ISOWEEK) AS period,
+        COUNT(*) AS shifts
+      FROM
+        development.signups_joined_events
+      WHERE
+        statusName="Completed"
+      GROUP BY
+        period ),
+      periodic AS (
+      SELECT
+        *
+      FROM
+        weeklyposids
+      FULL OUTER JOIN
+        weeklysignups
+      USING
+        (period))
+    SELECT
+      ROUND(SUM(positive_ids)/SUM(shifts),2) AS metric,
+      period
+    FROM
+      periodic
+    GROUP BY
+      period
+    ORDER BY
+      period ASC`,
     },
     vanityvolunteers: {
       doctitle: 'vanityvolunteers',
