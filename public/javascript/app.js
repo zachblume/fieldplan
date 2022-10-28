@@ -961,9 +961,6 @@ function processRangesToFormTable(rampConfig) {
 
   //console.log(tableObject);
   var thisWeekShiftCount = 0;
-  const loop = (times, callback) => {
-    [...Array(times)].forEach((item, i) => callback(i));
-  };
 
   for (let i = 0; i < WEEKSAVAILABLE; i++) {
     thisWeekShiftCount =
@@ -1125,4 +1122,6 @@ function populateQuickLookup(querySnapshot) {
   $('#ql-display li:contains("Scheduled") b').html(metrics.alltime.weeklysignups.toLocaleString());
 }
 
-async function progressRampFormTable(snapshot) {}
+async function progressRampFormTable(snapshot) {
+  console.log(snapshot);
+}
