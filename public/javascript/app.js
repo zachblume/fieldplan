@@ -210,7 +210,7 @@ function updateGraph(graphdata, chartobject) {
 }
 
 HomePageChartCompose();
-loadAllGraphDataDirectlyFromIDB();
+//loadAllGraphDataDirectlyFromIDB();
 
 // END IDB DIRECT ACCESS time saving thing
 
@@ -302,7 +302,7 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     document.querySelector('body').classList.remove('logged-in');
     document.querySelector('body').classList.add('not-logged-in');
     firebaseUI.start('#firebaseui-auth-container', firebaseUiConfig);
-    firebaseUI.disableAutoSignIn();
+    //firebaseUI.disableAutoSignIn();
   }
 });
 
@@ -588,22 +588,14 @@ function start_up_scripts() {
     });
   });
   function setMetric(metricName) {
-    document.getElementById('metric-page-title').innerHTML = metricName;
-    myChartMetricsPage.data.datasets[0].data = [
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-    ];
+    // Set title to metric name
+    $('#title').html(metricName);
+
+    // Add some fake random data
+    myChartMetricsPage.data.datasets[0].data = [];
+    for (let index = 0; index < 20; index++) {
+      myChartMetricsPage.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 5);
+    }
     myChartMetricsPage.update();
   }
 
