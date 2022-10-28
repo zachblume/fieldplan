@@ -1107,10 +1107,20 @@ async function progressRampFormTable(snapshot) {
   console.log(snapshot);
 }
 
-document.addEventListener('mousedown', (e) => {
-  if ($(e.target).hasClass('nav-link') || $(e.target).hasClass('navigate-home')) {
-    navigatePage($(e.target).hasClass('navigate-home') ? 'Home' : e.target.innerText.trim());
-    e.stopPropagation();
+document.addEventListener('click', (e) => {
+  if (
+    $(e.target).hasClass('nav-link') ||
+    $(e.target.parentNode).hasClass('nav-link') ||
+    $(e.target).hasClass('navigate-home')
+  ) {
+    navigatePage(
+      $(e.target).hasClass('navigate-home')
+        ? 'Home'
+        : $(e.target.parentNode).hasClass('nav-link')
+        ? e.target.parentNode.innerText.trim()
+        : e.target.innerText.trim()
+    );
+    //e.stopPropagation();
   }
 });
 
