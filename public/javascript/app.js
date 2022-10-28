@@ -551,21 +551,10 @@ function start_up_scripts() {
     cb(start, end);
   });
 
-  $(document).ready(function () {
-    cbox = document.querySelectorAll('#volunteers-navbar .btn-toggle-nav a');
-    cbox.forEach((box) => {
-      box.addEventListener('mousedown', (a) => setMetric(a.target.innerText));
-    });
-
-    document
-      .querySelectorAll('input[type="range"]')
-      .forEach((a) => a.addEventListener('input', (b) => (b.target.previousElementSibling.value = b.target.value)));
-    //  document.querySelectorAll('input[type="range"]').forEach((a) => (a.previousElementSibling.value = a.value));
-  });
-
   $(function () {
     document.addEventListener('input', function (e) {
       if (e.target.type == 'range') {
+        e.target.previousElementSibling.value = e.target.value;
         updateForecastSettingsInFirestore(getRampConfigFromInputs());
         processRangesToFormTable(getRampConfigFromInputs());
       }
@@ -1124,4 +1113,26 @@ function populateQuickLookup(querySnapshot) {
 
 async function progressRampFormTable(snapshot) {
   console.log(snapshot);
+}
+
+document.addEventListener('mousedown', (e) => {
+  if ($(e.target).hasClass('nav-link')) {
+    e.stopPropagation();
+    navigatePage(e.target.innerText.trim());
+  }
+});
+
+function navigatePage(page) {
+  $('#title').html(page.toLowerCase() == 'home' ? 'Obama for Congress' : page);
+
+  // Switch nav marker
+  $('.nav .nav-link').removeClass('active');
+  $('.nav .nav-link:contains("' + page + '")').addClass('active');
+
+  // Switch tabs
+  $('.tab-pane').removeClass('active').removeClass('show');
+  document.querySelectorAll('.nav-link').forEach((el) => {
+    $('body').removeClass(el.innerText.trim().toLowerCase());
+  });
+  $('body').addClass(page.toLowerCase());
 }

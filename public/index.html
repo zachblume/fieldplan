@@ -28,7 +28,7 @@
     <section id="login-top">
       <div class="justify-content-center row flex flex-row py-5 my-5 mx-2 hide-if-logged-in" style="height: 100%">
         <div class="card col-md-4">
-          <div class="card-body shadow-s py-5">
+          <div class="card-body shadow-sm py-5">
             <section id="firebaseui-auth-container">
               <center>
                 <img
@@ -88,122 +88,43 @@
       <div class="row mx-0" id="wrapper">
         <!-- BEGIN
          Sidebar -->
-        <div class="d-block text-center bg-white navbar border-end col-12 col-sm-1" id="sidebar">
+        <nav
+          class="px-4 py-0 container-fluid navbar d-flex text-center bg-white border-end col-12 border-bottom"
+          id="sidebar2"
+        >
           <div class="brand mt-md-1">
             <a href="/" class="align-items-center mb-2 d-block">
               <img
-                src="img/squarelogo.png"
+                src="img/horizontal_logo2.svg"
                 alt="Logo"
-                width="50"
-                height="50"
-                class="d-inline-block align-text-top text-center my-1"
-              />
-              <img
-                src="img/text.png"
-                alt="Logo"
-                width="83"
-                height="20"
+                height="40"
                 class="d-inline-block align-text-top text-center my-1"
               />
             </a>
           </div>
 
-          <div class="d-flex nav nav-pills flex-sm-column mb-auto" style="font-size: 1rem">
-            <button
-              class="nav-link border-bottom rounded-0 p-2 active"
-              id="v-pills-home-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-home"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-home"
-              aria-selected="true"
-            >
-              <div><i class="bi-grid-fill"></i></div>
-              Home
-            </button>
-            <button
-              class="nav-link border-bottom rounded-0 p-2"
-              id="v-pills-metrics-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-metrics"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-metrics"
-              aria-selected="true"
-            >
-              <div><i class="bi-bar-chart-line-fill"></i></div>
-              Metrics
-            </button>
-            <!--  <button
-              class="nav-link border-bottom rounded-0 p-2 text-center"
-              id="v-pills-volunteers-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-volunteers"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-volunteers"
-              aria-selected="true"
-            >
-              <div><i class="bi-search"></i></div>
-              Volunteers
-            </button>-->
-            <button
-              class="nav-link border-bottom rounded-0 p-2"
-              id="v-pills-ramp-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-ramp"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-ramp"
-              aria-selected="true"
-            >
-              <div><i class="bi-magic"></i></div>
-              Goals
-            </button>
-            <button
-              class="nav-link border-bottom rounded-0 p-2"
-              id="v-pills-progress-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-progress"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-progress"
-              aria-selected="true"
-            >
-              <div><i class="bi-trophy-fill"></i></div>
-              Progress
-            </button>
-            <button
-              class="nav-link border-bottom rounded-0 p-2"
-              id="v-pills-reports-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-reports"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-reports"
-              aria-selected="true"
-            >
-              <div><i class="bi-envelope-fill"></i></div>
-              Schedule
-            </button>
+          <ul class="d-flex nav" style="font-size: 1rem; min-height: auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link active"><i class="bi-grid"></i> Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link"> <i class="bi-bar-chart-line"></i>Metrics</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link"><i class="bi-magic"></i> Goals</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link"><i class="bi-trophy"></i> Progress</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link"><i class="bi-envelope"></i> Reports</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link"><i class="bi-gear"></i> Settings</a>
+            </li>
+          </ul>
 
-            <button
-              class="nav-link border-bottom rounded-0 p-2"
-              id="v-pills-settings-tab"
-              data-bs-toggle="pill"
-              data-bs-target="#v-pills-settings"
-              type="button"
-              role="tab"
-              aria-controls="v-pills-settings"
-              aria-selected="true"
-            >
-              <div><i class="bi-gear-fill"></i></div>
-              Settings
-            </button>
-          </div>
-
-          <div class="dropup p-3">
+          <div class="dropdown p-3">
             <a
               href="#"
               class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
@@ -229,7 +150,7 @@
               </li>
             </ul>
           </div>
-        </div>
+        </nav>
         <!-- END
          Sidebar -->
 
@@ -237,7 +158,7 @@
          Main block -->
         <main
           id="page-content-wrapper"
-          class="p-2 py-3 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12 col-md-11"
+          class="p-2 py-0 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12"
         >
           <!-- START
          Header -->
@@ -245,6 +166,17 @@
             <!--heading bar and controls-->
             <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
               <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
+
+              <div class="form-check form-switch mb-3 d-flex flex-grow-1 ms-3 mt-1 d-none" class="show-on-ramp-page">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+                <label
+                  class="form-check-label align-middle mt-1"
+                  class="fs-1"
+                  id="flexSwitchCheckCheckedButton"
+                  for="flexSwitchCheckChecked"
+                  >Collapse me</label
+                >
+              </div>
 
               <!--cumulative-->
               <div class="d-flex">
@@ -308,7 +240,7 @@
               aria-labelledby="v-pills-home-tab"
               tabindex="0"
             >
-              <div class="container mt-md-4">
+              <div class="container mt-md-3">
                 <!--
                 <div class="shadow-sm alert alert-light alert-dismissible fade show shadow-sm" role="alert">
                   <b>
@@ -753,7 +685,7 @@
 
                       <!--Start new assumption card-->
                       <div class="col-4">
-                        <div class="card shadow-sm border-white mb-3">
+                        <div class="card mb-3">
                           <div class="card-body">
                             <h3 class="card-title">
                               <b>Assumptions</b>
@@ -897,7 +829,7 @@
 
                       <!--Start new assumption card-->
                       <div class="col-4">
-                        <div class="card shadow-sm border-white mb-3">
+                        <div class="card mb-3">
                           <div class="card-body">
                             <h3 class="card-title">
                               <b>Response Rates</b>
@@ -1237,7 +1169,7 @@
                 </div>
 
                 <!--settings card-->
-                <div class="card shadow-sm border-white mb-3">
+                <div class="card mb-3">
                   <div class="card-body">
                     <h5>Basics</h5>
                     <form class="form-floating mb-3">
@@ -1263,7 +1195,7 @@
                   </div>
                 </div>
                 <!--settings card-->
-                <div class="card shadow-sm border-white mb-3">
+                <div class="card mb-3">
                   <div class="card-body">
                     <h5>Survey Question &amp; Activist Code Mapping</h5>
                     <form class="form-floating mb-3">
@@ -1300,7 +1232,7 @@
                   </div>
                 </div>
                 <!--settings card-->
-                <div class="card shadow-sm border-white mb-3">
+                <div class="card mb-3">
                   <div class="card-body">
                     <h5>Time Periods</h5>
                     <form class="d-flex flex-row mb-3">
