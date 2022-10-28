@@ -230,8 +230,8 @@ button:disabled {
 }
 
 #reportrange {
-  color: #0d6efd !important;
-  border: 1px solid #0d6efd !important;
+  color: grey !important;
+  border: 1px solid grey !important;
   padding: 0.45em 0.6em !important;
   margin-left: 0.5em;
   border-radius: 0.4em;
