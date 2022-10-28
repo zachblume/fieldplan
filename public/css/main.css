@@ -409,3 +409,8 @@ nav-tabs nav-link border-bottom rounded-0 {
   margin-top: 0.125rem;
   margin-left: 1.25rem;
 }
+
+#sidebar button {
+  text-align: left !important ;
+  margin-left: 1rem;
+}
