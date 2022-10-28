@@ -3,6 +3,7 @@ const choices = {
   positiveids: 2,
   weeklysignups: 3,
   vanityvolunteers: 4,
+  percent_complete: 5,
 };
 
 console.log('app.js begins running, time logged as StartTimeLogged');
@@ -126,6 +127,8 @@ function HomePageChartCompose() {
   charts[2] = new Chart(document.getElementById('myChart'), cloneChartOptions(chart_options));
   charts[3] = new Chart(document.getElementById('myChart3'), cloneChartOptions(chart_options));
   charts[4] = new Chart(document.getElementById('myChart4'), cloneChartOptions(chart_options));
+  charts[5] = new Chart(document.getElementById('myChart5'), cloneChartOptions(chart_options));
+  charts[6] = new Chart(document.getElementById('myChart6'), cloneChartOptions(chart_options));
 }
 
 async function loadAllGraphDataDirectlyFromIDB() {

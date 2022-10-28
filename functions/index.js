@@ -65,6 +65,43 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       doctitle: 'weeklysignups',
       datecolumn: 'startDate',
     },
+    percent_complete: {
+      doctitle: 'percent_complete',
+      query: `WITH
+      count_completed AS (
+      SELECT
+        COUNT(*) AS completed,
+        DATE_TRUNC(startDate,ISOWEEK) AS period,
+      FROM
+        development.signups_joined_events
+      WHERE
+        statusName="Completed"
+      GROUP BY
+        period
+      ORDER BY
+        period ASC),
+      count_incomplete AS (
+      SELECT
+        COUNT(*) AS not_completed,
+        DATE_TRUNC(startDate,ISOWEEK) AS period,
+      FROM
+        development.signups_joined_events
+      WHERE
+        statusName!="Completed"
+      GROUP BY
+        period
+      ORDER BY
+        period ASC)
+    SELECT
+      ROUND(completed/(not_completed+completed),2) AS metric,
+      period
+    FROM
+      count_completed
+    LEFT JOIN
+      count_incomplete
+    USING
+      (period)`,
+    },
     vanityvolunteers: {
       doctitle: 'vanityvolunteers',
       query: `WITH
@@ -321,7 +358,7 @@ async function briefquery(query) {
   console.log('Query:', query);
   console.log('Job Status:', job.metadata.status);
   console.log('\nJob Statistics:', job.metadata.statistics);
-  console.log('\nProcess Time:', job.metadata.statistics.endTime - job.statistics.creationTime);
+  // console.log('\nProcess Time:', job.metadata.statistics.endTime - job.statistics.creationTime);
 
   const queryresults = await job.getQueryResults();
   return queryresults;
