@@ -1107,7 +1107,7 @@ async function progressRampFormTable(snapshot) {
   console.log(snapshot);
 }
 
-document.addEventListener('click', (e) => {
+document.addEventListener('mousedown', (e) => {
   if (
     $(e.target).hasClass('nav-link') ||
     $(e.target.parentNode).hasClass('nav-link') ||
