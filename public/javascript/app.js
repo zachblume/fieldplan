@@ -1116,13 +1116,14 @@ async function progressRampFormTable(snapshot) {
 }
 
 document.addEventListener('mousedown', (e) => {
-  if ($(e.target).hasClass('nav-link')) {
+  if ($(e.target).hasClass('nav-link') || $(e.target).hasClass('navigate-home')) {
+    navigatePage($(e.target).hasClass('navigate-home') ? 'Home' : e.target.innerText.trim());
     e.stopPropagation();
-    navigatePage(e.target.innerText.trim());
   }
 });
 
 function navigatePage(page) {
+  console.log('navigate', page);
   $('#title').html(page.toLowerCase() == 'home' ? 'Obama for Congress' : page);
 
   // Switch nav marker
@@ -1135,4 +1136,8 @@ function navigatePage(page) {
     $('body').removeClass(el.innerText.trim().toLowerCase() + '-page');
   });
   $('body').addClass(page.toLowerCase() + '-page');
+
+  // Get rid of targeting bar except on home/metrics
+  if (!['home', 'metrics'].includes(page.toLowerCase())) $('header>div *:not(h1)').hide();
+  else $('header>div *:not(h1)').show();
 }

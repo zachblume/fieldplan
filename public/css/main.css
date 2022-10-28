@@ -407,46 +407,47 @@ nav-tabs nav-link border-bottom rounded-0 {
   display: block;
 }*/
 
-#sidebar2,
-#sidebar * {
-  vertical-align: middle !important;
-}
-.brand a {
-  display: block;
-}
-.brand a img {
-  margin: auto !important;
-}
-.nav div {
-  display: inline;
-  margin: 0 0.1rem;
-}
+@media (min-width: 700px) {
+  #sidebar2,
+  #sidebar * {
+    vertical-align: middle !important;
+  }
+  .brand a {
+    display: block;
+  }
+  .brand a img {
+    margin: auto !important;
+  }
+  .nav div {
+    display: inline;
+    margin: 0 0.1rem;
+  }
 
-.nav .active {
-  background: #fff !important;
-  /font-weight: bold;
-  color: #0d6efd !important;
-}
-nav a {
-  text-align: center !important;
-  color: #555 !important;
-  padding: 0 1.3rem !important;
-  font-size: 1rem !important;
-}
-nav i {
-  display: inline-block;
-  margin-right: 0.3rem;
-}
-.nav .nav-item:has(.active) {
-  border-bottom: 2px solid #0d6efd;
-}
-.nav,
-.nav li,
-.nav a {
-  height: 100%;
-}
-.nav a {
-  padding-top: 1.1rem !important;
+  .nav .active {
+    background: #fff !important;
+    color: #0d6efd !important;
+  }
+  nav a {
+    text-align: center !important;
+    color: #555 !important;
+    padding: 0 1.3rem !important;
+    font-size: 1rem !important;
+  }
+  nav i {
+    display: inline-block;
+    margin-right: 0.3rem;
+  }
+  .nav .nav-item:has(.active) {
+    border-bottom: 2px solid #0d6efd;
+  }
+  .nav,
+  .nav li,
+  .nav a {
+    height: 100%;
+  }
+  .nav a {
+    padding-top: 1.1rem !important;
+  }
 }
 
 .home-page #v-pills-home {
