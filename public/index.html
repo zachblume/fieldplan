@@ -239,6 +239,65 @@
           id="page-content-wrapper"
           class="p-2 py-3 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12 col-md-11"
         >
+          <!-- START
+         Header -->
+          <header class="container mt-4">
+            <!--heading bar and controls-->
+            <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
+              <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
+
+              <!--cumulative-->
+              <div class="d-flex">
+                <div class="form-check form-switch me-2">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+                  <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
+                </div>
+              </div>
+              <!--dayweekmonth-->
+              <div class="d-md-flex justify-content-center">
+                <div
+                  class="btn-group shadow-sm"
+                  role="group"
+                  aria-label="Basic outlined example"
+                  style="height: 2.5em !important"
+                >
+                  <input
+                    type="radio"
+                    class="align-bottom align-items-baseline btn-check day-week-month-input"
+                    name="vbtn-radio"
+                    id="vbtn-radio1"
+                    autocomplete="off"
+                  />
+                  <label class="align-bottom d-inline btn btn-outline-primary" for="vbtn-radio1">Day</label>
+                  <input
+                    type="radio"
+                    class="btn-check day-week-month-input"
+                    name="vbtn-radio"
+                    id="vbtn-radio2"
+                    autocomplete="off"
+                    checked
+                  />
+                  <label class="btn btn-outline-primary d-inline day-week-month-input" for="vbtn-radio2">Week</label>
+                  <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
+                  <label class="btn btn-outline-primary d-inline" for="vbtn-radio3">Month</label>
+                </div>
+              </div>
+              <div id="drp-container">
+                <div
+                  id="reportrange"
+                  class="shadow-sm"
+                  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%"
+                >
+                  <i class="fa fa-calendar"></i>
+                  &nbsp; <span></span>
+                  <i class="fa fa-caret-down"></i>
+                </div>
+              </div>
+            </div>
+            <!--end heading bar and controls-->
+          </header>
+          <!-- END
+         Header -->
           <div class="tab-content container-fluid p-0 m-0" id="v-pills-tabContent">
             <!-- BEGIN
          Home page tab -->
@@ -250,69 +309,6 @@
               tabindex="0"
             >
               <div class="container mt-md-4">
-                <div class="row d-block" style="margin-right: 0 !important">
-                  <!--heading bar and controls-->
-                  <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
-                    <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
-                      Obama for Congress
-                    </h1>
-
-                    <!--cumulative-->
-                    <div class="d-flex">
-                      <div class="form-check form-switch me-2">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-                        <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
-                      </div>
-                    </div>
-                    <!--dayweekmonth-->
-                    <div class="d-md-flex justify-content-center">
-                      <div
-                        class="btn-group shadow-sm"
-                        role="group"
-                        aria-label="Basic outlined example"
-                        style="height: 2.5em !important"
-                      >
-                        <input
-                          type="radio"
-                          class="align-bottom align-items-baseline btn-check"
-                          name="vbtn-radio"
-                          id="vbtn-radio1"
-                          autocomplete="off"
-                        />
-                        <label class="align-bottom d-inline btn btn-outline-primary" for="vbtn-radio1">Day</label>
-                        <input
-                          type="radio"
-                          class="btn-check"
-                          name="vbtn-radio"
-                          id="vbtn-radio2"
-                          autocomplete="off"
-                          checked
-                        />
-                        <label class="btn btn-outline-primary d-inline" for="vbtn-radio2">Week</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
-                        <label class="btn btn-outline-primary d-inline" for="vbtn-radio3">Month</label>
-                      </div>
-                    </div>
-                    <div id="drp-container">
-                      <div
-                        id="reportrange"
-                        class="shadow-sm"
-                        style="
-                          background: #fff;
-                          cursor: pointer;
-                          padding: 5px 10px;
-                          border: 1px solid #ccc;
-                          width: 100%;
-                        "
-                      >
-                        <i class="fa fa-calendar"></i>
-                        &nbsp; <span></span>
-                        <i class="fa fa-caret-down"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end heading bar and controls-->
-                </div>
                 <!--
                 <div class="shadow-sm alert alert-light alert-dismissible fade show shadow-sm" role="alert">
                   <b>
@@ -533,71 +529,6 @@
             >
               <!--metrics page inner content-->
               <div class="container mt-4" id="metrics-page-container">
-                <div class="row d-block" style="margin-right: 0 !important">
-                  <!--heading bar and controls-->
-                  <div class="d-flex flex-row justify-content mb-2 align-items-center">
-                    <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
-                      Positive IDs
-                    </h1>
-
-                    <!--cumulative-->
-                    <div class="d-flex">
-                      <div class="form-check form-switch me-2">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-                        <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
-                      </div>
-                    </div>
-                    <!--dayweekmonth-->
-                    <div class="d-flex justify-content-center">
-                      <div
-                        class="btn-group shadow-sm"
-                        role="group"
-                        aria-label="Basic
-                      outlined example"
-                        style="height: 2.5em !important"
-                      >
-                        <input
-                          type="radio"
-                          class="align-bottom align-items-baseline btn-check"
-                          name="vbtn-radio"
-                          id="vbtn-radio1"
-                          autocomplete="off"
-                        />
-                        <label class="align-bottom d-inline btn btn-outline-primary" for="vbtn-radio1">Day</label>
-                        <input
-                          type="radio"
-                          class="btn-check"
-                          name="vbtn-radio"
-                          id="vbtn-radio2"
-                          autocomplete="off"
-                          checked
-                        />
-                        <label class="btn btn-outline-primary d-inline" for="vbtn-radio2">Week</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
-                        <label class="btn btn-outline-primary d-inline" for="vbtn-radio3">Month</label>
-                      </div>
-                    </div>
-                    <div id="drp-container">
-                      <div
-                        id="reportrange"
-                        class="shadow-sm"
-                        style="
-                          background: #fff;
-                          cursor: pointer;
-                          padding: 5px 10px;
-                          border: 1px solid #ccc;
-                          width: 100%;
-                        "
-                      >
-                        <i class="fa fa-calendar"></i>
-                        &nbsp; <span></span>
-                        <i class="fa fa-caret-down"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end heading bar and controls-->
-                </div>
-
                 <div class="row mb-0 mt-3">
                   <div class="col-sm-3">
                     <ul class="list-group ps-0" id="metrics-navbar">
@@ -747,48 +678,6 @@
                         </div>
                       </li>
                     </ul>
-                    <style>
-                      #metrics-page-container .dropdown-toggle {
-                        outline: 0;
-                      }
-
-                      #metrics-page-container .btn-toggle {
-                        padding: 0.25rem 0.5rem;
-                        font-weight: 600;
-                        color: rgba(0, 0, 0, 0.65);
-                        background-color: transparent;
-                      }
-
-                      #metrics-page-container .btn-toggle:hover,
-                      #metrics-page-container .btn-toggle:focus,
-                      #metrics-page-container .btn-toggle-nav a:hover,
-                      #metrics-page-container .btn-toggle-nav a:focus {
-                        color: white !important;
-                        background-color: black;
-                      }
-
-                      #metrics-page-container .btn-toggle::before {
-                        width: 1.25em;
-                        line-height: 0;
-                        content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-                        transition: transform 0.35s ease;
-                        transform-origin: 0.5em 50%;
-                      }
-
-                      #metrics-page-container .btn-toggle[aria-expanded='true'] {
-                        color: rgba(0, 0, 0, 0.85);
-                      }
-
-                      #metrics-page-container .btn-toggle[aria-expanded='true']::before {
-                        transform: rotate(90deg);
-                      }
-
-                      #metrics-page-container .btn-toggle-nav a {
-                        padding: 0.1875rem 0.5rem;
-                        margin-top: 0.125rem;
-                        margin-left: 1.25rem;
-                      }
-                    </style>
                   </div>
                   <!--Column for metric cards-->
                   <div class="col-sm-9">
@@ -842,349 +731,10 @@
          Metrics page tab -->
 
             <!-- BEGIN
-         Volunteers page tab -->
-            <div
-              class="tab-pane"
-              id="v-pills-volunteers"
-              role="tabpanel"
-              aria-labelledby="v-pills-volunteers-tab"
-              tabindex="4"
-            >
-              <!--metrics page inner content-->
-              <div class="container mt-4" id="volunteers-page-container">
-                <div class="row d-block" style="margin-right: 0 !important">
-                  <!--heading bar and controls-->
-                  <div class="d-flex flex-row justify-content mb-2 align-items-center">
-                    <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
-                      Active Volunteers (cumulative)
-                    </h1>
-
-                    <!--cumulative-->
-                    <div class="d-flex">
-                      <div class="form-check form-switch me-2">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-                        <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
-                      </div>
-                    </div>
-                    <!--dayweekmonth-->
-                    <div class="d-flex justify-content-center">
-                      <div
-                        class="btn-group shadow-sm"
-                        role="group"
-                        aria-label="Basic
-       outlined example"
-                        style="height: 2.5em !important"
-                      >
-                        <input
-                          type="radio"
-                          class="align-bottom align-items-baseline btn-check"
-                          name="vbtn-radio"
-                          id="vbtn-radio1"
-                          autocomplete="off"
-                        />
-                        <label class="align-bottom d-inline btn btn-outline-primary" for="vbtn-radio1">Day</label>
-                        <input
-                          type="radio"
-                          class="btn-check"
-                          name="vbtn-radio"
-                          id="vbtn-radio2"
-                          autocomplete="off"
-                          checked
-                        />
-                        <label class="btn btn-outline-primary d-inline" for="vbtn-radio2">Week</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
-                        <label class="btn btn-outline-primary d-inline" for="vbtn-radio3">Month</label>
-                      </div>
-                    </div>
-                    <div id="drp-container">
-                      <div
-                        id="reportrange"
-                        class="shadow-sm"
-                        style="
-                          background: #fff;
-                          cursor: pointer;
-                          padding: 5px 10px;
-                          border: 1px solid #ccc;
-                          width: 100%;
-                        "
-                      >
-                        <i class="fa fa-calendar"></i>
-                        &nbsp; <span></span>
-                        <i class="fa fa-caret-down"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end heading bar and controls-->
-                </div>
-
-                <div class="row mb-0 mt-3">
-                  <div class="col-sm-3">
-                    <ul class="list-group ps-0" id="volunteers-navbar">
-                      <li class="mb-3 list-group-item shadow-sm border-white">
-                        <button
-                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#home-collapse"
-                          aria-expanded="true"
-                        >
-                          Topline
-                        </button>
-                        <div class="collapse show" id="home-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
-                                >Active Volunteers (cumulative)</a
-                              >
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Total IDs</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
-                                >Completed Shifts</a
-                              >
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
-                                >Newly Scheduled Shifts</a
-                              >
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-
-                      <li class="mb-3 list-group-item shadow-sm border-white">
-                        <button
-                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#dashboard-collapse"
-                          aria-expanded="false"
-                        >
-                          Gross Attempts
-                        </button>
-                        <div class="collapse show" id="dashboard-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
-                                >All Tactics (aggregated)</a
-                              >
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li class="mb-3 list-group-item shadow-sm border-white">
-                        <button
-                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#orders-collapse"
-                          aria-expanded="false"
-                        >
-                          IDs + Positive ID's
-                        </button>
-                        <div class="collapse show" id="orders-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
-                                >All Tactics (aggregated)</a
-                              >
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li class="mb-3 list-group-item shadow-sm border-white">
-                        <button
-                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#account-collapse"
-                          aria-expanded="false"
-                        >
-                          Contact Rates
-                        </button>
-                        <div class="collapse show" id="account-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li class="mb-3 list-group-item shadow-sm border-white">
-                        <button
-                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#account-collapse"
-                          aria-expanded="false"
-                        >
-                          Contact Rates
-                        </button>
-                        <div class="collapse show" id="account-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                    </ul>
-                    <style>
-                      #volunteers-page-container .dropdown-toggle {
-                        outline: 0;
-                      }
-
-                      #volunteers-page-container .btn-toggle {
-                        padding: 0.25rem 0.5rem;
-                        font-weight: 600;
-                        color: rgba(0, 0, 0, 0.65);
-                        background-color: transparent;
-                      }
-
-                      #volunteers-page-container .btn-toggle:hover,
-                      #volunteers-page-container .btn-toggle:focus,
-                      #volunteers-page-container .btn-toggle-nav a:hover,
-                      #volunteers-page-container .btn-toggle-nav a:focus {
-                        color: white !important;
-                        background-color: black;
-                      }
-
-                      #volunteers-page-container .btn-toggle::before {
-                        width: 1.25em;
-                        line-height: 0;
-                        content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-                        transition: transform 0.35s ease;
-                        transform-origin: 0.5em 50%;
-                      }
-
-                      #volunteers-page-container .btn-toggle[aria-expanded='true'] {
-                        color: rgba(0, 0, 0, 0.85);
-                      }
-
-                      #volunteers-page-container .btn-toggle[aria-expanded='true']::before {
-                        transform: rotate(90deg);
-                      }
-
-                      #volunteers-page-container .btn-toggle-nav a {
-                        padding: 0.1875rem 0.5rem;
-                        margin-top: 0.125rem;
-                        margin-left: 1.25rem;
-                      }
-                    </style>
-                  </div>
-                  <!--Column for metric cards-->
-                  <div class="col-sm-9">
-                    <!--New graphcard-->
-                    <div class="card shadow-sm border-white">
-                      <div class="card-body">
-                        <h6 class="text-secondary">Positive IDs</h6>
-                        <h3 class="card-title"><b>255</b></h3>
-                        <p class="card-text">
-                          <canvas id="myChartVolunteersPage" width="100%"></canvas>
-                        </p>
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Drilldown</th>
-                              <th scope="col">Apr 13</th>
-                              <th scope="col">Apr 20</th>
-                              <th scope="col">Apr 27</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th scope="row">Drilldown</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">drilldown</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Total</th>
-                              <td colspan="2">Larry the Bird</td>
-                              <td>@twitter</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <br /><br /><br /><br /><br /><br /><br /><br />
-              </div>
-              <!--ends page inner content-->
-            </div>
-            <!-- END
-         Volunteers page tab -->
-
-            <!-- BEGIN
          Ramp page tab -->
             <div class="tab-pane" id="v-pills-ramp" role="tabpanel" aria-labelledby="v-pills-ramp-tab" tabindex="2">
               <!--ramp page inner content-->
               <div class="container mt-4" id="ramp-page-container">
-                <div class="row d-block" style="margin-right: 0 !important">
-                  <!--heading bar and controls-->
-                  <div class="d-flex flex-row justify-content mb-2 align-items-center">
-                    <h1 class="mt-0 h2 d-flex justify-content-start" id="metric-page-title">Forecast</h1>
-                    <div class="form-check form-switch mb-3 d-flex flex-grow-1 ms-3 mt-1">
-                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-                      <label
-                        class="form-check-label align-middle mt-1"
-                        class="fs-1"
-                        id="flexSwitchCheckCheckedButton"
-                        for="flexSwitchCheckChecked"
-                        >Collapse me</label
-                      >
-                    </div>
-                  </div>
-                  <!--end heading bar and controls-->
-                </div>
-
                 <div class="mb-0">
                   <div class="row">
                     <div id="collapseTableDiv" class="">
@@ -1196,18 +746,6 @@
                       </div>
                     </div>
                     <!--table stuff-->
-                    <style>
-                      #collapseTableDiv {
-                      }
-
-                      #ramp-page-container thead tr th,
-                      #ramp-page-container tr:last-of-type td {
-                        font-weight: bold !important;
-                        border-top: 1px solid black;
-                        border-bottom: 1px solid black;
-                        border-collapse: collapse;
-                      }
-                    </style>
 
                     <!--assumptions-->
                     <div class="row" id="righthandtoggle">
@@ -1509,15 +1047,6 @@
                       </div>
                     </div>
                     <!--table stuff-->
-                    <style>
-                      #progress-page-container thead tr th,
-                      #progress-page-container tr:last-of-type td {
-                        font-weight: bold !important;
-                        border-top: 1px solid black;
-                        border-bottom: 1px solid black;
-                        border-collapse: collapse;
-                      }
-                    </style>
 
                     <!--undertables-->
                     <div class="" id="righthandtoggle">
@@ -1706,17 +1235,7 @@
                   </div>
                   <!--end heading bar and controls-->
                 </div>
-                <style>
-                  #settings-page-container form {
-                    max-width: 550px;
-                  }
 
-                  #settings-page-container h5 {
-                    font-weight: bold;
-                    font-size: 1.3em;
-                    margin-bottom: 0.5em;
-                  }
-                </style>
                 <!--settings card-->
                 <div class="card shadow-sm border-white mb-3">
                   <div class="card-body">

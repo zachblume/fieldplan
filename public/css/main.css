@@ -14,6 +14,8 @@ h1 {
   width: 90% !important;
   margin: 0 auto;
   padding-left: 3px;
+  padding-top: 1rem !important;
+  display: block;
 }
 
 @media (max-width: 700px) {
@@ -188,13 +190,14 @@ header a {
   font-weight: 800;
   text-decoration: none;
 }
-
+/*
 header button {
   float: right;
   margin-left: 1em;
   display: none !important;
   clear: both;
 }
+*/
 
 button:disabled {
   opacity: 0.5;
@@ -338,4 +341,71 @@ nav-tabs nav-link border-bottom rounded-0 {
 
 .card-title {
   font-weight: bold;
+}
+#collapseTableDiv {
+}
+
+#ramp-page-container thead tr th,
+#ramp-page-container tr:last-of-type td {
+  font-weight: bold !important;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-collapse: collapse;
+}
+
+#progress-page-container thead tr th,
+#progress-page-container tr:last-of-type td {
+  font-weight: bold !important;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-collapse: collapse;
+}
+#settings-page-container form {
+  max-width: 550px;
+}
+
+#settings-page-container h5 {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-bottom: 0.5em;
+}
+#metrics-page-container .dropdown-toggle {
+  outline: 0;
+}
+
+#metrics-page-container .btn-toggle {
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: transparent;
+}
+
+#metrics-page-container .btn-toggle:hover,
+#metrics-page-container .btn-toggle:focus,
+#metrics-page-container .btn-toggle-nav a:hover,
+#metrics-page-container .btn-toggle-nav a:focus {
+  color: white !important;
+  background-color: black;
+}
+
+#metrics-page-container .btn-toggle::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: 0.5em 50%;
+}
+
+#metrics-page-container .btn-toggle[aria-expanded='true'] {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+#metrics-page-container .btn-toggle[aria-expanded='true']::before {
+  transform: rotate(90deg);
+}
+
+#metrics-page-container .btn-toggle-nav a {
+  padding: 0.1875rem 0.5rem;
+  margin-top: 0.125rem;
+  margin-left: 1.25rem;
 }
