@@ -1114,21 +1114,14 @@ async function progressRampFormTable(snapshot) {
   console.log(snapshot);
 }
 
-document.addEventListener('mousedown', (e) => {
-  if (
-    $(e.target).hasClass('nav-link') ||
-    $(e.target.parentNode).hasClass('nav-link') ||
+$(document).on('mousedown', 'nav .nav-link, header .navigate-home', function (e) {
+  navigatePage(
     $(e.target).hasClass('navigate-home')
-  ) {
-    navigatePage(
-      $(e.target).hasClass('navigate-home')
-        ? 'Home'
-        : $(e.target.parentNode).hasClass('nav-link')
-        ? e.target.parentNode.innerText.trim()
-        : e.target.innerText.trim()
-    );
-    //e.stopPropagation();
-  }
+      ? 'Home'
+      : $(e.target.parentNode).hasClass('nav-link')
+      ? e.target.parentNode.innerText.trim()
+      : e.target.innerText.trim()
+  );
 });
 
 function navigatePage(page) {
