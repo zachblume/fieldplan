@@ -366,15 +366,6 @@ nav-tabs nav-link border-bottom rounded-0 {
   margin-left: 1.25rem;
 }
 
-#sidebar button {
-  text-align: left !important ;
-  padding-left: 1.3rem !important;
-}
-
-#sidebar {
-  background: ##1a73e8 !important;
-}
-
 /*
 .brand {
   width: 90% !important;
@@ -464,4 +455,6 @@ header button * {
   font-size: 0.85rem !important;
 }
 nav .nav-item {
+}
+nav {
 }
