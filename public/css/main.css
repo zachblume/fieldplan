@@ -317,7 +317,7 @@ nav-tabs nav-link border-bottom rounded-0 {
   border-collapse: collapse;
 }
 #settings-page-container form {
-  max-width: 550px;
+  //max-width: 550px;
 }
 
 #settings-page-container h5 {
