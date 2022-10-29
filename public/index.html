@@ -97,7 +97,7 @@
               <img
                 src="img/horizontal_logo2.svg"
                 alt="Logo"
-                height="45"
+                height="40"
                 class="d-inline-block align-text-top text-center my-1 navigate-home"
               />
             </a>
@@ -105,7 +105,7 @@
 
           <ul class="d-flex nav" style="font-size: 1rem; min-height: auto">
             <li class="nav-item">
-              <a href="#" class="nav-link active"><i class="bi-grid"></i> Home</a>
+              <a href="#" class="nav-link active"><i class="bi-house-door"></i> Home</a>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link"> <i class="bi-bar-chart-line"></i>Metrics</a>
@@ -167,7 +167,7 @@
             <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
               <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
 
-              <div class="form-check form-switch mb-3 d-flex flex-grow-1 ms-3 mt-1 d-none" class="show-on-ramp-page">
+              <div class="form-check form-switch mb-3 flex-grow-1 ms-3 mt-1 show-on-ramp-page">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
                 <label
                   class="form-check-label align-middle mt-1"
@@ -179,14 +179,14 @@
               </div>
 
               <!--cumulative-->
-              <div class="d-flex">
+              <div class="d-flex hide-on-ramp-page">
                 <div class="form-check form-switch me-2">
                   <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
                   <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
                 </div>
               </div>
               <!--dayweekmonth-->
-              <div class="d-md-flex justify-content-center">
+              <div class="d-md-flex justify-content-center hide-on-ramp-page">
                 <div
                   class="btn-group shadow-sm"
                   role="group"
@@ -214,7 +214,7 @@
                   <label class="btn btn-outline-secondary d-inline" for="vbtn-radio3">Month</label>
                 </div>
               </div>
-              <div id="drp-container">
+              <div id="drp-container" class="hide-on-ramp-page">
                 <div
                   id="reportrange"
                   class="shadow-sm"
@@ -666,7 +666,7 @@
          Ramp page tab -->
             <div class="tab-pane" id="v-pills-ramp" role="tabpanel" aria-labelledby="v-pills-ramp-tab" tabindex="2">
               <!--ramp page inner content-->
-              <div class="container mt-4" id="ramp-page-container">
+              <div class="container mt-0" id="ramp-page-container">
                 <div class="mb-0">
                   <div class="row">
                     <div id="collapseTableDiv" class="">

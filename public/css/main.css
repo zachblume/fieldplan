@@ -431,14 +431,14 @@ nav-tabs nav-link border-bottom rounded-0 {
     text-align: center !important;
     color: #555 !important;
     padding: 0 1.3rem !important;
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
   }
   nav i {
     display: inline-block;
     margin-right: 0.3rem;
   }
   .nav .nav-item:has(.active) {
-    border-bottom: 2px solid #0d6efd;
+    border-bottom: 3px solid #0d6efd;
   }
   .nav,
   .nav li,
@@ -458,6 +458,15 @@ nav-tabs nav-link border-bottom rounded-0 {
 }
 .goals-page #v-pills-ramp {
   display: block !important;
+}
+.show-on-ramp-page {
+  display: none !important;
+}
+.goals-page header .show-on-ramp-page {
+  display: flex !important;
+}
+.goals-page .hide-on-ramp-page {
+  display: none !important;
 }
 .progress-page #v-pills-progress {
   display: block !important;

@@ -1140,6 +1140,6 @@ function navigatePage(page) {
   $('body').addClass(page.toLowerCase() + '-page');
 
   // Get rid of targeting bar except on home/metrics
-  if (!['home', 'metrics'].includes(page.toLowerCase())) $('header>div *:not(h1)').hide();
+  if (!['home', 'metrics', 'goals'].includes(page.toLowerCase())) $('header>div *:not(h1)').hide();
   else $('header>div *:not(h1)').show();
 }
