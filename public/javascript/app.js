@@ -39,7 +39,7 @@ function nFormatter(num, ...params) {
 function HomePageChartCompose() {
   Chart.register(ChartDataLabels);
   const chart_options = {
-    type: 'line',
+    type: 'bar',
     data: {
       labels: [0, 0],
       datasets: [
@@ -51,10 +51,10 @@ function HomePageChartCompose() {
           borderColor: '#0d6efd',
           data: [0, 0],
           datalabels: {
-            display: false,
-            align: 'start',
+            display: true,
+            align: 'end',
             anchor: 'end',
-            rotation: 90,
+            rotation: 0,
             padding: 0,
           },
         },
@@ -74,13 +74,13 @@ function HomePageChartCompose() {
         legend: false,
         datalabels: {
           //display: false,
-          color: 'white',
+          color: '#bbb',
           /*display: function (context) {
             return context.dataset.data[context.dataIndex] > 15;
           },*/
           font: {
             weight: 'normal',
-            size: 9,
+            size: 10,
           },
           /*formatter: nFormatter,*/
         },
@@ -93,7 +93,6 @@ function HomePageChartCompose() {
       animation: {
         duration: 0,
       },
-
       legend: { display: false },
       title: {
         display: true,
@@ -107,12 +106,23 @@ function HomePageChartCompose() {
             drawOnChartArea: false,
             drawTicks: true,
           },
-          ticks: { autoSkip: true },
+          ticks: {
+            autoSkip: true,
+            font: {
+              size: 11,
+            },
+          },
         },
         y: {
           //display: false,
           grid: { drawOnChartArea: true },
-          ticks: { autoSkip: true, maxTicksLimit: 5 },
+          ticks: {
+            autoSkip: true,
+            maxTicksLimit: 5,
+            font: {
+              size: 11,
+            },
+          },
         },
       },
     },
@@ -121,6 +131,11 @@ function HomePageChartCompose() {
   function cloneChartOptions(x) {
     y = structuredClone(x);
     y.options.plugins.datalabels.formatter = nFormatter;
+
+    y.data.datasets[0].datalabels.display = function (context) {
+      return !((context.dataset.data.length - context.dataIndex - 2) % 4) ? 'auto' : false; // display labels with an odd index
+    };
+    //y.data.datasets[0].datalabels.display = 'auto';
     return y;
   }
 
@@ -515,6 +530,18 @@ $(function () {
 /// CLEAN THIS UP LATER
 ///
 ///
+function setMetric(metricName) {
+  // Set title to metric name
+  $('#title').html(metricName);
+
+  // Add some fake random data
+  myChartMetricsPage.data.datasets[0].data = [];
+  for (let index = 0; index < 20; index++) {
+    myChartMetricsPage.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 5);
+  }
+  myChartMetricsPage.update();
+}
+
 window.addEventListener('DOMContentLoaded', start_up_scripts);
 function start_up_scripts() {
   $(function () {
@@ -587,17 +614,6 @@ function start_up_scripts() {
       });
     });
   });
-  function setMetric(metricName) {
-    // Set title to metric name
-    $('#title').html(metricName);
-
-    // Add some fake random data
-    myChartMetricsPage.data.datasets[0].data = [];
-    for (let index = 0; index < 20; index++) {
-      myChartMetricsPage.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 5);
-    }
-    myChartMetricsPage.update();
-  }
 
   $(function () {
     const chartOptions = {
@@ -644,6 +660,7 @@ function start_up_scripts() {
 
         plugins: {
           legend: false,
+          datalabels: { color: 'white' },
         },
         title: {
           display: false,
@@ -661,21 +678,11 @@ function start_up_scripts() {
 
     myChartMetricsPage = new Chart(document.getElementById('myChartMetricsPage'), chartOptions);
 
-    myChartMetricsPage.data.datasets[0].data = [
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-      Math.floor(Math.random() * 20) + 5,
-    ];
+    // Add some fake random data
+    myChartMetricsPage.data.datasets[0].data = [];
+    for (let index = 0; index < 20; index++) {
+      myChartMetricsPage.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 5);
+    }
     myChartMetricsPage.update();
   });
 }
@@ -1143,3 +1150,18 @@ function navigatePage(page) {
   if (!['home', 'metrics', 'goals'].includes(page.toLowerCase())) $('header>div *:not(h1)').hide();
   else $('header>div *:not(h1)').show();
 }
+
+function specificJumpToMetricsPage(metric) {
+  console.log('specificJumpToMetricsPage', metric);
+  // Self explanatory:
+  navigatePage('Metrics');
+  setMetric(metric);
+}
+
+$(document).on('mousedown', '.metrics-card-container-clickable .card', function () {
+  // Get the name of the metric from the title of the card that was clicked on
+  var cardMetricTitleContent = $(this).find('.card-title').get()[0].textContent;
+
+  // Navigate to the metrics page and set the chart view to that
+  specificJumpToMetricsPage(cardMetricTitleContent);
+});
