@@ -544,11 +544,12 @@ function setMetric(metricName) {
 
 window.addEventListener('DOMContentLoaded', start_up_scripts);
 function start_up_scripts() {
+  //Setup the header daterangepicker, and bind a callback
   $(function () {
     var start = moment().subtract(29, 'days');
     var end = moment();
 
-    function cb(start, end) {
+    function reportrange_cb(start, end) {
       $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
     }
 
@@ -572,10 +573,56 @@ function start_up_scripts() {
           'All Time': [moment(), moment()],
         },
       },
-      cb
+      reportrange_cb
     );
 
-    cb(start, end);
+    reportrange_cb(start, end);
+  });
+
+  //Setup the setting page daterangepicker, and bind a callback
+  $(function () {
+    var start = moment().subtract(29, 'days');
+
+    function campaignstart_cb(start) {
+      $('#campaignstartdate span').html(start.format('MMM D, YYYY'));
+      $('#_campaignstartdate').val(start.format('MMM D, YYYY'));
+      $('#_campaignstartdate').trigger('input');
+    }
+
+    $('#campaignstartdate').daterangepicker(
+      {
+        singleDatePicker: true,
+        startDate: start,
+        //opens: 'left',
+        //endDate: end,
+      },
+      campaignstart_cb
+    );
+
+    $('#campaignstartdate span').html(start.format('MMM D, YYYY'));
+  });
+
+  //Setup the 2nd setting page daterangepicker, and bind a callback
+  $(function () {
+    var start = moment().subtract(29, 'days');
+
+    function campaignstart2_cb(start) {
+      $('#electionday span').html(start.format('MMM D, YYYY'));
+      $('#_electionday').val(start.format('MMM D, YYYY'));
+      $('#_electionday').trigger('input');
+    }
+
+    $('#electionday').daterangepicker(
+      {
+        singleDatePicker: true,
+        startDate: start,
+        //opens: 'left',
+        //endDate: end,
+      },
+      campaignstart2_cb
+    );
+
+    $('#electionday span').html(start.format('MMM D, YYYY'));
   });
 
   $(function () {
@@ -1114,14 +1161,13 @@ async function progressRampFormTable(snapshot) {
   console.log(snapshot);
 }
 
-$(document).on('mousedown', 'nav .nav-link, header .navigate-home', function (e) {
-  navigatePage(
-    $(e.target).hasClass('navigate-home')
-      ? 'Home'
-      : $(e.target.parentNode).hasClass('nav-link')
-      ? e.target.parentNode.innerText.trim()
-      : e.target.innerText.trim()
-  );
+$(document).on('mousedown', 'nav .nav-link, .navigate-home', function (e) {
+  var targetPage = $(e.target).hasClass('navigate-home')
+    ? 'Home'
+    : $(e.target.parentNode).hasClass('nav-link')
+    ? e.target.parentNode.innerText.trim()
+    : e.target.innerText.trim();
+  navigatePage(targetPage.length > 0 ? targetPage : 'Home');
 });
 
 function navigatePage(page) {
@@ -1165,6 +1211,7 @@ $(document).on('input', '#settings-page-container *', updateSettingsInFirestore)
 function getSettingForms() {
   var settingForms = {};
   var listOfOnputs = document.querySelectorAll('#settings-page-container input');
+  console.log('listOfOnputs', listOfOnputs);
   listOfOnputs.forEach((a) => (settingForms[a.id] = a.value));
   console.log('settingForms', settingForms);
   return settingForms;
@@ -1182,4 +1229,113 @@ function updateSettingsInFirestore() {
       // The document probably doesn't exist.
       console.error('Error updating settings document: ', error);
     });
+}
+
+//Navigate to correct page onload
+var location_hash = location.hash.substring(1, 2).toUpperCase() + location.hash.substring(2);
+console.log('location_hash', location_hash);
+if (location_hash && location_hash != '') navigatePage(location_hash);
+
+//serialize form obj jquery plugin
+$.fn.serializeObject = function () {
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function () {
+    if (o[this.name]) {
+      if (!o[this.name].push) {
+        o[this.name] = [o[this.name]];
+      }
+      o[this.name].push(this.value || '');
+    } else {
+      o[this.name] = this.value || '';
+    }
+  });
+  return o;
+};
+
+//invite user toast
+const toastTrigger = document.getElementById('button-invite-user');
+const inviteUserToast = document.getElementById('toast-invite-user');
+if (toastTrigger) {
+  toastTrigger.addEventListener('click', () => {
+    var serializedInviteUserFormData = $('#invite-user-form').serializeObject();
+
+    //placeholder for our userid
+    serializedInviteUserFormData.invitedBy = currentUser;
+
+    //Add invite to firestore, which triggers a cloud function sending email invite
+    db.collection('user-invites')
+      .add(serializedInviteUserFormData)
+      .then(() => {
+        //Success!
+        const toast = new bootstrap.Toast(inviteUserToast);
+        toast.show();
+        console.log('Document successfully written!');
+      })
+      .catch((error) => {
+        //error!
+        const toast = new bootstrap.Toast(inviteUserToast);
+        $(inviteUserToast)
+          .find('.toast-body')
+          .html('Could not invite user because of ERROR: ' + error);
+        toast.show();
+        console.error('Error writing document: ', error);
+      });
+  });
+}
+$(function () {
+  db.collection('user-invites').onSnapshot(updateUsersTable);
+});
+
+function updateUsersTable(querySnapshot) {
+  $('#usersTable tbody').empty();
+
+  var data = {};
+
+  querySnapshot.forEach((doc) => {
+    data = doc.data();
+    $('#usersTable tbody').append(`<tr></tr>`);
+    var returned = $('#usersTable tbody tr:last-child').append(
+      `
+        <td>${data.firstName}</td>
+        <td>${data.lastName}</td>
+        <td>${data.email}</td>
+      `
+    );
+    var button = $(returned).append(
+      `
+        <td><button class="btn btn-outline-danger btn-sm" type="button">Remove</button></td>
+      `
+    );
+    var button = $(button).find('button');
+    button.bind('click', { id: doc.id }, (e) => {
+      db.collection('user-invites').doc(e.data.id).delete();
+    });
+    //doc.is
+    //doc.whatever
+  });
+}
+
+function handleChartPeriodSettings(serializedFormObject) {
+  // Handle income form data
+  var settings = serializedFormObject;
+
+  // Enumerate each setting to variable
+  var cumulative = settings.cumulative;
+  var dayweekmonth = settings.dayweekmonth;
+  var start = settings.start;
+  var end = settings.end;
+
+  //
+}
+
+// Place event handlers for
+$(setupChartSettingEventHandlers);
+function setupChartSettingEventHandlers() {
+  // Place a inputchange binding on the cumulative and dayweekmonth switch/radio inputs
+  $('header input').bind('input', eventCallbackChartSettings);
+}
+function eventCallbackChartSettings(event) {
+  console.log('eventCallbackChartPeriodSettings');
+  console.log('event', event);
 }
