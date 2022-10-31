@@ -1,5 +1,9 @@
-body {
-  font-family: system-ui !important;
+:root {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+  margin: 0;
+  font-size: 18px !important;
 }
 
 h1 {
@@ -45,13 +49,6 @@ h1 {
     margin: 0 !important;
     padding-bottom: 0 !important;
   }
-}
-
-body {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-  margin: 0;
 }
 
 /*main {
@@ -136,7 +133,7 @@ label {
 .card-number {
   display: inline;
   white-space: nowrap;
-  font-family: Menlo, Consolas, monospace;
+
   color: #3c4257;
   font-weight: 500;
 }
@@ -375,6 +372,7 @@ nav-tabs nav-link border-bottom rounded-0 {
   display: block;
 }*/
 
+/*computer (not mobile) media*/
 @media (min-width: 700px) {
   #navbar,
   #navbar * {
@@ -456,5 +454,10 @@ header button * {
 }
 nav .nav-item {
 }
-nav {
+
+.brand,
+.brand a,
+.brand * {
+  text-decoration: none !important;
+  border: none !important;
 }
