@@ -394,7 +394,7 @@ async function loadAllGraphDataDirectlyFromIDB() {
           docName = doc.document.name.split('/').pop();
           resultStringValue = doc.document.fields.resultstring.stringValue;
           count++;
-          if (count > 0) createGraph(JSON.parse(resultStringValue));
+          if (count == 3) createGraph(JSON.parse(resultStringValue));
           //console.log(resultStringValue);
 
           //console.timeLog('idb');

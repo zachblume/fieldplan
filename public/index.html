@@ -3,8 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Field Plan - Voter contact insights to win your election" />
-    <title>Field Plan - Plan and measure voter contact to win your election</title>
+
+    <!-- HTML Meta Tags -->
+    <title>Field Plan: Do you know your voter contact metrics?</title>
+    <meta
+      name="description"
+      content="A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program."
+    />
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://fieldplan.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Field Plan: Do you know your voter contact metrics?" />
+    <meta
+      property="og:description"
+      content="A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program."
+    />
+    <meta property="og:image" content="https://fieldplan.app/img/social.png" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="fieldplan.app" />
+    <meta property="twitter:url" content="https://fieldplan.app/" />
+    <meta name="twitter:title" content="Field Plan: Do you know your voter contact metrics?" />
+    <meta
+      name="twitter:description"
+      content="A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program."
+    />
+    <meta name="twitter:image" content="https://fieldplan.app/img/social.png" />
+
+    <!-- Meta Tags Generated via https://opengraph.dev -->
+    <link rel="icon" type="image/x-icon" href="img/squarelogo.png" />
+
     <link rel="stylesheet" href="css/main.css" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -191,26 +221,14 @@
                   role="group"
                   aria-label="Basic outlined example"
                   style="height: 2.5em !important"
+                  id="dayweekmonth"
                 >
-                  <input
-                    type="radio"
-                    class="align-bottom align-items-baseline btn-check day-week-month-input"
-                    name="vbtn-radio"
-                    id="vbtn-radio1"
-                    autocomplete="off"
-                  />
-                  <label class="align-bottom d-inline btn btn-outline-secondary" for="vbtn-radio1">Day</label>
-                  <input
-                    type="radio"
-                    class="btn-check day-week-month-input"
-                    name="vbtn-radio"
-                    id="vbtn-radio2"
-                    autocomplete="off"
-                    checked
-                  />
-                  <label class="btn btn-outline-secondary d-inline day-week-month-input" for="vbtn-radio2">Week</label>
-                  <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off" />
-                  <label class="btn btn-outline-secondary d-inline" for="vbtn-radio3">Month</label>
+                  <input type="radio" class="btn-check" name="dwm-radio" id="day" autocomplete="off" />
+                  <label class="btn btn-outline-secondary d-inline" for="day">Day</label>
+                  <input type="radio" class="btn-check" name="dwm-radio" id="week" autocomplete="off" checked />
+                  <label class="btn btn-outline-secondary d-inline" for="week">Week</label>
+                  <input type="radio" class="btn-check" name="dwm-radio" id="month" autocomplete="off" />
+                  <label class="btn btn-outline-secondary d-inline" for="month">Month</label>
                 </div>
               </div>
               <div id="drp-container" class="hide-on-ramp-page">

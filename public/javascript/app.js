@@ -493,8 +493,7 @@ async function loadAllGraphData(querySnapshot) {
   populateQuickLookup(querySnapshot);
 }
 
-/*
-// This moves the google one tap picker to a new location
+/* This moves the google one tap picker to a new location
 // However its not working so i have it disabled
 function waitForElm(selector) {
   return new Promise((resolve) => {
@@ -551,6 +550,7 @@ function start_up_scripts() {
 
     function reportrange_cb(start, end) {
       $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+      eventCallbackChartSettings('reportrangechange', start, end);
     }
 
     $('#reportrange').daterangepicker(
@@ -577,6 +577,8 @@ function start_up_scripts() {
     );
 
     reportrange_cb(start, end);
+    global_period_settings.start = start;
+    global_period_settings.end = end;
   });
 
   //Setup the setting page daterangepicker, and bind a callback
@@ -879,13 +881,6 @@ function ConvertJsonToTable(parsedJson, tableId, tableClassName, linkText) {
  * Return just the keys from the input array, optionally only for the specified search_value
  * version: 1109.2015
  *  discuss at: http://phpjs.org/functions/array_keys
- *  +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
- *  +      input by: Brett Zamir (http://brett-zamir.me)
- *  +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
- *  +   improved by: jd
- *  +   improved by: Brett Zamir (http://brett-zamir.me)
- *  +   input by: P
- *  +   bugfixed by: Brett Zamir (http://brett-zamir.me)
  *  *     example 1: array_keys( {firstname: 'Kevin', surname: 'van Zonneveld'} );
  *  *     returns 1: {0: 'firstname', 1: 'surname'}
  */
@@ -1316,6 +1311,13 @@ function updateUsersTable(querySnapshot) {
   });
 }
 
+let global_period_settings = {
+  cumulative: false,
+  dayweekmonth: 'week',
+  start: Date.now(),
+  end: Date.now(),
+};
+
 function handleChartPeriodSettings(serializedFormObject) {
   // Handle income form data
   var settings = serializedFormObject;
@@ -1329,13 +1331,19 @@ function handleChartPeriodSettings(serializedFormObject) {
   //
 }
 
-// Place event handlers for
+// Place event handlers for header config bar
 $(setupChartSettingEventHandlers);
 function setupChartSettingEventHandlers() {
   // Place a inputchange binding on the cumulative and dayweekmonth switch/radio inputs
   $('header input').bind('input', eventCallbackChartSettings);
 }
-function eventCallbackChartSettings(event) {
-  console.log('eventCallbackChartPeriodSettings');
-  console.log('event', event);
+function eventCallbackChartSettings(event = {}, start = false, end = false) {
+  //console.log('eventCallbackChartPeriodSettings');
+  //console.log('event', event);
+
+  global_period_settings.cumulative = $('#flexSwitchCheckDefault').is(':checked');
+  global_period_settings.dayweekmonth = $('#dayweekmonth input[type="radio"]:checked').prop('id');
+  if (start) global_period_settings.start = start;
+  if (end) global_period_settings.end = end;
+  console.log(global_period_settings);
 }
