@@ -1,6 +1,17 @@
+// A list of available chart types
+const available_metrics = [
+  'weeklycontacthistory',
+  'positiveids',
+  'weeklysignups',
+  'vanityvolunteers',
+  'percent_complete',
+  'positive_id_per_completed_shift',
+];
+
+// This variable maps firestore doc names to home page graph numbers
 const choices = {
   weeklycontacthistory: 1,
-  positiveids: 2,
+  positiveids: '',
   weeklysignups: 3,
   vanityvolunteers: 4,
   percent_complete: 5,
@@ -36,8 +47,12 @@ function nFormatter(num, ...params) {
   return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : '0';
 }
 
+// Quickly put togehter the charts across the homepage (without data) to speed later render
 function HomePageChartCompose() {
+  // Init plugin for chart.js
   Chart.register(ChartDataLabels);
+
+  // The global default chart settings...this should prob be global var
   const chart_options = {
     type: 'bar',
     data: {
@@ -128,6 +143,9 @@ function HomePageChartCompose() {
     },
   };
 
+  // Deep clone (iteratively copy and disconnect)
+  // to prevent weird connections between chart objects,
+  // but recompose some of the functions inside the js object.
   function cloneChartOptions(x) {
     y = structuredClone(x);
     y.options.plugins.datalabels.formatter = nFormatter;
@@ -139,12 +157,18 @@ function HomePageChartCompose() {
     return y;
   }
 
-  charts[1] = new Chart(document.getElementById('myChart2'), cloneChartOptions(chart_options));
-  charts[2] = new Chart(document.getElementById('myChart'), cloneChartOptions(chart_options));
-  charts[3] = new Chart(document.getElementById('myChart3'), cloneChartOptions(chart_options));
-  charts[4] = new Chart(document.getElementById('myChart4'), cloneChartOptions(chart_options));
-  charts[5] = new Chart(document.getElementById('myChart5'), cloneChartOptions(chart_options));
-  charts[6] = new Chart(document.getElementById('myChart6'), cloneChartOptions(chart_options));
+  // For each of the available metrics
+  available_metrics.forEach((v, i) => {
+    var selector = '#' + 'homepage-chart-' + v;
+    var element = $(selector);
+
+    // If a corresponding chart element exists...
+    if (element.length > 0)
+      // Assign to the global chart variable [by the doc title],
+      // a new blank chart element's Constructor
+      // with deep cloned option variable
+      charts[v] = new Chart(element, cloneChartOptions(chart_options));
+  });
 }
 
 async function loadAllGraphDataDirectlyFromIDB() {
@@ -183,7 +207,8 @@ async function loadAllGraphDataDirectlyFromIDB() {
             if (doc.parentPath.includes('data')) {
               docName = doc.document.name.split('/').pop();
               resultStringValue = doc.document.fields.resultstring.stringValue;
-              updateGraph(JSON.parse(resultStringValue), charts[choices[docName]]);
+              //updateGraph(JSON.parse(resultStringValue), charts[choices[docName]]);
+              //^NEEDS UPDATING
               console.timeLog('idb');
             }
           });
@@ -203,8 +228,8 @@ async function loadAllGraphDataDirectlyFromIDB() {
 }
 
 function updateGraph(graphdata, chartobject) {
-  //console.log(graphdata[0]);
-  //console.log(chartobject);
+  console.log('graphdata', graphdata);
+  console.log('chartobject', chartobject);
   chartobject.data.labels = graphdata.map((x) => {
     try {
       return new Date(x.period.value).toLocaleDateString('en-us', {
@@ -483,11 +508,26 @@ async function loadAllGraphData(querySnapshot) {
   console.log(Date.now() - StartTimeLogged);
   console.timeLog();
 
-  var data = {};
-
   querySnapshot.forEach((doc) => {
-    data = doc.data();
-    if (doc.id in choices) updateGraph(JSON.parse(data.resultstring), charts[choices[doc.id]]);
+    // Get the actual firestore document
+    var data = doc.data();
+
+    // Assign the chart object to pass to the updater function
+    var chartobject = charts[doc.id];
+
+    var selector = '#' + 'homepage-chart-' + doc.id;
+    var element = $(selector);
+
+    // If a corresponding chart element exists...
+    var corresponding_chart_exists = element.length > 0;
+
+    // Update the home page chart corresponding to the object
+    if (available_metrics.includes(doc.id) && corresponding_chart_exists) {
+      console.log('doc.id', doc.id);
+      updateGraph(JSON.parse(data.resultstring), chartobject);
+    }
+    //if (doc.id in choices)
+    //^ needs to be moved inside updategraph
   });
 
   populateQuickLookup(querySnapshot);

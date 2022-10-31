@@ -69,6 +69,10 @@ select {
   display: none;
 }
 
+.card {
+  border-radius: 0.5rem !important;
+}
+
 /* Test card number */
 .test-card-notice {
   display: block;
