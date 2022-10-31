@@ -112,10 +112,6 @@ select {
   font-size: 1.25rem;
 }
 
-label {
-  display: block;
-}
-
 #subscribe,
 #my-subscription {
   display: none;
@@ -460,4 +456,15 @@ nav .nav-item {
 .brand * {
   text-decoration: none !important;
   border: none !important;
+}
+
+#page-content-wrapper {
+  /background: #fcfcfc !important;
+}
+
+.card,
+.list-group-item.shadow-sm.border-white {
+  /shadow: none !important;
+  /box-shadow: none !important;
+  border: 1px solid #efefef !important;
 }

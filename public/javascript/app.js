@@ -1158,3 +1158,28 @@ $(document).on('mousedown', '.metrics-card-container-clickable .card', function 
   // Navigate to the metrics page and set the chart view to that
   specificJumpToMetricsPage(cardMetricTitleContent);
 });
+
+// Setting page code
+$(document).on('input', '#settings-page-container *', updateSettingsInFirestore);
+
+function getSettingForms() {
+  var settingForms = {};
+  var listOfOnputs = document.querySelectorAll('#settings-page-container input');
+  listOfOnputs.forEach((a) => (settingForms[a.id] = a.value));
+  console.log('settingForms', settingForms);
+  return settingForms;
+}
+
+function updateSettingsInFirestore() {
+  return db
+    .collection('app-settings')
+    .doc('user1')
+    .set(getSettingForms())
+    .then(() => {
+      console.log('Settings document successfully updated!');
+    })
+    .catch((error) => {
+      // The document probably doesn't exist.
+      console.error('Error updating settings document: ', error);
+    });
+}
