@@ -1,6 +1,6 @@
-<a href="https://fieldplan.app"><img src="public/img/homepage_screenshot.png" width="100%" /></a>
-
 # Field Plan.app
+
+<a href="https://fieldplan.app"><img src="public/img/homepage_screenshot.png" width="100%" /></a>
 
 <b>Live demo: https://fieldplan.app</b>
 
