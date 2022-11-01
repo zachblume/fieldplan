@@ -192,7 +192,9 @@
           <header class="container mt-4">
             <!--heading bar and controls-->
             <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
-              <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
+              <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
+                Obama for Congress
+              </h1>
 
               <div class="form-check form-switch mb-3 flex-grow-1 ms-3 mt-1 show-on-ramp-page">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
@@ -378,53 +380,49 @@
                     </div>
                   </div>
                   <!--Column for metric cards-->
-                  <div class="col-sm-9 metrics-card-container-clickable">
-                    <div class="row mb-3">
-                      <!--New graphcard-->
-                      <div class="col-sm-6">
-                        <div class="card shadow-sm">
-                          <div class="card-body">
-                            <h5 class="card-title">Positive IDs</h5>
-                            <p class="card-text">
-                              <canvas id="homepage-chart-positiveids" width="100%"></canvas>
-                            </p>
-                          </div>
+                  <div class="col-sm-9 metrics-card-container-clickable row" id="draggable-cards">
+                    <!--New graphcard-->
+                    <div class="col-sm-6 mb-3">
+                      <div class="card shadow-sm">
+                        <div class="card-body">
+                          <h5 class="card-title">Positive IDs</h5>
+                          <p class="card-text">
+                            <canvas id="homepage-chart-positiveids" width="100%"></canvas>
+                          </p>
                         </div>
                       </div>
-                      <!--New graphcard-->
-                      <div class="col-sm-6">
-                        <div class="card shadow-sm">
-                          <div class="card-body">
-                            <h5 class="card-title">Contact Attempts</h5>
-                            <p class="card-text">
-                              <canvas id="homepage-chart-contacthistory" width="100%"></canvas>
-                            </p>
-                          </div>
+                    </div>
+                    <!--New graphcard-->
+                    <div class="col-sm-6 mb-3">
+                      <div class="card shadow-sm">
+                        <div class="card-body">
+                          <h5 class="card-title">Contact Attempts</h5>
+                          <p class="card-text">
+                            <canvas id="homepage-chart-contacthistory" width="100%"></canvas>
+                          </p>
                         </div>
                       </div>
                     </div>
 
-                    <div class="row mb-3">
-                      <!--New graphcard-->
-                      <div class="col-sm-6">
-                        <div class="card shadow-sm">
-                          <div class="card-body">
-                            <h5 class="card-title">Shifts</h5>
-                            <p class="card-text">
-                              <canvas id="homepage-chart-signups" width="100%"></canvas>
-                            </p>
-                          </div>
+                    <!--New graphcard-->
+                    <div class="col-sm-6 mb-3">
+                      <div class="card shadow-sm">
+                        <div class="card-body">
+                          <h5 class="card-title">Shifts</h5>
+                          <p class="card-text">
+                            <canvas id="homepage-chart-signups" width="100%"></canvas>
+                          </p>
                         </div>
                       </div>
-                      <!--New graphcard-->
-                      <div class="col-sm-6">
-                        <div class="card shadow-sm">
-                          <div class="card-body">
-                            <h5 class="card-title">New Volunteers (first signup)</h5>
-                            <p class="card-text">
-                              <canvas id="homepage-chart-vanityvolunteers" width="100%"></canvas>
-                            </p>
-                          </div>
+                    </div>
+                    <!--New graphcard-->
+                    <div class="col-sm-6 mb-3">
+                      <div class="card shadow-sm">
+                        <div class="card-body">
+                          <h5 class="card-title">New Volunteers (first signup)</h5>
+                          <p class="card-text">
+                            <canvas id="homepage-chart-vanityvolunteers" width="100%"></canvas>
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -489,7 +487,12 @@
                         <div class="collapse show" id="home-collapse">
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Positive IDs</a>
+                              <a
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                data-chart="positiveids"
+                                >Positive IDs</a
+                              >
                             </li>
                             <li>
                               <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Total IDs</a>
@@ -629,8 +632,7 @@
                     <!--New graphcard-->
                     <div class="card shadow-sm">
                       <div class="card-body">
-                        <h6 class="text-secondary">Positive IDs</h6>
-                        <h3 class="card-title"><b>255</b></h3>
+                        <h4 class="card-title">Positive IDs</h4>
                         <p class="card-text">
                           <canvas id="myChartMetricsPage" width="100%"></canvas>
                         </p>
@@ -1377,6 +1379,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+
+    <!--popper (bundled w jquery)-->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"
       integrity="sha512-6UofPqm0QupIL0kzS/UIzekR73/luZdC6i/kXDbWnLOJoqwklBK6519iUnShaYceJ0y4FaiPtX/hRnV/X/xlUQ=="
@@ -1386,6 +1390,14 @@
 
     <!-- MOMENT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <!--SortableJS-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"
+      integrity="sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
     <!-- FIREBASE -->
     <!--Eventually needs refactoring to v9 SDK-->

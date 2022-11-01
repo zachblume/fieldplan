@@ -352,7 +352,8 @@ nav-tabs nav-link border-bottom rounded-0 {
 }
 
 .card,
-.list-group-item.shadow-sm.border-white {
+.list-group-item.shadow-sm.border-white,
+#metrics-page-container .list-group-item {
   border: 1px solid #efefef !important;
 }
 

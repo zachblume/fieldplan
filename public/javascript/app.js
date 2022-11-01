@@ -109,7 +109,9 @@ function HomePageChartCompose() {
       elements: {
         line: {
           tension: 0,
+          borderWidth: 4,
         },
+        point: { radius: 0 },
       },
       animation: {
         duration: 0,
@@ -129,6 +131,8 @@ function HomePageChartCompose() {
           },
           ticks: {
             autoSkip: true,
+            maxRotation: 0,
+            minRotation: 0,
             font: {
               size: 11,
             },
@@ -233,24 +237,62 @@ async function loadAllGraphDataDirectlyFromIDB() {
   }
 }
 
-function updateSingleChart(graphdata, chartobject) {
-  chartobject.data.labels = graphdata.map((x) => {
-    try {
-      return new Date(x.period.value).toLocaleDateString('en-us', {
-        month: 'short',
-        day: 'numeric',
-      });
-    } catch (error) {
-      console.error(error);
-      return x.period == null ? '' : x.period;
-      // expected output: ReferenceError: nonExistentFunction is not defined
-      // Note - error messages will vary depending on browser
+function updateSingleChart(data, chartobject) {
+  // Pluck data depending on day/week/month in global view settings
+  // do it as a structured clone in order to not screw with things later
+  var chartdata = structuredClone(data[global_period_settings.dayweekmonth]);
+
+  // We'll store good data here as we trasnform it.
+  // b.c. transforming arrays inp-lace using loops means you'll
+  // iterate over gaps you created if you delete keys :(
+  // so we're not doing that
+  var newdata = [];
+
+  // Narrow data to the view settings' time period (start+end)
+  // i.e., copy it if it !ISNT before the .start OR|| after the .end
+  // Confused?! :P lol
+  // p.s. the weird date handling is because one half of data is
+  // flowing from BigQuery TimeStamp and the other
+  // is a Moment() object
+  var sum_of_previous_metrics = 0;
+  Object.entries(chartdata).forEach(([i, entry]) => {
+    if (
+      !(
+        new Date(entry.period.value) < global_period_settings.start.valueOf() ||
+        new Date(entry.period.value) > global_period_settings.end.valueOf()
+      )
+    ) {
+      // Are we talking cumulative bro????
+      if (global_period_settings.cumulative) {
+        // If so, use running sum as the metric to pass.
+        sum_of_previous_metrics += entry.metric;
+        entry.metric = sum_of_previous_metrics;
+
+        // If cumulative, draw lines instead of bars
+        chartobject.config.type = 'line';
+      } else chartobject.config.type = 'bar';
+
+      // It's in the window! Push it!
+      newdata.push(entry);
     }
   });
 
+  graphdata = newdata;
+
+  // Format the bigquery period field correctly
+  // and extract column to chartobject's labels
+  chartobject.data.labels = graphdata.map((x) =>
+    new Date(x.period.value).toLocaleDateString('en-us', {
+      month: 'short',
+      day: 'numeric',
+    })
+  );
+
+  // Copy metric copy into a chart dataset
   chartobject.data.datasets[0].data = graphdata.map((x) => x.metric);
-  chartobject.update();
-  console.log('updated');
+
+  // Push data to charts
+  chartobject.update('none');
 }
 
 HomePageChartCompose();
@@ -259,7 +301,6 @@ HomePageChartCompose();
 
 //global variables
 let currentUser;
-let myChartMetricsPage;
 const STRIPE_PUBLISHABLE_KEY =
   'pk_live_51KdRMYBJeGJY0XUpxLC0ATkmSCI39HdNSTBW7r7dGD1wNTx8lVMQfmxMPMFf0NRIvMiJOGfnu6arDbb4F5Ajdj7N00jYyxsOtO';
 const prices = {};
@@ -548,49 +589,17 @@ async function repaintCharts() {
     var corresponding_chart_exists = element.length > 0;
 
     if (available_metrics.includes(id) && corresponding_chart_exists) {
-      // Pluck data depending on day/week/month in global view settings
-      // do it as a structured clone in order to not screw with things later
-      var chartdata = structuredClone(data[global_period_settings.dayweekmonth]);
-
-      // We'll store good data here as we trasnform it.
-      // b.c. transforming arrays inp-lace using loops means you'll
-      // iterate over gaps you created if you delete keys :(
-      // so we're not doing that
-      var newdata = [];
-
-      // Narrow data to the view settings' time period (start+end)
-      // i.e., copy it if it !ISNT before the .start OR|| after the .end
-      // Confused?! :P lol
-      // p.s. the weird date handling is because one half of data is
-      // flowing from BigQuery TimeStamp and the other
-      // is a Moment() object
-      var sum_of_previous_metrics = 0;
-      Object.entries(chartdata).forEach(([i, entry]) => {
-        if (
-          !(
-            new Date(entry.period.value) < global_period_settings.start.valueOf() ||
-            new Date(entry.period.value) > global_period_settings.end.valueOf()
-          )
-        ) {
-          // Are we talking cumulative bro????
-          // If so, use running sum as the metric to pass.
-          if (global_period_settings.cumulative) {
-            sum_of_previous_metrics += entry.metric;
-            entry.metric = sum_of_previous_metrics;
-          }
-
-          // It's in the window! Push it!
-          newdata.push(entry);
-        }
-      });
-
       // Update the home page chart corresponding to the chart[] entry/object
       // no jquery passed here because we're passing a chart[] Constructor that's linked.
-      updateSingleChart(newdata, chartobject);
+      updateSingleChart(data, chartobject);
     }
   });
 
+  // Populate QL table
   populateQuickLookup();
+
+  // Repaint metrics page chart
+  setMetric(global_metric_page_settings.metric, global_metric_page_settings.title);
 }
 
 /* This moves the google one tap picker to a new location
@@ -629,16 +638,29 @@ $(function () {
 /// CLEAN THIS UP LATER
 ///
 ///
-function setMetric(metricName) {
-  // Set title to metric name
-  $('#title').html(metricName);
+let global_metric_page_settings = {
+  metric: 'positiveids',
+  title: 'Positive IDs',
+  chartObject: {},
+};
+function setMetric(metric, title) {
+  // No way around providing these.
+  if (metric === undefined || !available_metrics.includes(metric))
+    console.error('setMetric() metric not among available_metrics', metric, available_metrics);
+  if (title === undefined) console.error('setMetric() undefined title');
 
-  // Add some fake random data
-  myChartMetricsPage.data.datasets[0].data = [];
-  for (let index = 0; index < 20; index++) {
-    myChartMetricsPage.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 5);
-  }
-  myChartMetricsPage.update();
+  global_metric_page_settings.title = title;
+  global_metric_page_settings.metric = metric;
+
+  // Set title
+  $('#metric-page-title').text(title);
+
+  // Go fetch correct Firestore document of dayweekmonth data
+  // (all together) for right metric
+  var data_to_load = global_data_snapshot[metric];
+
+  // Pass the full Firestore document and chartobject to updateSingleChart()
+  updateSingleChart(data_to_load, global_metric_page_settings.chartObject);
 }
 
 window.addEventListener('DOMContentLoaded', start_up_scripts);
@@ -746,17 +768,12 @@ function start_up_scripts() {
       });
   });
 
-  $(document).ready(function () {
-    cbox = document.querySelectorAll('#metrics-navbar .btn-toggle-nav a');
-    cbox.forEach((box) => {
-      box.addEventListener('mousedown', (event) => {
-        setMetric(event.target.innerText);
-        event.preventDefault();
-        document.querySelectorAll('#metrics-navbar .btn-toggle-nav a').forEach((element) => {
-          $(element).removeClass('bg-dark').removeClass('text-white');
-        });
-        $(event.target).addClass('bg-dark').addClass('text-white');
-      });
+  $(function () {
+    $('#metrics-navbar .btn-toggle-nav a').on('mousedown', (event) => {
+      setMetric(event.target.dataset.chart, event.target.innerText);
+      event.preventDefault();
+      $('#metrics-navbar .btn-toggle-nav a').removeClass('bg-dark').removeClass('text-white');
+      $(event.target).addClass('bg-dark').addClass('text-white');
     });
   });
 
@@ -764,27 +781,23 @@ function start_up_scripts() {
     const chartOptions = {
       type: 'bar',
       data: {
-        labels: [
-          'Apr 11',
-          'Apr 18',
-          'May 10',
-          'May 17',
-          'May 24',
-          'June 5',
-          'Apr 11',
-          'Apr 18',
-          'May 10',
-          'May 17',
-          'May 24',
-          'June 5',
-        ],
+        labels: [],
         datasets: [
           {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              '#0d6efd', //black //?
-            ],
+            //label: 'Metric label',
+            backgroundColor: '#0d6efd', //black //?
+            pointStyle: 'circle',
+            pointRadius: 0,
+            borderColor: '#0d6efd',
+            data: [0, 0],
+            datalabels: {
+              display: true,
+              align: 'top',
+              anchor: 'end',
+              rotation: 0,
+              padding: 0,
+              color: 'black',
+            },
           },
         ],
       },
@@ -797,7 +810,9 @@ function start_up_scripts() {
         elements: {
           line: {
             tension: 0,
+            borderWidth: 5,
           },
+          point: { radius: 0 },
         },
         animation: {
           duration: 0,
@@ -813,7 +828,7 @@ function start_up_scripts() {
         },
         scales: {
           x: {
-            gridLines: {
+            grid: {
               display: false,
             },
           },
@@ -821,14 +836,7 @@ function start_up_scripts() {
       },
     };
 
-    myChartMetricsPage = new Chart(document.getElementById('myChartMetricsPage'), chartOptions);
-
-    // Add some fake random data
-    myChartMetricsPage.data.datasets[0].data = [];
-    for (let index = 0; index < 20; index++) {
-      myChartMetricsPage.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 5);
-    }
-    myChartMetricsPage.update();
+    global_metric_page_settings.chartObject = new Chart($('#metrics-page-container canvas'), chartOptions);
   });
 }
 
@@ -1284,10 +1292,10 @@ function specificJumpToMetricsPage(metric) {
   console.log('specificJumpToMetricsPage', metric);
   // Self explanatory:
   navigatePage('Metrics');
-  setMetric(metric);
+  setMetric(undefined, metric);
 }
 
-$(document).on('mousedown', '.metrics-card-container-clickable .card', function () {
+$(document).on('click', '.metrics-card-container-clickable .card', function () {
   // Get the name of the metric from the title of the card that was clicked on
   var cardMetricTitleContent = $(this).find('.card-title').get()[0].textContent;
 
@@ -1438,3 +1446,9 @@ function eventCallbackChartSettings(event = {}, start = false, end = false) {
   // Now that the settings are updated, repaint the charts
   repaintCharts();
 }
+
+//sortable
+$(function () {
+  var el = document.getElementById('draggable-cards');
+  new Sortable(el, { swapThreshold: 1, group: 'shared', animation: 200 });
+});
