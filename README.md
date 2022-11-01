@@ -1,4 +1,4 @@
-<img src="public/img/FP-Logo-White.svg" width="50%" /></center><img src="public/img/output.gif" width="50%" />
+<img src="public/img/output.gif" width="100%" />
 
 # Field Plan.app
 
