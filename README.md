@@ -1,4 +1,4 @@
-# Field Plan
+# Fieldplan
 
 <a href="https://fieldplan.app"><img src="public/img/homepage_screenshot.png" width="100%" /></a>
 
