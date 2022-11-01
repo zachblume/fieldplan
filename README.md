@@ -1,4 +1,4 @@
-<img src="public/img/output.gif" width="100%" />
+<img src="public/img/homepage_screenshot.png" width="100%" />
 
 # Field Plan.app
 
