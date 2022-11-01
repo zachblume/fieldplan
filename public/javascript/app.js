@@ -1,11 +1,17 @@
 // A list of available chart types
 const available_metrics = [
-  'weeklycontacthistory',
-  'positiveids',
-  'weeklysignups',
-  'vanityvolunteers',
+  'calls',
+  'completeshifts',
+  'contacthistory',
+  'doors',
   'percent_complete',
+  'percent_complete_alltime',
   'positive_id_per_completed_shift',
+  'positiveids',
+  'signups',
+  'surveys',
+  'texts',
+  'vanityvolunteers',
 ];
 
 // This variable maps firestore doc names to home page graph numbers
@@ -207,7 +213,7 @@ async function loadAllGraphDataDirectlyFromIDB() {
             if (doc.parentPath.includes('data')) {
               docName = doc.document.name.split('/').pop();
               resultStringValue = doc.document.fields.resultstring.stringValue;
-              //updateGraph(JSON.parse(resultStringValue), charts[choices[docName]]);
+              //updateSingleChart(resultStringValue, charts[choices[docName]]);
               //^NEEDS UPDATING
               console.timeLog('idb');
             }
@@ -227,9 +233,7 @@ async function loadAllGraphDataDirectlyFromIDB() {
   }
 }
 
-function updateGraph(graphdata, chartobject) {
-  console.log('graphdata', graphdata);
-  console.log('chartobject', chartobject);
+function updateSingleChart(graphdata, chartobject) {
   chartobject.data.labels = graphdata.map((x) => {
     try {
       return new Date(x.period.value).toLocaleDateString('en-us', {
@@ -250,8 +254,7 @@ function updateGraph(graphdata, chartobject) {
 }
 
 HomePageChartCompose();
-//loadAllGraphDataDirectlyFromIDB();
-
+//loadAllGraphDataDirectlyFromIDB();// This is a speedy func but I'm refactoring for error handling
 // END IDB DIRECT ACCESS time saving thing
 
 //global variables
@@ -490,12 +493,19 @@ async function getCustomClaimRole() {
   return decodedToken.claims.stripeRole;
 }
 
+// Isn't the init function anymore, but loads the actual data
+// for display, repaints charts, and setup snapshot handler going foward
 function LoggedInHomePageDisplay() {
-  //db.disableNetwork().then((a) => {
+  //db.disableNetwork().then((a) => { // Some cache stuff I need to refactor
+
+  // DEBUG: timekeeping firestore
   console.log('firestore gets called after', Date.now() - StartTimeLogged);
   console.timeLog();
-  db.collection('data').onSnapshot(loadAllGraphData);
-  /*    .get({ source: 'cache' })
+
+  // Make call to Firestore to load all chart data simultaneously
+  db.collection('data').onSnapshot(loadFirestoreDataToGlobalVariable);
+  /* // Some performance stuff re: the cache that I've turned off in favor of direct IDB, above? Still thinking this through.
+     .get({ source: 'cache' })
     .then(loadAllGraphData)
     .then((a) => {
       db.collection('data').onSnapshot(loadAllGraphData);
@@ -503,34 +513,84 @@ function LoggedInHomePageDisplay() {
   //});
 }
 
-async function loadAllGraphData(querySnapshot) {
+// Storage variable for entire chart data Firestore collection
+var global_data_snapshot = {};
+
+// .then() of db.collection('data') leads here, loads to global variable
+function loadFirestoreDataToGlobalVariable(snapshot) {
+  // DEBUG: timekeeping firestore
   console.log('first firestore response after');
   console.log(Date.now() - StartTimeLogged);
   console.timeLog();
 
-  querySnapshot.forEach((doc) => {
-    // Get the actual firestore document
-    var data = doc.data();
+  // Load the snapshot response to a global variable
+  snapshot.docs.forEach((doc) => {
+    global_data_snapshot[doc.id] = doc.data();
+  });
 
+  // Trigger the chart repaint
+  repaintCharts();
+}
+
+// Repaints all charts (on the home page, for now)
+async function repaintCharts() {
+  // Stop if the snapshot hasn't been populated
+  if (!Object.entries(global_data_snapshot).length) return;
+
+  Object.entries(global_data_snapshot).forEach(([id, data]) => {
     // Assign the chart object to pass to the updater function
-    var chartobject = charts[doc.id];
+    var chartobject = charts[id];
 
-    var selector = '#' + 'homepage-chart-' + doc.id;
+    var selector = '#' + 'homepage-chart-' + id;
     var element = $(selector);
 
     // If a corresponding chart element exists...
     var corresponding_chart_exists = element.length > 0;
 
-    // Update the home page chart corresponding to the object
-    if (available_metrics.includes(doc.id) && corresponding_chart_exists) {
-      console.log('doc.id', doc.id);
-      updateGraph(JSON.parse(data.resultstring), chartobject);
+    if (available_metrics.includes(id) && corresponding_chart_exists) {
+      // Pluck data depending on day/week/month in global view settings
+      // do it as a structured clone in order to not screw with things later
+      var chartdata = structuredClone(data[global_period_settings.dayweekmonth]);
+
+      // We'll store good data here as we trasnform it.
+      // b.c. transforming arrays inp-lace using loops means you'll
+      // iterate over gaps you created if you delete keys :(
+      // so we're not doing that
+      var newdata = [];
+
+      // Narrow data to the view settings' time period (start+end)
+      // i.e., copy it if it !ISNT before the .start OR|| after the .end
+      // Confused?! :P lol
+      // p.s. the weird date handling is because one half of data is
+      // flowing from BigQuery TimeStamp and the other
+      // is a Moment() object
+      var sum_of_previous_metrics = 0;
+      Object.entries(chartdata).forEach(([i, entry]) => {
+        if (
+          !(
+            new Date(entry.period.value) < global_period_settings.start.valueOf() ||
+            new Date(entry.period.value) > global_period_settings.end.valueOf()
+          )
+        ) {
+          // Are we talking cumulative bro????
+          // If so, use running sum as the metric to pass.
+          if (global_period_settings.cumulative) {
+            sum_of_previous_metrics += entry.metric;
+            entry.metric = sum_of_previous_metrics;
+          }
+
+          // It's in the window! Push it!
+          newdata.push(entry);
+        }
+      });
+
+      // Update the home page chart corresponding to the chart[] entry/object
+      // no jquery passed here because we're passing a chart[] Constructor that's linked.
+      updateSingleChart(newdata, chartobject);
     }
-    //if (doc.id in choices)
-    //^ needs to be moved inside updategraph
   });
 
-  populateQuickLookup(querySnapshot);
+  populateQuickLookup();
 }
 
 /* This moves the google one tap picker to a new location
@@ -585,7 +645,7 @@ window.addEventListener('DOMContentLoaded', start_up_scripts);
 function start_up_scripts() {
   //Setup the header daterangepicker, and bind a callback
   $(function () {
-    var start = moment().subtract(29, 'days');
+    var start = moment(0);
     var end = moment();
 
     function reportrange_cb(start, end) {
@@ -602,15 +662,11 @@ function start_up_scripts() {
           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
           'This Month': [moment().startOf('month'), moment().endOf('month')],
           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-          'Last 3 Months': [moment().startOf('month'), moment().endOf('month')],
-          'Last 6 Months': [
-            moment().subtract(1, 'month').startOf('month'),
-            moment().subtract(1, 'month').endOf('month'),
-          ],
-
-          'This Year': [moment(), moment()],
-          'Last Year': [moment(), moment()],
-          'All Time': [moment(), moment()],
+          'Last 3 Months': [moment().startOf('month').subtract(3, 'month'), moment()],
+          'Last 6 Months': [moment().startOf('month').subtract(6, 'month'), moment()],
+          'This Year': [moment().startOf('year'), moment().endOf('year')],
+          'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+          'All Time': [moment(0), moment()],
         },
       },
       reportrange_cb
@@ -1169,27 +1225,26 @@ if (!Array.sum) {
 
 //populate QLup
 let metrics = {};
-function populateQuickLookup(querySnapshot) {
+function populateQuickLookup() {
   metrics = {
     alltime: {},
     today: {},
     yesterday: {},
   };
-  querySnapshot.forEach((doc) => {
-    var data = doc.data();
+
+  if (!Object.entries(global_data_snapshot).length) return;
+  Object.entries(global_data_snapshot).forEach(([id, data]) => {
     //alltime
-    metrics.alltime[doc.id] = JSON.parse(data.resultstring)
-      .map((a) => a.metric)
-      .sum();
+    metrics.alltime[id] = data.weekly.map((a) => a.metric).sum();
   });
-  console.log('metrics.alltime', metrics.alltime);
-  $('#ql-display li:contains("Positive") b').html(metrics.alltime.weeklypositiveids.toLocaleString());
-  $('#ql-display li:contains("Shifts Complete") b').html(metrics.alltime.weeklycompleteshifts.toLocaleString());
-  $('#ql-display li:contains("Doors") b').html(metrics.alltime.weeklydoors.toLocaleString());
-  $('#ql-display li:contains("Calls") b').html(metrics.alltime.weeklycalls.toLocaleString());
-  $('#ql-display li:contains("Texts") b').html(metrics.alltime.weeklytexts.toLocaleString());
+  //console.log('metrics.alltime', metrics.alltime);
+  $('#ql-display li:contains("Positive") b').html(metrics.alltime.positiveids.toLocaleString());
+  $('#ql-display li:contains("Shifts Complete") b').html(metrics.alltime.completeshifts.toLocaleString());
+  $('#ql-display li:contains("Doors") b').html(metrics.alltime.doors.toLocaleString());
+  $('#ql-display li:contains("Calls") b').html(metrics.alltime.calls.toLocaleString());
+  $('#ql-display li:contains("Texts") b').html(metrics.alltime.texts.toLocaleString());
   $('#ql-display li:contains("% Shift Completion") b').html(metrics.alltime.percent_complete_alltime * 100 + '%');
-  $('#ql-display li:contains("Scheduled") b').html(metrics.alltime.weeklysignups.toLocaleString());
+  $('#ql-display li:contains("Scheduled") b').html(metrics.alltime.signups.toLocaleString());
 }
 
 async function progressRampFormTable(snapshot) {
@@ -1353,37 +1408,33 @@ function updateUsersTable(querySnapshot) {
 
 let global_period_settings = {
   cumulative: false,
-  dayweekmonth: 'week',
+  dayweekmonth: 'weekly',
   start: Date.now(),
   end: Date.now(),
 };
-
-function handleChartPeriodSettings(serializedFormObject) {
-  // Handle income form data
-  var settings = serializedFormObject;
-
-  // Enumerate each setting to variable
-  var cumulative = settings.cumulative;
-  var dayweekmonth = settings.dayweekmonth;
-  var start = settings.start;
-  var end = settings.end;
-
-  //
-}
 
 // Place event handlers for header config bar
 $(setupChartSettingEventHandlers);
 function setupChartSettingEventHandlers() {
   // Place a inputchange binding on the cumulative and dayweekmonth switch/radio inputs
   $('header input').bind('input', eventCallbackChartSettings);
+  // The daterangepicker is not a input, but its own callback calls eventCallbackChartSettings
 }
+
+// Handles view setting changes by publishing them to global var and repainting
 function eventCallbackChartSettings(event = {}, start = false, end = false) {
   //console.log('eventCallbackChartPeriodSettings');
   //console.log('event', event);
 
   global_period_settings.cumulative = $('#flexSwitchCheckDefault').is(':checked');
-  global_period_settings.dayweekmonth = $('#dayweekmonth input[type="radio"]:checked').prop('id');
+  var dayweekmonth = $('#dayweekmonth input[type="radio"]:checked').prop('id').toLowerCase();
+  global_period_settings.dayweekmonth =
+    dayweekmonth == 'day' ? 'daily' : dayweekmonth == 'month' ? 'monthly' : 'weekly';
+  $('#dayweekmonth input[type="radio"]:checked').prop('id');
   if (start) global_period_settings.start = start;
   if (end) global_period_settings.end = end;
   console.log(global_period_settings);
+
+  // Now that the settings are updated, repaint the charts
+  repaintCharts();
 }

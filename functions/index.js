@@ -26,49 +26,49 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
     total_contact_attempts: {
       metric: 'count(*)',
       table: 'contacthistory_with_joins',
-      doctitle: 'weeklycontacthistory',
+      doctitle: 'contacthistory',
       datecolumn: 'DateCanvassed',
     },
     doors: {
       metric: 'count(*)',
       table: 'contacthistory_with_joins WHERE contactType LIKE "%Walk%"',
-      doctitle: 'weeklydoors',
+      doctitle: 'doors',
       datecolumn: 'DateCanvassed',
     },
     calls: {
       metric: 'count(*)',
       table: 'contacthistory_with_joins WHERE contactType LIKE "%Phone%"',
-      doctitle: 'weeklycalls',
+      doctitle: 'calls',
       datecolumn: 'DateCanvassed',
     },
     texts: {
       metric: 'count(*)',
       table: 'contacthistory_with_joins WHERE contactType LIKE "%SMS%"',
-      doctitle: 'weeklytexts',
+      doctitle: 'texts',
       datecolumn: 'DateCanvassed',
     },
     total_survey_attempts: {
       metric: 'count(DISTINCT VanID)',
       table: 'ContactsSurveyResponses WHERE surveyQuestionID=469152',
-      doctitle: 'weeklysurveys',
+      doctitle: 'surveys',
       datecolumn: 'DateCanvassed',
     },
     positiveids: {
       metric: 'count(DISTINCT VanID)',
       table: 'ContactsSurveyResponses WHERE surveyResponseID=1911988 OR surveyResponseID=1911989',
-      doctitle: 'weeklypositiveids',
+      doctitle: 'positiveids',
       datecolumn: 'DateCanvassed',
     },
     total_shifts: {
       metric: 'count(*)',
       table: 'signups_joined_events',
-      doctitle: 'weeklysignups',
+      doctitle: 'signups',
       datecolumn: 'startDate',
     },
     total_complete_shifts: {
       metric: 'count(*)',
       table: 'signups_joined_events WHERE statusName="Completed"',
-      doctitle: 'weeklycompleteshifts',
+      doctitle: 'completeshifts',
       datecolumn: 'startDate',
     },
     percent_complete: {
@@ -266,16 +266,65 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       ORDER BY
         period ASC
   `;
+      // weekly query
       briefquery(query).then(([rows]) => {
-        console.log(rows);
-        const resultstring = JSON.stringify(rows);
+        // console.log(rows);
+        const result = JSON.parse(JSON.stringify(rows));
         db.collection('data')
           .doc(doctitle)
-          .set({
-            resultstring,
+          .set(
+            {
+              weekly: result,
+            },
+            // Don't overwrite doc, only fields!
+            { merge: true }
+          )
+          .then((res) => {
+            console.log(doctitle + ' successfully written! (weekly)');
           })
-          .then(() => {
-            console.log('Document successfully written!');
+          .catch((error) => {
+            response.send('Error writing document: ', error);
+          });
+      });
+
+      // monthly query
+      const monthlyquery = query.replace('ISOWEEK', 'MONTH');
+      briefquery(monthlyquery).then(([rows]) => {
+        // console.log(rows);
+        const result = JSON.parse(JSON.stringify(rows));
+        db.collection('data')
+          .doc(doctitle)
+          .set(
+            {
+              monthly: result,
+            },
+            // Don't overwrite doc, only fields!
+            { merge: true }
+          )
+          .then((res) => {
+            console.log(doctitle + ' successfully written! (monthly)');
+          })
+          .catch((error) => {
+            response.send('Error writing document: ', error);
+          });
+      });
+
+      // daily query
+      const dailyquery = query.replace('ISOWEEK', 'DAY');
+      briefquery(dailyquery).then(([rows]) => {
+        // console.log(rows);
+        const result = JSON.parse(JSON.stringify(rows));
+        db.collection('data')
+          .doc(doctitle)
+          .set(
+            {
+              daily: result,
+            },
+            // Don't overwrite doc, only fields!
+            { merge: true }
+          )
+          .then((res) => {
+            console.log(doctitle + ' successfully written! (daily)');
           })
           .catch((error) => {
             response.send('Error writing document: ', error);
