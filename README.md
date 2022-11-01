@@ -2,7 +2,7 @@
 
 # Field Plan.app
 
-Live demo: https://fieldplan.app
+<b>Live demo: https://fieldplan.app</b>
 
 A dashboard for field directors, campaign managers, and field organizers to see progress to goal on their field program.
 
