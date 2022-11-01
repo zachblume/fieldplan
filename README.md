@@ -1,4 +1,8 @@
-![Logo](public/img/FP-Logo-White.svg)
+<img src="public/img/FP-Logo-White.svg" width="50%" />
+
+# We love a GIF!
+
+<img src="public/img/output.gif" width="50%" />
 
 # Field Plan.app
 
