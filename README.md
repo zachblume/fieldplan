@@ -1,8 +1,4 @@
-<center><img src="public/img/FP-Logo-White.svg" width="50%" /></center>
-
-# We love a GIF!
-
-<center><img src="public/img/output.gif" width="50%" /></center>
+<img src="public/img/FP-Logo-White.svg" width="50%" /></center><img src="public/img/output.gif" width="50%" />
 
 # Field Plan.app
 
