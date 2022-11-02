@@ -3,7 +3,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol' !important;
   margin: 0;
-  font-size: 18px !important;
+  font-size: 17px !important;
 
   --logocolor: #0d6efd;
 }
@@ -156,6 +156,10 @@ button:disabled {
   padding: 0.45em 0.6em !important;
   margin-left: 0.5em;
   border-radius: 0.4em;
+}
+
+#drp-container {
+  margin-right: 0.4rem !important;
 }
 
 .ranges,

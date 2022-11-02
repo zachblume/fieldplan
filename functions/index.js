@@ -59,6 +59,40 @@ exports.GetData = functions.https.onRequest(async (request, response) => {
       doctitle: 'positiveids',
       datecolumn: 'DateCanvassed',
     },
+    totalids: {
+      metric: 'count(DISTINCT VanID)',
+      table: 'ContactsSurveyResponses',
+      doctitle: 'totalids',
+      datecolumn: 'DateCanvassed',
+    },
+    positiveidsdoors: {
+      metric: 'count(DISTINCT VanID)',
+      table:
+        'ContactsSurveyResponses_with_joins WHERE (surveyResponseID=1911988 OR surveyResponseID=1911989) AND contactType LIKE "%Walk%"',
+      doctitle: 'positiveids-doors',
+      datecolumn: 'DateCanvassed',
+    },
+    positiveidsphones: {
+      metric: 'count(DISTINCT VanID)',
+      table:
+        'ContactsSurveyResponses_with_joins WHERE (surveyResponseID=1911988 OR surveyResponseID=1911989) AND contactType LIKE "%Phone%"',
+      doctitle: 'positiveids-phones',
+      datecolumn: 'DateCanvassed',
+    },
+    positiveidstexts: {
+      metric: 'count(DISTINCT VanID)',
+      table:
+        'ContactsSurveyResponses_with_joins WHERE (surveyResponseID=1911988 OR surveyResponseID=1911989) AND contactType LIKE "%SMS%"',
+      doctitle: 'positiveids-texts',
+      datecolumn: 'DateCanvassed',
+    },
+    positiveidsrelational: {
+      metric: 'count(DISTINCT VanID)',
+      table:
+        'ContactsSurveyResponses_with_joins WHERE (surveyResponseID=1911988 OR surveyResponseID=1911989) AND contactType LIKE "%Relational%"',
+      doctitle: 'positiveids-relational',
+      datecolumn: 'DateCanvassed',
+    },
     total_shifts: {
       metric: 'count(*)',
       table: 'signups_joined_events',

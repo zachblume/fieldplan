@@ -117,13 +117,13 @@
         <!-- BEGIN
          Sidebar -->
         <nav
-          class="px-2 py-0 container-fluid navbar d-flex text-center bg-white border-end col-12 border-bottom"
+          class="px-3 py-0 container-fluid navbar d-flex text-center bg-white border-end col-12 border-bottom"
           id="navbar"
         >
           <div class="brand mt-md-1">
             <a href="#" class="align-items-center mb-2 d-block pt-1 navigate-home">
-              <img src="img/squarelogo.png" height="40" class="d-inline-block align-text-top text-center my-1" />
-              <img src="img/text.png" height="40" class="d-inline-block align-text-top text-center my-1 pt-1 ps-2" />
+              <img src="img/squarelogo.png" height="38" class="d-inline-block align-text-top text-center my-1" />
+              <img src="img/text.png" height="38" class="d-inline-block align-text-top text-center my-1 pt-1 ps-2" />
             </a>
           </div>
 
@@ -151,7 +151,7 @@
             </li>
           </ul>
 
-          <div class="dropdown p-3">
+          <div class="dropdown py-3">
             <a
               href="#"
               class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
@@ -185,7 +185,7 @@
          Main block -->
         <main
           id="page-content-wrapper"
-          class="p-3 py-0 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12"
+          class="p-4 py-0 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12"
         >
           <!-- START
          Header -->
@@ -378,9 +378,9 @@
                     </div>
                   </div>
                   <!--Column for metric cards-->
-                  <div class="col-sm-9 metrics-card-container-clickable row" id="draggable-cards">
+                  <div class="col-sm-9 metrics-card-container-clickable row me-0 pe-0 ps-4" id="draggable-cards">
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-6 mb-3 ms-0 ps-0">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="positiveids" class="card-title d-flex justify-content-between">
@@ -399,7 +399,7 @@
                       </div>
                     </div>
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-6 mb-3 me-0 pe-0">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="contacthistory" class="card-title d-flex justify-content-between">
@@ -418,7 +418,7 @@
                     </div>
 
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-6 mb-3 ms-0 ps-0">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="completeshifts" class="card-title d-flex justify-content-between">
@@ -436,7 +436,7 @@
                       </div>
                     </div>
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-sm-6 mb-3 me-0 pe-0">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="vanityvolunteers" class="card-title d-flex justify-content-between">
@@ -532,22 +532,33 @@
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
                               <a
+                                data-chart="positiveids"
                                 href="#"
                                 class="link-dark d-inline-flex text-decoration-none rounded"
-                                data-chart="positiveids"
                                 >Positive IDs</a
                               >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Total IDs</a>
+                              <a
+                                data-chart="totalids"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Total IDs</a
+                              >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
+                              <a
+                                data-chart="completeshifts"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
                                 >Completed Shifts</a
                               >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
+                              <a
+                                data-chart="signups"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
                                 >Newly Scheduled Shifts</a
                               >
                             </li>
@@ -567,21 +578,41 @@
                         <div class="collapse show" id="dashboard-collapse">
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
+                              <a
+                                data-chart="contacthistory"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
                                 >All Tactics (aggregated)</a
                               >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
+                              <a
+                                data-chart="doors"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
+                              >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
+                              <a
+                                data-chart="calls"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phone Calls</a
+                              >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
+                              <a
+                                data-chart="texts"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts Sent</a
+                              >
                             </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
+                            <li class="disabled text-secondary">
+                              <a href="#" class="disabled text-secondary d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
                             </li>
                           </ul>
                         </div>
@@ -593,52 +624,41 @@
                           data-bs-target="#orders-collapse"
                           aria-expanded="false"
                         >
-                          IDs + Positive ID's
+                          Positive ID by tactic
                         </button>
                         <div class="collapse show" id="orders-collapse">
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded"
-                                >All Tactics (aggregated)</a
+                              <a
+                                data-chart="positiveids-doors"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Doorknocks</a
                               >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
+                              <a
+                                data-chart="positiveids-phones"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Phones</a
+                              >
                             </li>
                             <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
+                              <a
+                                data-chart="positiveids-texts"
+                                href="#"
+                                class="link-dark d-inline-flex text-decoration-none rounded"
+                                >Texts</a
+                              >
                             </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li class="mb-3 list-group-item shadow-sm">
-                        <button
-                          class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#account-collapse"
-                          aria-expanded="false"
-                        >
-                          Contact Rates
-                        </button>
-                        <div class="collapse show" id="account-collapse">
-                          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Doorknocks</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Phone Calls</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Texts Sent</a>
-                            </li>
-                            <li>
-                              <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Relational</a>
+                            <li class="disabled text-secondary">
+                              <a
+                                data-chart="positiveids-relational"
+                                href="#"
+                                class="disabled text-secondary link-dark d-inline-flex text-decoration-none rounded"
+                                >Relational</a
+                              >
                             </li>
                           </ul>
                         </div>
@@ -681,35 +701,37 @@
                         <p class="card-text">
                           <canvas id="myChartMetricsPage" width="100%"></canvas>
                         </p>
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Drilldown</th>
-                              <th scope="col">Apr 13</th>
-                              <th scope="col">Apr 20</th>
-                              <th scope="col">Apr 27</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <th scope="row">Drilldown</th>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">drilldown</th>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Total</th>
-                              <td colspan="2">Larry the Bird</td>
-                              <td>@twitter</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <div id="metrics-page-table-container">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Drilldown</th>
+                                <th scope="col">Apr 13</th>
+                                <th scope="col">Apr 20</th>
+                                <th scope="col">Apr 27</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">Drilldown</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">drilldown</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Total</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>@twitter</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

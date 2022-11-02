@@ -8,10 +8,15 @@ const available_metrics = [
   'percent_complete_alltime',
   'positive_id_per_completed_shift',
   'positiveids',
+  'totalids',
   'signups',
   'surveys',
   'texts',
   'vanityvolunteers',
+  'positiveids-doors',
+  'positiveids-phones',
+  'positiveids-texts',
+  'positiveids-relational',
 ];
 
 // This variable maps firestore doc names to home page graph numbers
@@ -798,7 +803,7 @@ function start_up_scripts() {
               anchor: 'end',
               rotation: 0,
               padding: 0,
-              color: 'black',
+              color: '#ccc',
             },
           },
         ],
@@ -1477,4 +1482,30 @@ function downloadChart(chartobject) {
 // Should be called by the repainter
 function updateMetricsPageTable(data) {
   console.log('updateMetricsPageTable()');
+
+  // Go fetch correct Firestore document of dayweekmonth data
+  // (all together) for _globally set_ metric
+  var doc = global_data_snapshot[global_metric_page_settings.metric];
+  var data_to_load = doc[global_period_settings.dayweekmonth];
+
+  data_to_load = data_to_load.map((x) => ({
+    period: new Date(x.period.value).toLocaleDateString('en-us', {
+      month: 'short',
+      day: 'numeric',
+    }),
+    metric: x.metric,
+  }));
+
+  console.log('data_to_load', data_to_load);
+
+  // Generate the table
+  $('#metrics-page-container table.table').html(ConvertJsonToTable(transposeTable(data_to_load), '', null, 'Download'));
+  $('<style>')
+    .prop('type', 'text/css')
+    .html(
+      `
+      #metrics-page-table-container {width:100%;overflow:scroll;font-size:.8rem;}
+      `
+    )
+    .appendTo('head');
 }
