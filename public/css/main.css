@@ -496,3 +496,12 @@ body.not-logged-in #login-top > div {
     padding-bottom: 0 !important;
   }
 }
+
+/*hoverable tools for chart card*/
+.show-on-hover {
+  opacity: 0;
+  transition: opacity 250ms ease-out 100ms;
+}
+.card:hover .show-on-hover {
+  opacity: 1;
+}

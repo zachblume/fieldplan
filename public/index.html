@@ -192,9 +192,7 @@
           <header class="container mt-4">
             <!--heading bar and controls-->
             <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
-              <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="metric-page-title">
-                Obama for Congress
-              </h1>
+              <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
 
               <div class="form-check form-switch mb-3 flex-grow-1 ms-3 mt-1 show-on-ramp-page">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
@@ -385,7 +383,15 @@
                     <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
-                          <h5 class="card-title">Positive IDs</h5>
+                          <h5 data-chart="positiveids" class="card-title d-flex justify-content-between">
+                            Positive IDs
+                            <span style="font-size: 0.75rem">
+                              <i class="show-on-hover bi bi-download pt-1 pe-2"></i>
+                              <i class="show-on-hover bi bi-arrows-angle-expand pt-1 pe-1"></i>
+                              <i class="show-on-hover bi bi-arrows-move pt-1 pe-1"></i>
+                            </span>
+                            <style></style>
+                          </h5>
                           <p class="card-text">
                             <canvas id="homepage-chart-positiveids" width="100%"></canvas>
                           </p>
@@ -396,7 +402,14 @@
                     <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
-                          <h5 class="card-title">Contact Attempts</h5>
+                          <h5 data-chart="contacthistory" class="card-title d-flex justify-content-between">
+                            Contact Attempts
+                            <span style="font-size: 0.75rem">
+                              <i class="show-on-hover bi bi-download pt-1 pe-2"></i>
+                              <i class="show-on-hover bi bi-arrows-angle-expand pt-1 pe-1"></i>
+                              <i class="show-on-hover bi bi-arrows-move pt-1 pe-1"></i>
+                            </span>
+                          </h5>
                           <p class="card-text">
                             <canvas id="homepage-chart-contacthistory" width="100%"></canvas>
                           </p>
@@ -408,7 +421,14 @@
                     <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
-                          <h5 class="card-title">Shifts</h5>
+                          <h5 data-chart="completeshifts" class="card-title d-flex justify-content-between">
+                            Shifts
+                            <span style="font-size: 0.75rem">
+                              <i class="show-on-hover bi bi-download pt-1 pe-2"></i>
+                              <i class="show-on-hover bi bi-arrows-angle-expand pt-1 pe-1"></i>
+                              <i class="show-on-hover bi bi-arrows-move pt-1 pe-1"></i>
+                            </span>
+                          </h5>
                           <p class="card-text">
                             <canvas id="homepage-chart-signups" width="100%"></canvas>
                           </p>
@@ -419,7 +439,14 @@
                     <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
-                          <h5 class="card-title">New Volunteers (first signup)</h5>
+                          <h5 data-chart="vanityvolunteers" class="card-title d-flex justify-content-between">
+                            New Volunteers (first signup)
+                            <span style="font-size: 0.75rem">
+                              <i class="show-on-hover bi bi-download pt-1 pe-2"></i>
+                              <i class="show-on-hover bi bi-arrows-angle-expand pt-1 pe-1"></i>
+                              <i class="show-on-hover bi bi-arrows-move pt-1 pe-1"></i>
+                            </span>
+                          </h5>
                           <p class="card-text">
                             <canvas id="homepage-chart-vanityvolunteers" width="100%"></canvas>
                           </p>
@@ -434,7 +461,14 @@
                   <div class="col-sm-6">
                     <div class="card shadow-sm">
                       <div class="card-body">
-                        <h5 class="card-title">Shift Complete Rate</h5>
+                        <h5 data-chart="percent_complete" class="card-title d-flex justify-content-between">
+                          Shift Complete Rate
+                          <span style="font-size: 0.75rem">
+                            <i class="show-on-hover bi bi-download pt-1 pe-2"></i>
+                            <i class="show-on-hover bi bi-arrows-angle-expand pt-1 pe-1"></i>
+                            <i class="show-on-hover bi bi-arrows-move pt-1 pe-1"></i>
+                          </span>
+                        </h5>
 
                         <p class="card-text">
                           <canvas id="homepage-chart-percent_complete" width="100%"></canvas>
@@ -446,7 +480,17 @@
                   <div class="col-sm-6">
                     <div class="card shadow-sm">
                       <div class="card-body">
-                        <h5 class="card-title">Positive ID/shift</h5>
+                        <h5
+                          data-chart="positive_id_per_completed_shift"
+                          class="card-title d-flex justify-content-between"
+                        >
+                          Positive ID/shift
+                          <span style="font-size: 0.75rem">
+                            <i class="show-on-hover bi bi-download pt-1 pe-2"></i>
+                            <i class="show-on-hover bi bi-arrows-angle-expand pt-1 pe-1"></i>
+                            <i class="show-on-hover bi bi-arrows-move pt-1 pe-1"></i>
+                          </span>
+                        </h5>
 
                         <p class="card-text">
                           <canvas id="homepage-chart-positive_id_per_completed_shift" width="100%"></canvas>
@@ -632,7 +676,8 @@
                     <!--New graphcard-->
                     <div class="card shadow-sm">
                       <div class="card-body">
-                        <h4 class="card-title">Positive IDs</h4>
+                        <!--no title, its above-->
+                        <!--<h4 class="card-title">Positive IDs</h4>-->
                         <p class="card-text">
                           <canvas id="myChartMetricsPage" width="100%"></canvas>
                         </p>

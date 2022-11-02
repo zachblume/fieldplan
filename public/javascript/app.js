@@ -599,7 +599,10 @@ async function repaintCharts() {
   populateQuickLookup();
 
   // Repaint metrics page chart
-  setMetric(global_metric_page_settings.metric, global_metric_page_settings.title);
+  setMetric(global_metric_page_settings.metric);
+
+  // Repaint metrics page table
+  updateMetricsPageTable();
 }
 
 /* This moves the google one tap picker to a new location
@@ -647,13 +650,12 @@ function setMetric(metric, title) {
   // No way around providing these.
   if (metric === undefined || !available_metrics.includes(metric))
     console.error('setMetric() metric not among available_metrics', metric, available_metrics);
-  if (title === undefined) console.error('setMetric() undefined title');
 
   global_metric_page_settings.title = title;
   global_metric_page_settings.metric = metric;
 
   // Set title
-  $('#metric-page-title').text(title);
+  if (title != undefined) $('#title').text(title);
 
   // Go fetch correct Firestore document of dayweekmonth data
   // (all together) for right metric
@@ -1288,19 +1290,21 @@ function navigatePage(page) {
   else $('header>div *:not(h1)').show();
 }
 
-function specificJumpToMetricsPage(metric) {
+function specificJumpToMetricsPage(metric, title) {
   console.log('specificJumpToMetricsPage', metric);
   // Self explanatory:
   navigatePage('Metrics');
-  setMetric(undefined, metric);
+  setMetric(metric, title);
 }
 
 $(document).on('click', '.metrics-card-container-clickable .card', function () {
   // Get the name of the metric from the title of the card that was clicked on
   var cardMetricTitleContent = $(this).find('.card-title').get()[0].textContent;
 
+  var cardMetricDataAttr = $(this).find('.card-title').attr('data-chart');
+
   // Navigate to the metrics page and set the chart view to that
-  specificJumpToMetricsPage(cardMetricTitleContent);
+  specificJumpToMetricsPage(cardMetricDataAttr, cardMetricTitleContent);
 });
 
 // Setting page code
@@ -1452,3 +1456,25 @@ $(function () {
   var el = document.getElementById('draggable-cards');
   new Sortable(el, { swapThreshold: 1, group: 'shared', animation: 200 });
 });
+
+// This function is placeholder code for returning a png of chart.js
+function downloadChart(chartobject) {
+  chart_variable.options.title.text = 'New Chart Title';
+  chart_variable.update({
+    duration: 0,
+  });
+  var link = document.createElement('a');
+  link.href = chart_variable.toBase64Image();
+  link.download = 'myImage.png';
+  link.click();
+  chart_variable.options.title.text = 'Chart Title';
+  chart_variable.update({
+    duration: 0,
+  });
+}
+
+// Update metrics page table
+// Should be called by the repainter
+function updateMetricsPageTable(data) {
+  console.log('updateMetricsPageTable()');
+}
