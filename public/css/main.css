@@ -553,3 +553,36 @@ header .btn.btn-outline-secondary.bg-white {
 header .btn.btn-outline-secondary.bg-white:hover {
   background: #6c757d !important;
 }
+
+/*fix draggable issue*/
+#v-pills-home > div.container {
+  padding-right: 0 !important;
+}
+
+/*fix header color agreement*/
+
+header #reportrange,
+header #reportrange *,
+#shareButton:not(:hover),
+header .form-check-label,
+.btn-group,
+.btn-group :not(:checked) + .btn {
+  border-color: #808080 !important;
+  color: #808080 !important;
+}
+header #reportrange,
+header #reportrange *,
+#shareButton:not(:hover),
+header .form-check-label,
+.btn-group,
+.btn-group *:not(:checked) + .btn {
+  background: inherit !important;
+}
+.btn-group *:checked + .btn {
+  background: #808080 !important;
+  border-color: #808080 !important;
+}
+
+.form-switch .form-check-input {
+  /background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='%237c858d'/></svg>") !important;
+}

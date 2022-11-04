@@ -206,8 +206,17 @@
 
               <!--share-->
               <div class="d-flex hide-on-ramp-page me-3">
-                <button class="btn btn-outline-secondary bg-white"><i class="bi bi-link"></i> Share</button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  id="shareButton"
+                >
+                  <i class="bi bi-link"></i> Share
+                </button>
               </div>
+
               <!--cumulative-->
               <div class="d-flex hide-on-ramp-page me-2">
                 <div class="form-check form-switch me-2">
@@ -381,9 +390,9 @@
                     </div>
                   </div>
                   <!--Column for metric cards-->
-                  <div class="col-sm-9 metrics-card-container-clickable row me-0 pe-0 ps-4" id="draggable-cards">
+                  <div class="col-sm-9 metrics-card-container-clickable row me-0 pe-0" id="draggable-cards">
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3 ms-0 ps-0">
+                    <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="positiveids" class="card-title d-flex justify-content-between">
@@ -402,7 +411,7 @@
                       </div>
                     </div>
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3 me-0 pe-0">
+                    <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="contacthistory" class="card-title d-flex justify-content-between">
@@ -421,7 +430,7 @@
                     </div>
 
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3 ms-0 ps-0">
+                    <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="completeshifts" class="card-title d-flex justify-content-between">
@@ -439,7 +448,7 @@
                       </div>
                     </div>
                     <!--New graphcard-->
-                    <div class="col-sm-6 mb-3 me-0 pe-0">
+                    <div class="col-sm-6 mb-3">
                       <div class="card shadow-sm">
                         <div class="card-body">
                           <h5 data-chart="vanityvolunteers" class="card-title d-flex justify-content-between">
@@ -1584,5 +1593,58 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!-- Share Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Share chart(s)</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h3>Copy direct link</h3>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="http://fieldplan.app/share/35645hyiu45t"
+                aria-label="http://fieldplan.app/share/35645hyiu45t"
+                aria-describedby="button-addon2"
+                disabled
+              />
+              <button class="btn btn-outline-primary" type="button" id="button-addon2">Copy</button>
+            </div>
+
+            <h3>Send link via sms / slack</h3>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="347 555 5555"
+                aria-label="347 555 5555"
+                aria-describedby="button-addon2"
+              />
+              <button class="btn btn-outline-primary" type="button" id="button-addon2">Send</button>
+            </div>
+
+            <h3>Send email report</h3>
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="recipient@gmail.com"
+                aria-label="recipient@gmail.com"
+                aria-describedby="button-addon2"
+              />
+              <button class="btn btn-outline-primary" type="button" id="button-addon2">Send</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
