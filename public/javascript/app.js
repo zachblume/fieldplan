@@ -1507,3 +1507,18 @@ function updateMetricsPageTable(data) {
   // Generate the table
   $('#metrics-page-container table.table').html(ConvertJsonToTable(transposeTable(data_to_load), '', null, 'Download'));
 }
+
+// Implement simple metrics search
+$(function () {
+  jQuery.expr[':'].icontains = function (a, i, m) {
+    return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+  };
+  $('#autocomplete').on('input', autocompleteCB);
+});
+
+function autocompleteCB(event) {
+  console.log(this.value);
+  $('#metrics-navbar li li').show();
+  $('#metrics-navbar li li:not(:icontains("' + this.value + '"))').hide();
+  $('#metrics-navbar button:icontains("' + this.value + '")+div li').show();
+}
