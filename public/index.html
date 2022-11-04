@@ -535,7 +535,7 @@
                 <div class="row mb-0 mt-3">
                   <div class="col-sm-2">
                     <ul class="list-group ps-0" id="metrics-navbar">
-                      <div id="autocomplete" class="mb-3"></div>
+                      <div id="autocomplete" class="my-3"></div>
 
                       <li class="mb-3 list-group-item shadow-sm">
                         <button
@@ -1601,19 +1601,44 @@
     />
 
     <!--algolia search autocomplete.js-->
-    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
     <script>
       const { autocomplete } = window['@algolia/autocomplete-js'];
       autocomplete({
         container: '#autocomplete',
         placeholder: 'Search metrics',
         getSources() {
-          return [];
+          return [
+            {
+              sourceId: 'links',
+              getItems({ query }) {
+                let items = [
+                  { label: 'Twitter', url: 'https://twitter.com' },
+                  { label: 'GitHub', url: 'https://github.com' },
+                ];
+
+                items = {};
+
+                $()
+
+                return items.filter(({ label }) => label.toLowerCase().includes(query.toLowerCase()));
+              },
+              getItemUrl({ item }) {
+                return item.url;
+              },
+              templates: {
+                item({ item }) {
+                  return item.label;
+                },
+              },
+            },
+          ];
         },
       });
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic" defer />
 
+  -->
     <!-- Share Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
