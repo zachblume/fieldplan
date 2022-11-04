@@ -593,9 +593,11 @@ header .form-check-label,
   border-color: #808080 !important;
 }
 
+/* dont change color of switch inside circle graphic
 .form-switch .form-check-input {
   /background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='%237c858d'/></svg>") !important;
 }
+*/
 
 #metrics-page-table-container td:first-child,
 #metrics-page-table-container th:first-child {
