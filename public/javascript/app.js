@@ -247,42 +247,9 @@ function updateSingleChart(data, chartobject) {
   // do it as a structured clone in order to not screw with things later
   var chartdata = structuredClone(data[global_period_settings.dayweekmonth]);
 
-  // We'll store good data here as we trasnform it.
-  // b.c. transforming arrays inp-lace using loops means you'll
-  // iterate over gaps you created if you delete keys :(
-  // so we're not doing that
-  var newdata = [];
+  var { graphdata, chartobject } = modifyDataCumulativeAndTimePeriod(chartdata, chartobject);
 
-  // Narrow data to the view settings' time period (start+end)
-  // i.e., copy it if it !ISNT before the .start OR|| after the .end
-  // Confused?! :P lol
-  // p.s. the weird date handling is because one half of data is
-  // flowing from BigQuery TimeStamp and the other
-  // is a Moment() object
-  var sum_of_previous_metrics = 0;
-  Object.entries(chartdata).forEach(([i, entry]) => {
-    if (
-      !(
-        new Date(entry.period.value) < global_period_settings.start.valueOf() ||
-        new Date(entry.period.value) > global_period_settings.end.valueOf()
-      )
-    ) {
-      // Are we talking cumulative bro????
-      if (global_period_settings.cumulative) {
-        // If so, use running sum as the metric to pass.
-        sum_of_previous_metrics += entry.metric;
-        entry.metric = sum_of_previous_metrics;
-
-        // If cumulative, draw lines instead of bars
-        chartobject.config.type = 'line';
-      } else chartobject.config.type = 'bar';
-
-      // It's in the window! Push it!
-      newdata.push(entry);
-    }
-  });
-
-  graphdata = newdata;
+  console.log('graphdata', graphdata);
 
   // Format the bigquery period field correctly
   // and extract column to chartobject's labels
@@ -298,6 +265,50 @@ function updateSingleChart(data, chartobject) {
 
   // Push data to charts
   chartobject.update('none');
+}
+
+function modifyDataCumulativeAndTimePeriod(chartdata, chartobject) {
+  // We'll store good data here as we trasnform it.
+  // b.c. transforming arrays inp-lace using loops means you'll
+  // iterate over gaps you created if you delete keys :(
+  // so we're not doing that
+  var newdata = [];
+
+  // Narrow data to the view settings' time period (start+end)
+  // i.e., copy it if it !ISNT before the .start OR|| after the .end
+  // Confused?! :P lol
+  // p.s. the weird date handling is because one half of data is
+  // flowing from BigQuery TimeStamp and the other
+  // is a Moment() object
+  sum_of_previous_metrics = 0;
+  Object.entries(chartdata).forEach(([i, entry]) => {
+    var newentry = structuredClone(entry);
+    if (
+      !(
+        new Date(entry.period.value) < global_period_settings.start.valueOf() ||
+        new Date(entry.period.value) > global_period_settings.end.valueOf()
+      )
+    ) {
+      // Are we talking cumulative bro????
+      if (global_period_settings.cumulative) {
+        // If so, use running sum as the metric to pass.
+        sum_of_previous_metrics += newentry.metric;
+        newentry.metric = sum_of_previous_metrics;
+
+        // If cumulative, draw lines instead of bars
+        if (chartobject) chartobject.config.type = 'line';
+      } else {
+        if (chartobject) chartobject.config.type = 'bar';
+      }
+
+      // It's in the window! Push it!
+      newdata.push(newentry);
+    }
+  });
+
+  var graphdata = newdata;
+
+  return { graphdata, chartobject };
 }
 
 HomePageChartCompose();
@@ -1493,6 +1504,12 @@ function updateMetricsPageTable(data) {
   // (all together) for _globally set_ metric
   var doc = global_data_snapshot[global_metric_page_settings.metric];
   var data_to_load = doc[global_period_settings.dayweekmonth];
+
+  var { graphdata, whatever } = modifyDataCumulativeAndTimePeriod(data_to_load, false);
+
+  console.log('data_to_load', graphdata);
+
+  data_to_load = graphdata;
 
   data_to_load = data_to_load.map((x) => ({
     period: new Date(x.period.value).toLocaleDateString('en-us', {
