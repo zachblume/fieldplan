@@ -384,6 +384,9 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     document.querySelector('body').classList.remove('not-logged-in');
 
     currentUser = firebaseUser.uid;
+    console.log('firebaseUser', firebaseUser);
+    $('.userFirstName').text(firebaseUser.displayName);
+    $('.userPhotoImg').attr('src', firebaseUser.photoURL);
 
     startDataListeners();
   } else {

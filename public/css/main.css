@@ -412,15 +412,24 @@ body.not-logged-in #login-top > div {
   }
 
   nav a {
-    text-align: center !important;
+    /text-align: center !important;
     color: #555 !important;
     padding: 0 1.3rem !important;
     font-size: 0.9rem !important;
   }
 
+  nav .dropdown-menu,
+  nav .dropdown-menu li {
+    padding: 0 !important;
+  }
+  nav .dropdown-menu li a {
+    padding: 0.5rem 1.1rem !important;
+  }
+
   nav i {
     display: inline-block;
-    margin-right: 0.3rem;
+    margin-right: 0.4rem;
+    margin-bottom: 0.1rem;
   }
 
   .brand a {
