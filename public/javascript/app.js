@@ -786,6 +786,9 @@ function start_up_scripts() {
 
   $(function () {
     const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+
       type: 'bar',
       data: {
         labels: [],
@@ -1500,12 +1503,4 @@ function updateMetricsPageTable(data) {
 
   // Generate the table
   $('#metrics-page-container table.table').html(ConvertJsonToTable(transposeTable(data_to_load), '', null, 'Download'));
-  $('<style>')
-    .prop('type', 'text/css')
-    .html(
-      `
-      #metrics-page-table-container {width:100%;overflow:scroll;font-size:.8rem;}
-      `
-    )
-    .appendTo('head');
 }

@@ -509,3 +509,47 @@ body.not-logged-in #login-top > div {
 .card:hover .show-on-hover {
   opacity: 1;
 }
+
+/*fix some metrics page table overflow and scroll issues*/
+
+#metrics-page-table-container {
+  width: 100%;
+  overflow: scroll;
+  font-size: 0.8rem;
+  overflow-y: hidden;
+}
+
+#metrics-page-table-container::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 8px;
+  height: 8px;
+  overflow-y: hidden;
+}
+
+#metrics-page-table-container::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  overflow-y: hidden;
+}
+
+/*fix metrics page chart size*/
+#metrics-page-chart-container {
+  width: 100% !important;
+  max-height: 60vh !important;
+  position: relative !important;
+}
+#metrics-page-chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 60vh !important;
+}
+
+header .btn.btn-outline-secondary.bg-white {
+  color: #6c757d !important;
+}
+
+header .btn.btn-outline-secondary.bg-white:hover {
+  background: #6c757d !important;
+}

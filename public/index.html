@@ -129,7 +129,7 @@
 
           <ul class="d-flex nav" style="font-size: 1rem; min-height: auto">
             <li class="nav-item">
-              <a href="#home" class="nav-link active"><i class="bi-speedometer2"></i> Home</a>
+              <a href="#home" class="nav-link active"><i class="bi-house-door"></i> Home</a>
             </li>
             <li class="nav-item">
               <a href="#metrics" class="nav-link"> <i class="bi-graph-up"></i>Metrics</a>
@@ -185,35 +185,38 @@
          Main block -->
         <main
           id="page-content-wrapper"
-          class="p-4 py-0 ms-sm-auto bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12"
+          class="p-4 py-0 bg-light bg-gradient pb-5 d-flex flex-row container-fluid justify-content-start col-12"
         >
           <!-- START
          Header -->
           <header class="container mt-4">
             <!--heading bar and controls-->
-            <div class="d-md-flex flex-row justify-content mb-2 align-items-center">
+            <div class="d-md-flex flex-row justify-content align-items-center">
               <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
 
               <div class="form-check form-switch mb-3 flex-grow-1 ms-3 mt-1 show-on-ramp-page">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
                 <label
                   class="form-check-label align-middle mt-1"
-                  class="fs-1"
                   id="flexSwitchCheckCheckedButton"
                   for="flexSwitchCheckChecked"
                   >Collapse me</label
                 >
               </div>
 
+              <!--share-->
+              <div class="d-flex hide-on-ramp-page me-3">
+                <button class="btn btn-outline-secondary bg-white"><i class="bi bi-link"></i> Share</button>
+              </div>
               <!--cumulative-->
-              <div class="d-flex hide-on-ramp-page">
+              <div class="d-flex hide-on-ramp-page me-2">
                 <div class="form-check form-switch me-2">
-                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+                  <input class="form-check-input shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
                   <label class="form-check-label align-middle" for="flexSwitchCheckDefault">Cumulative</label>
                 </div>
               </div>
               <!--dayweekmonth-->
-              <div class="d-md-flex justify-content-center hide-on-ramp-page">
+              <div class="d-md-flex justify-content-center hide-on-ramp-page me-2">
                 <div
                   class="btn-group shadow-sm"
                   role="group"
@@ -266,7 +269,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 -->
-                <div class="row mb-0 mt-3">
+                <div class="row mb-0">
                   <div class="col-sm-3">
                     <div class="card shadow-sm">
                       <div class="card-body mb-0 pb-0">
@@ -517,7 +520,7 @@
               <!--metrics page inner content-->
               <div class="container mt-0" id="metrics-page-container">
                 <div class="row mb-0 mt-3">
-                  <div class="col-sm-3">
+                  <div class="col-sm-2">
                     <ul class="list-group ps-0" id="metrics-navbar">
                       <li class="mb-3 list-group-item shadow-sm">
                         <button
@@ -559,7 +562,7 @@
                                 data-chart="signups"
                                 href="#"
                                 class="link-dark d-inline-flex text-decoration-none rounded"
-                                >Newly Scheduled Shifts</a
+                                >Scheduled Shifts</a
                               >
                             </li>
                           </ul>
@@ -582,7 +585,7 @@
                                 data-chart="contacthistory"
                                 href="#"
                                 class="link-dark d-inline-flex text-decoration-none rounded"
-                                >All Tactics (aggregated)</a
+                                >All Tactics</a
                               >
                             </li>
                             <li>
@@ -624,7 +627,7 @@
                           data-bs-target="#orders-collapse"
                           aria-expanded="false"
                         >
-                          Positive ID by tactic
+                          Pos. ID by tactic
                         </button>
                         <div class="collapse show" id="orders-collapse">
                           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -692,15 +695,18 @@
                     </ul>
                   </div>
                   <!--Column for metric cards-->
-                  <div class="col-sm-9">
+                  <div class="col-sm-10">
                     <!--New graphcard-->
                     <div class="card shadow-sm">
                       <div class="card-body">
                         <!--no title, its above-->
                         <!--<h4 class="card-title">Positive IDs</h4>-->
-                        <p class="card-text">
+                        <!--<p class="card-text">
+                        
+                        </p>-->
+                        <div id="metrics-page-chart-container">
                           <canvas id="myChartMetricsPage" width="100%"></canvas>
-                        </p>
+                        </div>
                         <div id="metrics-page-table-container">
                           <table class="table">
                             <thead>
@@ -1381,8 +1387,8 @@
                   </tbody>
                 </table>
                 <!--add user form-->
-                <div class="card">
-                  <div class="card-body shadow-sm">
+                <div class="card shadow-sm">
+                  <div class="card-body">
                     <h5>Invite a new user</h5>
                     <form class="hstack gap-3" id="invite-user-form">
                       <input name="firstName" type="text" class="form-control" placeholder="First Name" />
@@ -1390,6 +1396,21 @@
                       <input name="email" type="text" class="form-control" placeholder="Email" />
                       <button class="btn btn-primary w-100" type="button" id="button-invite-user">Invite User</button>
                     </form>
+                  </div>
+                  <br />
+                </div>
+
+                <!--domain-wide auth prompt-->
+                <div class="card mt-3 shadow-sm">
+                  <div class="card-body">
+                    <h5>Want to turn on domain-wide auth?</h5>
+                    <p class="card-text">
+                      This will allow anyone logged in with a <i>@domain.com</i> google account to view your data.
+                    </p>
+                    <div class="form-check form-switch mb-3 mt-1">
+                      <input class="form-check-input" type="checkbox" role="switch" id="domain-wide" />
+                      <label class="form-check-label mt-1" for="domain-wide">Turn on</label>
+                    </div>
                   </div>
                 </div>
               </div>
