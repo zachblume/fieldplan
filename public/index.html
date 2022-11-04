@@ -122,8 +122,8 @@
         >
           <div class="brand mt-md-1">
             <a href="#" class="align-items-center mb-2 d-block pt-1 navigate-home">
-              <img src="img/squarelogo.png" height="38" class="d-inline-block align-text-top text-center my-1" />
-              <img src="img/text.png" height="38" class="d-inline-block align-text-top text-center my-1 pt-1 ps-2" />
+              <img src="img/squarelogo.png" height="35" class="d-inline-block align-text-top text-center my-1" />
+              <img src="img/text.png" height="35" class="d-inline-block align-text-top text-center my-1 pt-1 ps-2" />
             </a>
           </div>
 
@@ -195,16 +195,26 @@
             <div class="d-md-flex flex-row justify-content align-items-center">
               <h1 class="mt-0 h2 d-flex justify-content-start flex-grow-1" id="title">Obama for Congress</h1>
 
-              <div class="form-check form-switch mb-3 flex-grow-1 ms-3 mt-1 show-on-ramp-page">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-                <label
-                  class="form-check-label align-middle mt-1"
-                  id="flexSwitchCheckCheckedButton"
-                  for="flexSwitchCheckChecked"
-                  >Collapse me</label
-                >
-              </div>
+              <div class="show-on-ramp-page">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+                  <label
+                    class="form-check-label align-middle mt-1"
+                    id="flexSwitchCheckCheckedButton"
+                    for="flexSwitchCheckChecked"
+                    >Collapse me</label
+                  >
+                </div>
 
+                <div class="d-flex">
+                  <button type="button" class="btn btn-outline-secondary mx-4">
+                    <i class="bi bi-upload"></i> Custom Ramp
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary mx-0">
+                    <i class="bi bi-download"></i> Export Goals
+                  </button>
+                </div>
+              </div>
               <!--share-->
               <div class="d-flex hide-on-ramp-page me-3">
                 <button
@@ -774,7 +784,7 @@
          Ramp page tab -->
             <div class="tab-pane" id="v-pills-ramp" role="tabpanel" aria-labelledby="v-pills-ramp-tab" tabindex="2">
               <!--ramp page inner content-->
-              <div class="container mt-0" id="ramp-page-container">
+              <div class="container mt-3" id="ramp-page-container">
                 <div class="mb-0">
                   <div class="row">
                     <div id="collapseTableDiv" class="">

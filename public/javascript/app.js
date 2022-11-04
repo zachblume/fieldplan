@@ -619,9 +619,6 @@ async function repaintCharts() {
 
   // Repaint metrics page chart
   setMetric(global_metric_page_settings.metric);
-
-  // Repaint metrics page table
-  updateMetricsPageTable();
 }
 
 /* This moves the google one tap picker to a new location
@@ -682,6 +679,9 @@ function setMetric(metric, title) {
 
   // Pass the full Firestore document and chartobject to updateSingleChart()
   updateSingleChart(data_to_load, global_metric_page_settings.chartObject);
+
+  // Repaint metrics page table
+  updateMetricsPageTable();
 }
 
 window.addEventListener('DOMContentLoaded', start_up_scripts);
