@@ -728,7 +728,7 @@
                           <canvas id="myChartMetricsPage" width="100%"></canvas>
                         </div>
                         <div id="metrics-page-table-container">
-                          <table class="table">
+                          <table class="table" id="metricsPageTable">
                             <thead>
                               <tr>
                                 <th scope="col">Drilldown</th>
@@ -1487,6 +1487,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+
+    <!--scrollTo plugin-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.3/jquery.scrollTo.min.js"></script>
 
     <!--popper (bundled w jquery)-->
     <script

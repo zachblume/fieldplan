@@ -861,6 +861,9 @@ function start_up_scripts() {
     };
 
     global_metric_page_settings.chartObject = new Chart($('#metrics-page-container canvas'), chartOptions);
+    global_metric_page_settings.chartObject.canvas.addEventListener('mousemove', (e) => {
+      metricsPageChartMouseMoveHander(global_metric_page_settings.chartObject, e);
+    });
   });
 }
 
@@ -1523,6 +1526,9 @@ function updateMetricsPageTable(data) {
 
   // Generate the table
   $('#metrics-page-container table.table').html(ConvertJsonToTable(transposeTable(data_to_load), '', null, 'Download'));
+
+  // Scroll to the end (most recent)
+  $('#metrics-page-table-container').scrollTo(10000);
 }
 
 // Implement simple metrics search
@@ -1539,3 +1545,72 @@ function autocompleteCB(event) {
   $('#metrics-navbar li li:not(:icontains("' + this.value + '"))').hide();
   $('#metrics-navbar button:icontains("' + this.value + '")+div li').show();
 }
+
+// Add a metrics page table hover listener
+// to sync chart tooltip with it
+$(function () {
+  $(document).on('mouseenter', '#metricsPageTable td, #metricsPageTable th', tableHoverCB);
+});
+function tableHoverCB(event) {
+  if (this.nodeName.toUpperCase() == 'TD') {
+    var findThis = $(this)
+      .closest('tbody')
+      .prev('thead')
+      .find('> tr > th:eq(' + $(this).index() + ')')
+      .text()
+      .trim();
+
+    triggerTooltip(global_metric_page_settings.chartObject, findThis);
+    highlightMetricTableColumn($(this).index());
+  } else {
+    triggerTooltip(global_metric_page_settings.chartObject, $(this).text().trim());
+    highlightMetricTableColumn($(this).index());
+  }
+}
+function triggerTooltip(chart, findThis) {
+  let whichIndex = chart.data.labels.indexOf(findThis.toString());
+
+  const tooltip = chart.tooltip;
+  if (tooltip.getActiveElements().length > 0) {
+    tooltip.setActiveElements([], { x: 0, y: 0 });
+  } else {
+    const chartArea = chart.chartArea;
+    tooltip.setActiveElements(
+      [
+        {
+          datasetIndex: 0,
+          index: whichIndex,
+        },
+      ],
+      {
+        x: (chartArea.left + chartArea.right) / 2,
+        y: (chartArea.top + chartArea.bottom) / 2,
+      }
+    );
+  }
+
+  chart.update();
+}
+function highlightMetricTableColumn(columnIndex) {
+  var highlightClassName = 'table-warning';
+  $('#metricsPageTable *').removeClass(highlightClassName);
+  $('#metricsPageTable tr>td:eq(' + columnIndex + '),#metricsPageTable tr>th:eq(' + columnIndex + ')').addClass(
+    highlightClassName
+  );
+}
+function metricsPageChartMouseMoveHander(chart, mousemove) {
+  const {
+    data,
+    scales: { x, y },
+  } = chart;
+  const xCoor = mousemove.offsetX;
+  const yCoor = mousemove.offsetY;
+  highlightMetricTableColumn(x.getValueForPixel(xCoor) + 1);
+  //Now scroll to appropriate amount
+  //$('#metrics-page-table-container').scrollLeft(500);
+  var ci = x.getValueForPixel(xCoor) < 6 ? 1 : x.getValueForPixel(xCoor) - 5;
+  var findme = '#metricsPageTable tr>th:eq(' + ci + ')';
+  $('#metrics-page-table-container').scrollTo($(findme));
+  console.log(findme);
+}
+$(function () {});
