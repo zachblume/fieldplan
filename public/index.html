@@ -302,6 +302,9 @@
                             >
                             <ul class="dropdown-menu">
                               <li>
+                                <a class="dropdown-item" href="#">Yesterday</a>
+                              </li>
+                              <li>
                                 <a class="dropdown-item" href="#">This Week</a>
                               </li>
                               <li>
@@ -532,6 +535,8 @@
                 <div class="row mb-0 mt-3">
                   <div class="col-sm-2">
                     <ul class="list-group ps-0" id="metrics-navbar">
+                      <div id="autocomplete" class="mb-3"></div>
+
                       <li class="mb-3 list-group-item shadow-sm">
                         <button
                           class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -1594,6 +1599,20 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!--algolia search autocomplete.js-->
+    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+    <script>
+      const { autocomplete } = window['@algolia/autocomplete-js'];
+      autocomplete({
+        container: '#autocomplete',
+        placeholder: 'Search metrics',
+        getSources() {
+          return [];
+        },
+      });
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic" defer />
 
     <!-- Share Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
