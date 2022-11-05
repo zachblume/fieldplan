@@ -619,3 +619,9 @@ header .form-check-label,
 #metrics-page-table-container th:nth-child(2) {
   padding-left: 100px !important;
 }
+
+#progress-page-container td,
+#progress-page-container th {
+  padding: 0 !important;
+  font-size: 0.8rem;
+}

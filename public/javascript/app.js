@@ -1,3 +1,6 @@
+// Global ramp snapshot!
+let global_ramp_snapshot;
+
 // A list of available chart types
 const available_metrics = [
   'calls',
@@ -249,7 +252,7 @@ function updateSingleChart(data, chartobject) {
 
   var { graphdata, chartobject } = modifyDataCumulativeAndTimePeriod(chartdata, chartobject);
 
-  console.log('graphdata', graphdata);
+  //console.log('graphdata', graphdata);
 
   // Format the bigquery period field correctly
   // and extract column to chartobject's labels
@@ -590,6 +593,9 @@ function loadFirestoreDataToGlobalVariable(snapshot) {
 
   // Trigger the chart repaint
   repaintCharts();
+
+  // Repaint the progress table!
+  if (global_ramp_snapshot) progressRampFormTable();
 }
 
 // Repaints all charts (on the home page, for now)
@@ -775,6 +781,11 @@ function start_up_scripts() {
       }
     });
     //processRangesToFormTable(getRampConfigFromInputs());
+
+    // Handle the initial setup of the ramp page,
+    // we're doing this as initial-get instead of snapshotHandler
+    // because the ramp page repaints itself for performance instead
+    // of letting Firetore be the go-between
     db.collection('ramp-settings')
       .doc('user1')
       .get() //{ source: 'cache' })
@@ -782,10 +793,22 @@ function start_up_scripts() {
         //Setup ramp page
         //On settings change, update table
         processRangesToFormTable(snapshot.data());
-        setRanges(snapshot.data());
 
-        //Setup progress page
-        progressRampFormTable(snapshot.data());
+        // Manually set the setting sliders to reflect current settings
+        setRanges(snapshot.data());
+      });
+
+    // Handle Firestore changes tot update the progress page
+    // and generally keep the ramp settings up to date
+    db.collection('ramp-settings')
+      .doc('user1')
+      .onSnapshot(async (snapshot) => {
+        global_ramp_snapshot = snapshot.data();
+
+        // Setup PROGRESS page
+        // Not passing anything because we're going to use the global stuff
+        // Because this will also be repainted by an update in data!
+        progressRampFormTable();
       });
   });
 
@@ -1282,10 +1305,6 @@ function populateQuickLookup() {
   $('#ql-display li:contains("Scheduled") b').html(metrics.alltime.signups.toLocaleString());
 }
 
-async function progressRampFormTable(snapshot) {
-  console.log(snapshot);
-}
-
 $(document).on('mousedown', 'nav .nav-link, .navigate-home', function (e) {
   var targetPage = $(e.target).hasClass('navigate-home')
     ? 'Home'
@@ -1501,8 +1520,6 @@ function downloadChart(chartobject) {
 // Update metrics page table
 // Should be called by the repainter
 function updateMetricsPageTable(data) {
-  console.log('updateMetricsPageTable()');
-
   // Go fetch correct Firestore document of dayweekmonth data
   // (all together) for _globally set_ metric
   var doc = global_data_snapshot[global_metric_page_settings.metric];
@@ -1510,7 +1527,7 @@ function updateMetricsPageTable(data) {
 
   var { graphdata, whatever } = modifyDataCumulativeAndTimePeriod(data_to_load, false);
 
-  console.log('data_to_load', graphdata);
+  //console.log('data_to_load', graphdata);
 
   data_to_load = graphdata;
 
@@ -1521,8 +1538,6 @@ function updateMetricsPageTable(data) {
     }),
     metric: x.metric,
   }));
-
-  console.log('data_to_load', data_to_load);
 
   // Generate the table
   $('#metrics-page-container table.table').html(ConvertJsonToTable(transposeTable(data_to_load), '', null, 'Download'));
@@ -1613,4 +1628,204 @@ function metricsPageChartMouseMoveHander(chart, mousemove) {
   $('#metrics-page-table-container').scrollTo($(findme));
   console.log(findme);
 }
-$(function () {});
+
+// Let's handle how the ramp changes affect the progress table.
+function progressRampFormTable() {
+  var rampConfig = global_ramp_snapshot;
+  var data = global_data_snapshot;
+
+  console.log('data', data);
+
+  // This is the other ramp function, copied over!
+  // Is there a better way to modularize this??
+  //////////////////
+  // Setting that controls how many rows to iterate over
+  const WEEKSAVAILABLE = rampConfig.weeksAvailable || 16;
+
+  //Clear a row
+  var newItem = {};
+
+  thisWeekShiftCount = rampConfig.startingShifts;
+  newItem = {
+    'Week Number': 'Wk 1',
+    'Total Weekly Shifts': Math.floor(thisWeekShiftCount),
+    'SHIFTS-Goal': 0,
+    'SHIFTS-% To Goal': 0,
+
+    //----
+    'Petitioning Attempts': 0,
+    'PA-Goal': 0,
+    'PA-% To Goal': 0,
+
+    'Calls Made': Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
+    'CALLS-Goal': 0,
+    'CALLS-% To Goal': 0,
+
+    'Doors Knocked': Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
+    'DOORS-Goal': 0,
+    'DOORS-% To Goal': 0,
+
+    'SMS Sent': Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
+    'SMS-Goal': 0,
+    'SMS-% To Goal': 0,
+    //----
+    'Petitioning +IDs': 0,
+    'Petitioning +IDs-Goal': 0,
+    'Petitioning +IDs-% To Goal': 0,
+
+    'Calls +IDs': Math.floor(
+      (((thisWeekShiftCount *
+        (1 - rampConfig.doorsVsPhones / 100) *
+        rampConfig.callsPerShift *
+        rampConfig.responseRatePhones) /
+        100) *
+        rampConfig.posRatePhones) /
+        100
+    ),
+    'Calls +IDs-Goal': 0,
+    'Calls +IDs-% To Goal': 0,
+
+    'Doors +IDs': Math.floor(
+      (((thisWeekShiftCount *
+        (rampConfig.doorsVsPhones / 100) *
+        rampConfig.doorsPerShift *
+        rampConfig.responseRateDoors) /
+        100) *
+        rampConfig.posRateDoors) /
+        100
+    ),
+    'Doors +IDs-Goal': 0,
+    'Doors +IDs-% To Goal': 0,
+
+    'Text +IDs': Math.floor(
+      ((((rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE) * rampConfig.responseRateTexts) / 100) *
+        rampConfig.posRateTexts) /
+        100
+    ),
+    'Text +IDs-Goal': 0,
+    'Text +IDs-% To Goal': 0,
+
+    'Relational +IDs': 0,
+    'Relational +IDs-Goal': 0,
+    'Relational +IDs-% To Goal': 0,
+
+    'Total Pos IDs': 0,
+    'Total Pos IDs-Goal': 0,
+    'Total Pos IDs-% To Goal': 0,
+  };
+  newItem['Total Pos IDs'] = Math.floor(
+    newItem['Petitioning +IDs'] +
+      newItem['Calls +IDs'] +
+      newItem['Doors +IDs'] +
+      newItem['Text +IDs'] +
+      newItem['Relational +IDs']
+  );
+  var tableObject = [newItem];
+
+  var totals = Object.assign({}, newItem);
+
+  //console.log(tableObject);
+  var thisWeekShiftCount = 0;
+
+  for (let i = 0; i < WEEKSAVAILABLE; i++) {
+    thisWeekShiftCount =
+      tableObject[tableObject.length - 1]['Total Weekly Shifts'] * (1 + rampConfig.shiftGrowth / 100);
+    newItem = {
+      'Week Number': 'Wk ' + (i + 1 + 1).toString(),
+      'Total Weekly Shifts': Math.floor(thisWeekShiftCount),
+
+      //----
+      'Petitioning Attempts': 0,
+      'Calls Made': Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
+      'Doors Knocked': Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
+      'SMS Sent': Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
+      //----
+      'Petitioning +IDs': 0,
+      'Calls +IDs': Math.floor(
+        (((thisWeekShiftCount *
+          (1 - rampConfig.doorsVsPhones / 100) *
+          rampConfig.callsPerShift *
+          rampConfig.responseRatePhones) /
+          100) *
+          rampConfig.posRatePhones) /
+          100
+      ),
+      'Doors +IDs': Math.floor(
+        (((thisWeekShiftCount *
+          (rampConfig.doorsVsPhones / 100) *
+          rampConfig.doorsPerShift *
+          rampConfig.responseRateDoors) /
+          100) *
+          rampConfig.posRateDoors) /
+          100
+      ),
+      'Text +IDs': Math.floor(
+        ((((rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE) * rampConfig.responseRateTexts) / 100) *
+          rampConfig.posRateTexts) /
+          100
+      ),
+      'Relational +IDs': 0,
+      'Total Pos IDs': 0,
+    };
+    newItem['Total Pos IDs'] = Math.floor(
+      newItem['Petitioning +IDs'] +
+        newItem['Calls +IDs'] +
+        newItem['Doors +IDs'] +
+        newItem['Text +IDs'] +
+        newItem['Relational +IDs']
+    );
+    //newItem.map(a => console.log(a));
+    Object.keys(newItem).forEach(function (key) {
+      totals[key] += newItem[key];
+    });
+    tableObject.push(newItem);
+    //  console.log(totals);
+  }
+  totals['Week Number'] = 'Total';
+  tableObject.push(totals);
+  // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
+
+  //format thousdnads/ks!
+  tableObject.forEach((row) => {
+    //row
+    Object.keys(newItem).forEach(function (key) {
+      //totals[key] += row[key];
+      row[key] = isNaN(row[key]) ? row[key] : nFormatter(row[key], 1);
+    });
+  });
+
+  // Placeholder for faster dev switching
+  function DONTtransposeTable(x) {
+    return x;
+  }
+
+  $('#progressTableContainer').html(
+    ConvertJsonToTable(DONTtransposeTable(tableObject), '', null, 'Download')
+      .toString()
+      // This removes the long headings
+      .replace(/<th>[A-Za-z 0-9+]+?-/gims, '<th>')
+      // Removes the other heads!
+      .replace(/<th>[^\-]+<\/th>/gims, '')
+  );
+  $('#progressTableContainer thead').prepend(
+    `
+      <tr>
+      <th>.</th>  
+      <th colspan="3" style="text-align:center">Total Weekly Shifts</th>
+      
+      <th colspan="3" style="text-align:center">Petitioning Attempts</th>
+      <th colspan="3" style="text-align:center">Doors Knocked</th>
+      <th colspan="3" style="text-align:center">Calls Made</th>
+      <th colspan="3" style="text-align:center">Texts Sent</th>
+
+      <th colspan="3" style="text-align:center">Petitioning +IDs</th>
+      <th colspan="3" style="text-align:center">Doors +IDs</th>
+      <th colspan="3" style="text-align:center">Calls +IDs</th>
+      <th colspan="3" style="text-align:center">Texts +IDs</th>
+      </tr>
+    `
+  );
+
+  //Dev
+  $('#progress-page-container pre').hide();
+}
