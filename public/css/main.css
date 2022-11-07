@@ -413,7 +413,7 @@ body.not-logged-in #login-top > div {
 
   nav a {
     /text-align: center !important;
-    color: #555 !important;
+    color: #444 !important;
     padding: 0 1.3rem !important;
     font-size: 0.9rem !important;
   }
@@ -423,7 +423,8 @@ body.not-logged-in #login-top > div {
     padding: 0 !important;
   }
   nav .dropdown-menu li a {
-    padding: 0.5rem 1.1rem !important;
+    padding: 0.9rem 1.1rem !important;
+    text-align: Center;
   }
 
   nav i {
@@ -622,6 +623,35 @@ header .form-check-label,
 
 #progress-page-container td,
 #progress-page-container th {
-  padding: 0 !important;
+  padding: 0.15rem 0.05rem !important;
   font-size: 0.8rem;
+}
+
+td,
+th {
+  vertical-align: middle;
+}
+
+#progress-page-container td,
+#progress-page-container th {
+  text-align: center;
+}
+
+#progress-page-container td:nth-of-type(3n + 2),
+#progress-page-container tr:nth-of-type(2n) th:nth-of-type(3n + 2) {
+  border-right: 1px solid black;
+  border-top: none;
+}
+#progress-page-container tr:nth-of-type(1n) th {
+  border-right: 1px solid #ddd;
+}
+#progress-page-container tr:last-child td,
+#progress-page-container tr:first-child th {
+  background: #eee;
+  color: black;
+  border-color: #888;
+}
+th {
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid #eee !important;
 }

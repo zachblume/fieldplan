@@ -1146,7 +1146,7 @@ function processRangesToFormTable(rampConfig) {
   //console.log(tableObject);
   var thisWeekShiftCount = 0;
 
-  for (let i = 0; i < WEEKSAVAILABLE; i++) {
+  for (let i = 0; i < WEEKSAVAILABLE - 1; i++) {
     thisWeekShiftCount =
       tableObject[tableObject.length - 1]['Total Weekly Shifts'] * (1 + rampConfig.shiftGrowth / 100);
     newItem = {
@@ -1185,6 +1185,7 @@ function processRangesToFormTable(rampConfig) {
       'Relational +IDs': 0,
       'Total Pos IDs': 0,
     };
+
     newItem['Total Pos IDs'] = Math.floor(
       newItem['Petitioning +IDs'] +
         newItem['Calls +IDs'] +
@@ -1586,23 +1587,20 @@ function triggerTooltip(chart, findThis) {
   let whichIndex = chart.data.labels.indexOf(findThis.toString());
 
   const tooltip = chart.tooltip;
-  if (tooltip.getActiveElements().length > 0) {
-    tooltip.setActiveElements([], { x: 0, y: 0 });
-  } else {
-    const chartArea = chart.chartArea;
-    tooltip.setActiveElements(
-      [
-        {
-          datasetIndex: 0,
-          index: whichIndex,
-        },
-      ],
+
+  const chartArea = chart.chartArea;
+  tooltip.setActiveElements(
+    [
       {
-        x: (chartArea.left + chartArea.right) / 2,
-        y: (chartArea.top + chartArea.bottom) / 2,
-      }
-    );
-  }
+        datasetIndex: 0,
+        index: whichIndex,
+      },
+    ],
+    {
+      x: (chartArea.left + chartArea.right) / 2,
+      y: (chartArea.top + chartArea.bottom) / 2,
+    }
+  );
 
   chart.update();
 }
@@ -1648,31 +1646,41 @@ function progressRampFormTable() {
   thisWeekShiftCount = rampConfig.startingShifts;
   newItem = {
     'Week Number': 'Wk 1',
+    //Replace with accurate starting date
+    'Date (monday)': moment.utc('February 1, 2022').startOf('isoWeek').format('M/D/YY'),
+
+    'SHIFTS-Actual': 0,
     'Total Weekly Shifts': Math.floor(thisWeekShiftCount),
-    'SHIFTS-Goal': 0,
+
     'SHIFTS-% To Goal': 0,
 
     //----
+    'PA-Actual': 0,
     'Petitioning Attempts': 0,
-    'PA-Goal': 0,
+
     'PA-% To Goal': 0,
 
+    'CALLS-Actual': 0,
     'Calls Made': Math.floor(thisWeekShiftCount * (1 - rampConfig.doorsVsPhones / 100) * rampConfig.callsPerShift),
-    'CALLS-Goal': 0,
+
     'CALLS-% To Goal': 0,
 
+    'DOORS-Actual': 0,
     'Doors Knocked': Math.floor(thisWeekShiftCount * (0 + rampConfig.doorsVsPhones / 100) * rampConfig.doorsPerShift),
-    'DOORS-Goal': 0,
+
     'DOORS-% To Goal': 0,
 
+    'SMS-Actual': 0,
     'SMS Sent': Math.floor(rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE),
-    'SMS-Goal': 0,
+
     'SMS-% To Goal': 0,
     //----
+    'Petitioning +IDs-Actual': 0,
     'Petitioning +IDs': 0,
-    'Petitioning +IDs-Goal': 0,
+
     'Petitioning +IDs-% To Goal': 0,
 
+    'Calls +IDs-Actual': 0,
     'Calls +IDs': Math.floor(
       (((thisWeekShiftCount *
         (1 - rampConfig.doorsVsPhones / 100) *
@@ -1682,9 +1690,10 @@ function progressRampFormTable() {
         rampConfig.posRatePhones) /
         100
     ),
-    'Calls +IDs-Goal': 0,
+
     'Calls +IDs-% To Goal': 0,
 
+    'Doors +IDs-Actual': 0,
     'Doors +IDs': Math.floor(
       (((thisWeekShiftCount *
         (rampConfig.doorsVsPhones / 100) *
@@ -1694,23 +1703,26 @@ function progressRampFormTable() {
         rampConfig.posRateDoors) /
         100
     ),
-    'Doors +IDs-Goal': 0,
+
     'Doors +IDs-% To Goal': 0,
 
+    'Text +IDs-Actual': 0,
     'Text +IDs': Math.floor(
       ((((rampConfig.totalIDtextsPlanned / WEEKSAVAILABLE) * rampConfig.responseRateTexts) / 100) *
         rampConfig.posRateTexts) /
         100
     ),
-    'Text +IDs-Goal': 0,
+
     'Text +IDs-% To Goal': 0,
 
+    'Relational +IDs-Actual': 0,
     'Relational +IDs': 0,
-    'Relational +IDs-Goal': 0,
+
     'Relational +IDs-% To Goal': 0,
 
+    'Total Pos IDs-Actual': 0,
     'Total Pos IDs': 0,
-    'Total Pos IDs-Goal': 0,
+
     'Total Pos IDs-% To Goal': 0,
   };
   newItem['Total Pos IDs'] = Math.floor(
@@ -1727,11 +1739,17 @@ function progressRampFormTable() {
   //console.log(tableObject);
   var thisWeekShiftCount = 0;
 
-  for (let i = 0; i < WEEKSAVAILABLE; i++) {
+  for (let i = 0; i < WEEKSAVAILABLE - 1; i++) {
+    var thisWeekDate = moment
+      .utc('February 1, 2022')
+      .startOf('isoWeek')
+      .add(i + 1, 'weeks');
     thisWeekShiftCount =
       tableObject[tableObject.length - 1]['Total Weekly Shifts'] * (1 + rampConfig.shiftGrowth / 100);
     newItem = {
       'Week Number': 'Wk ' + (i + 1 + 1).toString(),
+      //Add a week
+      'Date (monday)': thisWeekDate.format('M/D/YY'),
       'Total Weekly Shifts': Math.floor(thisWeekShiftCount),
 
       //----
@@ -1767,6 +1785,7 @@ function progressRampFormTable() {
       'Relational +IDs': 0,
       'Total Pos IDs': 0,
     };
+
     newItem['Total Pos IDs'] = Math.floor(
       newItem['Petitioning +IDs'] +
         newItem['Calls +IDs'] +
@@ -1774,14 +1793,87 @@ function progressRampFormTable() {
         newItem['Text +IDs'] +
         newItem['Relational +IDs']
     );
-    //newItem.map(a => console.log(a));
+
+    function getMetricForThisWeek(metric) {
+      var week = global_data_snapshot[metric]['weekly'].find(
+        (element) => moment.utc(element.period.value).valueOf() == thisWeekDate.valueOf()
+      );
+
+      return week ? week.metric : 0;
+    }
+
+    // Fill in actuals
+    newItem = {
+      ...newItem,
+      'SHIFTS-Actual': getMetricForThisWeek('completeshifts'),
+      'PA-Actual': 0,
+      'CALLS-Actual': getMetricForThisWeek('calls'),
+      'DOORS-Actual': getMetricForThisWeek('doors'),
+      'SMS-Actual': getMetricForThisWeek('texts'),
+      'Petitioning +IDs-Actual': 0,
+      'Calls +IDs-Actual': getMetricForThisWeek('positiveids-phones'),
+      'Doors +IDs-Actual': getMetricForThisWeek('positiveids-doors'),
+      'Text +IDs-Actual': getMetricForThisWeek('positiveids-texts'),
+      'Relational +IDs-Actual': 0,
+      'Total Pos IDs-Actual': getMetricForThisWeek('positiveids'),
+    };
+
+    // Sanitize NaN for //Fill in % to goals
+    function sanitizeNum(num) {
+      return isNaN(num) ? 0 : num;
+    }
+
+    // Fill in % to goals
+    newItem = {
+      ...newItem,
+      'SHIFTS-% To Goal':
+        Math.round((sanitizeNum(newItem['SHIFTS-Actual']) / newItem['Total Weekly Shifts']) * 100) + '%',
+      'PA-% To Goal': Math.round((sanitizeNum(newItem['PA-Actual']) / newItem['Petitioning Attempts']) * 100) + '%',
+      'CALLS-% To Goal': Math.round((sanitizeNum(newItem['CALLS-Actual']) / newItem['Calls Made']) * 100) + '%',
+      'DOORS-% To Goal': Math.round((sanitizeNum(newItem['DOORS-Actual']) / newItem['Doors Knocked']) * 100) + '%',
+      'SMS-% To Goal': Math.round((sanitizeNum(newItem['SMS-Actual']) / newItem['SMS Sent']) * 100) + '%',
+      'Petitioning +IDs-% To Goal':
+        Math.round((sanitizeNum(newItem['Petitioning +IDs-Actual']) / newItem['Petitioning +IDs']) * 100) + '%',
+      'Calls +IDs-% To Goal':
+        Math.round((sanitizeNum(newItem['Calls +IDs-Actual']) / newItem['Calls +IDs']) * 100) + '%',
+      'Doors +IDs-% To Goal':
+        Math.round((sanitizeNum(newItem['Doors +IDs-Actual']) / newItem['Doors +IDs']) * 100) + '%',
+      'Text +IDs-% To Goal': Math.round((sanitizeNum(newItem['Text +IDs-Actual']) / newItem['Text +IDs']) * 100) + '%',
+      'Relational +IDs-% To Goal':
+        Math.round((sanitizeNum(newItem['Relational +IDs-Actual']) / newItem['Relational +IDs']) * 100) + '%',
+      'Total Pos IDs-% To Goal':
+        Math.round((sanitizeNum(newItem['Total Pos IDs-Actual']) / newItem['Total Pos IDs']) * 100) + '%',
+    };
+
     Object.keys(newItem).forEach(function (key) {
-      totals[key] += newItem[key];
+      // Total it up, if its not a %-to-goal column
+      if (!key.includes('%')) totals[key] += newItem[key];
     });
     tableObject.push(newItem);
     //  console.log(totals);
   }
   totals['Week Number'] = 'Total';
+  totals['Date (monday)'] = '-';
+
+  // Fill in % to goals
+  totals = {
+    ...totals,
+    'SHIFTS-% To Goal': Math.round((sanitizeNum(totals['SHIFTS-Actual']) / totals['Total Weekly Shifts']) * 100) + '%',
+    'PA-% To Goal': Math.round((sanitizeNum(totals['PA-Actual']) / totals['Petitioning Attempts']) * 100) + '%',
+    'CALLS-% To Goal': Math.round((sanitizeNum(totals['CALLS-Actual']) / totals['Calls Made']) * 100) + '%',
+    'DOORS-% To Goal': Math.round((sanitizeNum(totals['DOORS-Actual']) / totals['Doors Knocked']) * 100) + '%',
+    'SMS-% To Goal': Math.round((sanitizeNum(totals['SMS-Actual']) / totals['SMS Sent']) * 100) + '%',
+    'Petitioning +IDs-% To Goal':
+      Math.round((sanitizeNum(totals['Petitioning +IDs-Actual']) / totals['Petitioning +IDs']) * 100) + '%',
+    'Calls +IDs-% To Goal': Math.round((sanitizeNum(totals['Calls +IDs-Actual']) / totals['Calls +IDs']) * 100) + '%',
+    'Doors +IDs-% To Goal': Math.round((sanitizeNum(totals['Doors +IDs-Actual']) / totals['Doors +IDs']) * 100) + '%',
+    'Text +IDs-% To Goal': Math.round((sanitizeNum(totals['Text +IDs-Actual']) / totals['Text +IDs']) * 100) + '%',
+    'Relational +IDs-% To Goal':
+      Math.round((sanitizeNum(totals['Relational +IDs-Actual']) / totals['Relational +IDs']) * 100) + '%',
+    'Total Pos IDs-% To Goal':
+      Math.round((sanitizeNum(totals['Total Pos IDs-Actual']) / totals['Total Pos IDs']) * 100) + '%',
+  };
+
   tableObject.push(totals);
   // $('#tableContainer').html("<pre>" + JSON.stringify(tableObject, null, '\t') + "</pre>")
 
@@ -1805,23 +1897,30 @@ function progressRampFormTable() {
       // This removes the long headings
       .replace(/<th>[A-Za-z 0-9+]+?-/gims, '<th>')
       // Removes the other heads!
-      .replace(/<th>[^\-]+<\/th>/gims, '')
+      .replace(/<th>[^%WAD].+?<\/th>/gims, '<th>Goal</th>')
+      .replace(/NAN/gims, '0')
+      .replace(/% To Goal/gims, '%')
+      .replaceAll('<td>0%</td>', '<td>-</td>')
+      .replaceAll('<td>0</td>', '<td>-</td>')
   );
   $('#progressTableContainer thead').prepend(
     `
       <tr>
-      <th>.</th>  
+      <th colspan="2">Date</th>  
+      
       <th colspan="3" style="text-align:center">Total Weekly Shifts</th>
       
       <th colspan="3" style="text-align:center">Petitioning Attempts</th>
-      <th colspan="3" style="text-align:center">Doors Knocked</th>
       <th colspan="3" style="text-align:center">Calls Made</th>
+      <th colspan="3" style="text-align:center">Doors Knocked</th>
       <th colspan="3" style="text-align:center">Texts Sent</th>
 
       <th colspan="3" style="text-align:center">Petitioning +IDs</th>
-      <th colspan="3" style="text-align:center">Doors +IDs</th>
       <th colspan="3" style="text-align:center">Calls +IDs</th>
+      <th colspan="3" style="text-align:center">Doors +IDs</th>
       <th colspan="3" style="text-align:center">Texts +IDs</th>
+      <th colspan="3" style="text-align:center">Relational +IDs</th>
+      <th colspan="3" style="text-align:center">Total +IDs</th>
       </tr>
     `
   );
