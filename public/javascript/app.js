@@ -377,7 +377,7 @@ const firebaseUiConfig = {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       clientId: '640113081213-cgb821si2sshi87hdurs7doo7a7flo0c.apps.googleusercontent.com',
     },
-    //firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
+    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
 
   //credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
@@ -400,7 +400,14 @@ firebase.auth().onAuthStateChanged((firebaseUser) => {
     currentUser = firebaseUser.uid;
     console.log('firebaseUser', firebaseUser);
     $('.userFirstName').text(firebaseUser.displayName);
-    $('.userPhotoImg').attr('src', firebaseUser.photoURL);
+    $('.userPhotoImg').attr(
+      'src',
+      firebaseUser.photoURL
+        ? firebaseUser.photoURL
+        : `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='currentColor' class='bi bi-person' viewBox='0 0 16 16'%3E%3Cpath d='M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z'/%3E%3C/svg%3E`
+    );
+    if (!firebaseUser.photoURL) $('.userPhotoImg').attr('width', '23');
+    if (!firebaseUser.photoURL) $('.userPhotoImg').attr('height', '23');
 
     startDataListeners();
   } else {
@@ -1306,8 +1313,10 @@ function populateQuickLookup() {
   $('#ql-display li:contains("Scheduled") b').html(metrics.alltime.signups.toLocaleString());
 }
 
-$(document).on('mousedown', 'nav .nav-link, .navigate-home', function (e) {
-  var targetPage = $(e.target).hasClass('navigate-home')
+$(document).on('mousedown', 'nav .nav-link, .navigate-home, .navigate-progress', function (e) {
+  var targetPage = $(e.target).hasClass('navigate-progress')
+    ? 'Progress'
+    : $(e.target).hasClass('navigate-home')
     ? 'Home'
     : $(e.target.parentNode).hasClass('nav-link')
     ? e.target.parentNode.innerText.trim()
