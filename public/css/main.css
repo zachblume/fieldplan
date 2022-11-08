@@ -399,6 +399,10 @@ body.not-logged-in #login-top > div {
   margin-top: 0 !important;
 }
 
+nav .dropdown {
+  /opacity: 0;
+}
+
 /* computer (not mobile) media */
 @media (min-width: 700px) {
   .nav div {
@@ -412,9 +416,8 @@ body.not-logged-in #login-top > div {
   }
 
   nav a {
-    /text-align: center !important;
     color: #444 !important;
-    padding: 0 1.3rem !important;
+    padding: 0 0.7rem !important;
     font-size: 0.9rem !important;
   }
 
@@ -460,11 +463,22 @@ body.not-logged-in #login-top > div {
 
   .nav a {
     padding-top: 1.1rem !important;
+    padding-bottom: 1.1rem !important;
   }
 
   #navbar,
   #navbar * {
     vertical-align: middle !important;
+  }
+}
+
+@media (min-width: 1300px) {
+  nav a {
+    padding-left: 1.3rem !important;
+    padding-right: 1.3rem !important;
+  }
+  nav .dropdown {
+    opacity: 1;
   }
 }
 
