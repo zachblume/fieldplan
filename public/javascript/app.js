@@ -327,7 +327,7 @@ const prices = {};
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: 'AIzaSyAYGt2ch3s2T3JpZjPT8oKsCnXy26GSkzg',
-  authDomain: 'campaign-data-project.firebaseapp.com',
+  authDomain: 'fieldplan.app',
   projectId: 'campaign-data-project',
   storageBucket: 'campaign-data-project.appspot.com',
   messagingSenderId: '640113081213',
@@ -342,6 +342,7 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
 // Enable persistence
+/*
 db.enablePersistence().catch((err) => {
   if (err.code == 'failed-precondition') {
     // Multiple tabs open, persistence can only be enabled
@@ -353,6 +354,7 @@ db.enablePersistence().catch((err) => {
     // ...
   }
 });
+*/
 // Subsequent queries will use persistence, if it was enabled successfully
 
 /**
@@ -389,6 +391,8 @@ console.log('queue firebase.auth().onAuthStateChanged((firebaseUser) after ', Da
 console.timeLog();
 
 firebase.auth().onAuthStateChanged((firebaseUser) => {
+  console.log('hello world 56');
+  console.log(firebaseUser);
   if (firebaseUser) {
     // Show page as user is logged in
     console.log('firebase.auth().onAuthStateChanged((firebaseUser) after ', Date.now() - StartTimeLogged);
