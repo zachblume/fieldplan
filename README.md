@@ -1,27 +1,28 @@
-# Field Plan: Voter Contact Metrics for Your Campaign
+# Field Plan
 
-<a href="https://fieldplan.app"><img src="public/img/screenshot2.png" width="100%" /></a>
+<center>Voter Contact Metrics for Your Campaign
 
 <b>Live demo: https://fieldplan.app</b>
 
-A dashboard for organizers and campaign managers to see progress-to-goal on their field program.
+<a href="https://fieldplan.app"><img src="https://github.com/zachblume/fieldplan/raw/main/public/img/screenshot2.png" width="70%" /></a></center>
 
-No more spreadsheets, no more exporting, no more nightly manual reports.
+Field plan is a dashboard for campaigners to see progress-to-goal on their voter contact field program.
 
-100% self service, 5 minutes to setup, stays forever in sync.
+- No more spreadsheets, no more exporting, no more nightly manual reports.
+- 100% self service, 5 minutes to setup, stays forever in sync.
 
 **Features:**
 
-- Automatically sync every 15 minutes with NGPVAN.
-- Configure a simple ramp and show your progress to goal, based on industry standard research.
-- Benchmark your field metrics against anonymized ramps and production metrics from other past campaigns.
+- Automatically sync with NGPVAN, every 15 minutes.
+- Configure a simple goals ramp based on industry standard research.
+- Show your progress to goal.
 - See voter-contact metrics AND your volunteer-organizing metrics.
 - Send nightly 9pm field reports to yourself and your team via email, slack, and text.
 
-**Instantly get answers on one page to questions like:**
+**Instantly get answers:**
 
-- How many voters have we positive ID'd as voting for us?
+- How many voters have we positively identified as voting for us?
 - How many total phone calls and door knocks have we ever made?
 - This week, how many volunteers signed up for a new shift?
-- Whats our average week-over-week growth in shifts been?
-- How many positive IDs are we generating per newly scheduled shift on average?
+- Whats has our average week-over-week growth in shifts been?
+- What is our flake rate for scheduled shifts?
