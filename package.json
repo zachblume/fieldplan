@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/campaigndataproject/fieldplan.git"
+    "url": "git+https://github.com/zachblume/fieldplan.git"
   },
   "keywords": [],
   "author": "zachblume",
   "bugs": {
-    "url": "https://github.com/campaigndataproject/fieldplan/issues"
+    "url": "https://github.com/zachblume/fieldplan/issues"
   },
-  "homepage": "https://github.com/campaigndataproject/fieldplan#readme",
+  "homepage": "https://github.com/zachblume/fieldplan#readme",
   "devDependencies": {
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
