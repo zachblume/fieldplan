@@ -1,10 +1,10 @@
 # Field Plan
 
-<center>Voter Contact Metrics for Your Campaign
+<p  align="center">Voter Contact Metrics for Your Campaign</p>
 
-<b>Live demo: https://fieldplan.app</b>
+<p  align="center"><b>Live demo: https://fieldplan.app</b></p>
 
-<a href="https://fieldplan.app"><img src="https://github.com/zachblume/fieldplan/raw/main/public/img/screenshot2.png" width="70%" /></a></center>
+<a href="https://fieldplan.app"><img src="https://github.com/zachblume/fieldplan/raw/main/public/img/screenshot2.png" width="70%" align="center" /></a>
 
 Field plan is a dashboard for campaigners to see progress-to-goal on their voter contact field program.
 
