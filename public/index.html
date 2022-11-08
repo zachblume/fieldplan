@@ -55,9 +55,10 @@
          Login and signup page -->
     <section id="login-top" class="d-flex align-items-center">
       <div class="w-100 justify-content-center row py-5 my-5 mx-2 hide-if-logged-in">
-        <div class="card col-md-4 shadow-sm">
-          <div class="card-body py-5 my-3">
-            <section id="firebaseui-auth-container">
+        <div class="col-md-6 my-4">
+          <div class="card shadow-sm p-4 pb-0">
+            <div class="card-body">
+              <!-- <section id="firebaseui-auth-container">
               <center>
                 <img
                   src="img/Copy of Fieldplan (1).svg"
@@ -68,7 +69,66 @@
                 <h1 class="mb-2 h2">Get Your Metrics</h1>
                 <div id="loader">Loading &hellip;</div>
               </center>
-            </section>
+            </section> -->
+              <div id="output" class="content markdown-body">
+                <h1 id="field-plan" class="border-bottom">
+                  <img
+                    src="img/square-newblue.png"
+                    height="45"
+                    class="d-inline-block align-text-top text-center my-1"
+                  />
+                  <img
+                    src="img/hbt2.png"
+                    height="45"
+                    class="d-inline-block align-text-top text-center my-1 pt-2 ps-2"
+                  />
+                  <br /><small class="h4 align-middle">Voter Contact Metrics for Your Campaign</small>
+                </h1>
+
+                <p></p>
+                <p>
+                  Field plan is a dashboard for organizers, campaign managers, and stakeholders to see progress-to-goal
+                  on their voter contact field program.
+                </p>
+                <ul>
+                  <li>No more spreadsheets, no more exporting, no more nightly manual reports.</li>
+                  <li>100% self service, 5 minutes to setup, stays forever in sync.</li>
+                </ul>
+                <p><strong>Features:</strong></p>
+                <ul>
+                  <li>Automatically sync with NGPVAN, every 15 minutes.</li>
+                  <li>Configure a simple goals ramp based on industry standard research.</li>
+                  <li>Show your progress to goal.</li>
+                  <li>See voter-contact metrics AND your volunteer-organizing metrics.</li>
+                  <li>Send nightly 9pm field reports to yourself and your team via email, slack, and text.</li>
+                </ul>
+                <p><strong>Instantly get answers:</strong></p>
+                <ul>
+                  <li>How many voters have we positively identified as voting for us?</li>
+                  <li>How many total phone calls and door knocks have we ever made?</li>
+                  <li>This week, how many volunteers signed up for a new shift?</li>
+                  <li>Whats has our average week-over-week growth in shifts been?</li>
+                  <li>What is our flake rate for scheduled shifts?</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 my-4">
+          <div class="card shadow-sm p-4 pb-0">
+            <center>
+              <section id="firebaseui-auth-container" class="mt-4">
+                <center>
+                  <h1 class="mb-2 h2">Live Demo:</h1>
+                  <div id="loader">Loading &hellip;</div>
+                </center>
+              </section>
+
+              <p>
+                <img width="100%" src="https://fieldplan.app/img/screenshot2.png" />
+              </p>
+            </center>
           </div>
         </div>
       </div>
