@@ -379,7 +379,7 @@ const firebaseUiConfig = {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       clientId: '640113081213-cgb821si2sshi87hdurs7doo7a7flo0c.apps.googleusercontent.com',
     },
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
+    //firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID, // turn off anonymous ebcause we wanna collect emails for followup
   ],
 
   //credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
